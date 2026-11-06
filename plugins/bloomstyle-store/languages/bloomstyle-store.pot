@@ -1,0 +1,1510 @@
+# Copyright (C) 2026 Bloom Style (Pvt) Ltd
+# This file is distributed under the same license as the Bloom Style Store plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Bloom Style Store 1.9.6\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bloomstyle-store\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-11-06T15:13:16+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: bloomstyle-store\n"
+
+#. Plugin Name of the plugin
+#: bloomstyle-store.php
+msgid "Bloom Style Store"
+msgstr ""
+
+#. Description of the plugin
+#: bloomstyle-store.php
+msgid "Sri Lanka localisation and custom store features for Bloom Style."
+msgstr ""
+
+#. Author of the plugin
+#: bloomstyle-store.php
+msgid "Bloom Style (Pvt) Ltd"
+msgstr ""
+
+#: includes/category-attributes.php:46
+#: includes/category-attributes.php:56
+#: includes/category-attributes.php:91
+msgid "Attributes for this category"
+msgstr ""
+
+#: includes/category-attributes.php:48
+#: includes/category-attributes.php:58
+msgid "Subcategories inherit these automatically."
+msgstr ""
+
+#: includes/category-attributes.php:100
+msgid "Add these in the Attributes tab:"
+msgstr ""
+
+#: includes/category-attributes.php:106
+msgid "Choose a category and update the product to see its attributes here."
+msgstr ""
+
+#: includes/category-weights.php:47
+#: includes/category-weights.php:56
+msgid "Delivery weight per item (kg)"
+msgstr ""
+
+#: includes/category-weights.php:49
+msgid "Used for products in this category that have no weight of their own. Subcategories inherit it."
+msgstr ""
+
+#: includes/category-weights.php:58
+msgid "Used for products in this category that have no weight of their own. Subcategories inherit it unless they have their own."
+msgstr ""
+
+#: includes/category-weights.php:89
+msgid "Delivery weight"
+msgstr ""
+
+#: includes/checkout.php:30
+msgid "Please enter a valid Sri Lankan phone number, for example 077 123 4567."
+msgstr ""
+
+#. translators: %s: phone number.
+#: includes/checkout.php:86
+#, php-format
+msgid "Online payment is not available for this order yet. Please call or WhatsApp us on %s and we will help you."
+msgstr ""
+
+#: includes/class-bloomstyle-email-order-dispatched.php:22
+msgid "Order dispatched"
+msgstr ""
+
+#: includes/class-bloomstyle-email-order-dispatched.php:23
+msgid "Sent to customers when their order first leaves for delivery."
+msgstr ""
+
+#: includes/class-bloomstyle-email-order-dispatched.php:40
+msgid "Your {site_title} order #{order_number} is on its way"
+msgstr ""
+
+#: includes/class-bloomstyle-email-order-dispatched.php:49
+msgid "Your order is on its way"
+msgstr ""
+
+#: includes/custom-orders-admin.php:16
+msgid "Custom order"
+msgstr ""
+
+#: includes/custom-orders-admin.php:33
+msgid "Choose what customers must tell you when ordering this product. Leave everything off for a normal product."
+msgstr ""
+
+#: includes/custom-orders-admin.php:43
+#: includes/delivery-admin.php:312
+msgid "Off"
+msgstr ""
+
+#: includes/custom-orders-admin.php:44
+msgid "Optional"
+msgstr ""
+
+#: includes/custom-orders-admin.php:45
+msgid "Required"
+msgstr ""
+
+#: includes/custom-orders-admin.php:54
+msgid "Measurements hint"
+msgstr ""
+
+#: includes/custom-orders-admin.php:57
+msgid "Shown inside the measurements box, for example: Bust, waist and length in inches."
+msgstr ""
+
+#: includes/custom-orders-admin.php:63
+msgid "Minimum days before delivery"
+msgstr ""
+
+#: includes/custom-orders-admin.php:71
+msgid "The earliest delivery date customers can request, counted from today."
+msgstr ""
+
+#: includes/custom-orders-admin.php:124
+msgid "View reference image"
+msgstr ""
+
+#: includes/custom-orders-admin.php:135
+#: includes/newsletter.php:100
+#: includes/sample-data.php:110
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: includes/custom-orders-admin.php:143
+#: includes/custom-orders-admin.php:147
+msgid "Image not found."
+msgstr ""
+
+#: includes/custom-orders-admin.php:170
+#: includes/custom-orders-admin.php:171
+#: includes/custom-orders-admin.php:205
+msgid "Custom orders"
+msgstr ""
+
+#: includes/custom-orders-admin.php:207
+msgid "Orders with customer details will appear here."
+msgstr ""
+
+#: includes/custom-orders-admin.php:212
+#: includes/delivery-admin.php:238
+msgid "Order"
+msgstr ""
+
+#: includes/custom-orders-admin.php:212
+#: includes/delivery-admin.php:238
+msgid "Date"
+msgstr ""
+
+#: includes/custom-orders-admin.php:212
+#: includes/delivery-admin.php:238
+msgid "Customer"
+msgstr ""
+
+#: includes/custom-orders-admin.php:212
+msgid "Products"
+msgstr ""
+
+#: includes/custom-orders-admin.php:212
+#: includes/delivery-admin.php:238
+#: includes/delivery-tracking.php:149
+msgid "Requested delivery"
+msgstr ""
+
+#: includes/custom-orders-admin.php:212
+#: includes/delivery-admin.php:238
+#: includes/payhere.php:224
+msgid "Status"
+msgstr ""
+
+#: includes/custom-orders.php:28
+msgid "Measurements"
+msgstr ""
+
+#: includes/custom-orders.php:32
+msgid "Size"
+msgstr ""
+
+#: includes/custom-orders.php:36
+msgid "Colour preferences"
+msgstr ""
+
+#: includes/custom-orders.php:40
+msgid "Personalisation details"
+msgstr ""
+
+#: includes/custom-orders.php:44
+msgid "Special instructions"
+msgstr ""
+
+#: includes/custom-orders.php:48
+msgid "Reference image"
+msgstr ""
+
+#: includes/custom-orders.php:52
+msgid "Requested delivery date"
+msgstr ""
+
+#: includes/custom-orders.php:131
+msgid "Your order details"
+msgstr ""
+
+#: includes/custom-orders.php:140
+msgid "required"
+msgstr ""
+
+#: includes/custom-orders.php:140
+msgid "optional"
+msgstr ""
+
+#: includes/custom-orders.php:148
+msgid "JPG, PNG or WebP, up to 5 MB."
+msgstr ""
+
+#: includes/custom-orders.php:167
+msgid "Please upload a JPG, PNG or WebP image of up to 5 MB."
+msgstr ""
+
+#. translators: %s: field name.
+#: includes/custom-orders.php:253
+#: includes/custom-orders.php:273
+#, php-format
+msgid "%s is required."
+msgstr ""
+
+#: includes/custom-orders.php:263
+msgid "Too many uploads. Please try again later."
+msgstr ""
+
+#. translators: %s: field name.
+#: includes/custom-orders.php:281
+#, php-format
+msgid "%s is too long."
+msgstr ""
+
+#. translators: %s: earliest date.
+#: includes/custom-orders.php:289
+#, php-format
+msgid "Please choose a delivery date on or after %s."
+msgstr ""
+
+#: includes/custom-orders.php:355
+msgid "Your image could not be saved. Please try again."
+msgstr ""
+
+#. translators: 1: field name, 2: product name.
+#: includes/custom-orders.php:463
+#, php-format
+msgid "%1$s is required for %2$s. Please remove it and add it again from the product page."
+msgstr ""
+
+#: includes/custom-orders.php:483
+msgid "Add details"
+msgstr ""
+
+#: includes/delivery-admin.php:14
+#: includes/delivery-admin.php:125
+#: includes/delivery-tracking.php:271
+#: includes/delivery.php:298
+#: includes/delivery.php:420
+#: includes/settings.php:236
+msgid "Delivery"
+msgstr ""
+
+#: includes/delivery-admin.php:29
+#: includes/delivery-tracking.php:100
+msgid "This order does not need delivery."
+msgstr ""
+
+#: includes/delivery-admin.php:35
+msgid "Delivery status"
+msgstr ""
+
+#: includes/delivery-admin.php:41
+#: includes/delivery-tracking.php:146
+msgid "Courier"
+msgstr ""
+
+#: includes/delivery-admin.php:46
+#: includes/delivery-tracking.php:147
+msgid "Tracking number"
+msgstr ""
+
+#: includes/delivery-admin.php:47
+msgid "Expected delivery date"
+msgstr ""
+
+#. translators: %s: date the customer asked for.
+#: includes/delivery-admin.php:52
+#, php-format
+msgid "Customer requested: %s"
+msgstr ""
+
+#: includes/delivery-admin.php:55
+msgid "Add the courier details first, then choose Dispatched and click Update. The customer is emailed once. Choosing Delivered completes the order."
+msgstr ""
+
+#. translators: %s: order number.
+#: includes/delivery-admin.php:60
+#, php-format
+msgid "Hello, this is Bloom Style about your order #%s."
+msgstr ""
+
+#: includes/delivery-admin.php:61
+msgid "WhatsApp customer"
+msgstr ""
+
+#: includes/delivery-admin.php:102
+msgid "Resend dispatch email to customer"
+msgstr ""
+
+#: includes/delivery-admin.php:114
+msgid "Dispatch email sent again."
+msgstr ""
+
+#: includes/delivery-admin.php:147
+#: includes/delivery-admin.php:226
+msgid "Deliveries"
+msgstr ""
+
+#: includes/delivery-admin.php:148
+#: includes/delivery-admin.php:289
+msgid "Delivery setup"
+msgstr ""
+
+#: includes/delivery-admin.php:149
+msgid "Customers"
+msgstr ""
+
+#: includes/delivery-admin.php:162
+msgid "To dispatch"
+msgstr ""
+
+#: includes/delivery-admin.php:167
+msgid "On the way"
+msgstr ""
+
+#: includes/delivery-admin.php:172
+msgid "Problems"
+msgstr ""
+
+#: includes/delivery-admin.php:234
+msgid "Nothing here right now."
+msgstr ""
+
+#: includes/delivery-admin.php:238
+#: includes/settings.php:227
+#: includes/storefront.php:381
+msgid "Phone"
+msgstr ""
+
+#: includes/delivery-admin.php:238
+msgid "City and district"
+msgstr ""
+
+#: includes/delivery-admin.php:238
+msgid "Collect"
+msgstr ""
+
+#: includes/delivery-admin.php:238
+msgid "Tracking"
+msgstr ""
+
+#: includes/delivery-admin.php:252
+msgid "Paid"
+msgstr ""
+
+#: includes/delivery-admin.php:290
+msgid "Current delivery options"
+msgstr ""
+
+#: includes/delivery-admin.php:291
+msgid "Customers get the first zone in the list that matches their address."
+msgstr ""
+
+#: includes/delivery-admin.php:293
+msgid "Zone"
+msgstr ""
+
+#: includes/delivery-admin.php:293
+msgid "Option"
+msgstr ""
+
+#: includes/delivery-admin.php:293
+msgid "Fee or rule"
+msgstr ""
+
+#: includes/delivery-admin.php:293
+msgid "Active"
+msgstr ""
+
+#. translators: %s: minimum order value.
+#: includes/delivery-admin.php:302
+msgid "With a free delivery coupon"
+msgstr ""
+
+#. translators: %s: minimum order value.
+#: includes/delivery-admin.php:302
+#, php-format
+msgid "Orders from %s"
+msgstr ""
+
+#. translators: %s: minimum order value.
+#: includes/delivery-admin.php:302
+msgid "Every order"
+msgstr ""
+
+#. translators: 1: weight in kg, 2: fee per extra kg.
+#: includes/delivery-admin.php:308
+#, php-format
+msgid "up to %1$s kg, then %2$s per extra kg"
+msgstr ""
+
+#: includes/delivery-admin.php:312
+msgid "On"
+msgstr ""
+
+#. translators: %d: number of items.
+#: includes/delivery-admin.php:319
+#, php-format
+msgid "Free delivery from %d items is on."
+msgstr ""
+
+#: includes/delivery-admin.php:321
+msgid "Change delivery zones and fees"
+msgstr ""
+
+#: includes/delivery-admin.php:322
+msgid "Couriers and delivery time"
+msgstr ""
+
+#: includes/delivery-admin.php:327
+msgid "Change the delivery fee"
+msgstr ""
+
+#: includes/delivery-admin.php:327
+msgid "Open the Sri Lanka zone, click Edit beside Islandwide delivery, enter the new cost and save."
+msgstr ""
+
+#: includes/delivery-admin.php:328
+msgid "Charge by weight"
+msgstr ""
+
+#: includes/delivery-admin.php:328
+msgid "Under Products, Categories, enter a delivery weight for each category. For a product that differs, enter its own weight on its Shipping tab, which overrides the category. If a product is in several categories, the heaviest weight counts. The included weight and the fee for each extra kg are under Bloom Style, Delivery. Weight is added up across the whole cart."
+msgstr ""
+
+#: includes/delivery-admin.php:329
+msgid "Charge a different fee for some districts"
+msgstr ""
+
+#: includes/delivery-admin.php:329
+msgid "Add a new zone, for example Colombo. Choose its districts under Sri Lanka, add a Flat rate with the fee, then drag the zone above the Sri Lanka zone."
+msgstr ""
+
+#: includes/delivery-admin.php:330
+msgid "Offer free delivery from a number of items"
+msgstr ""
+
+#: includes/delivery-admin.php:330
+msgid "Under Bloom Style, Delivery, enter the number of items. Nothing else needs switching on, and the cart shows how many more items the customer needs."
+msgstr ""
+
+#: includes/delivery-admin.php:331
+msgid "Offer free delivery above an amount"
+msgstr ""
+
+#: includes/delivery-admin.php:331
+msgid "Open the zone, click Edit beside Free delivery and enter the minimum order amount. Then switch it on. Customers who qualify no longer see the paid option, and the cart shows how much more they need to spend."
+msgstr ""
+
+#: includes/delivery-admin.php:332
+msgid "Offer free delivery with a coupon"
+msgstr ""
+
+#: includes/delivery-admin.php:332
+msgid "In Free delivery, set the requirement to include a free shipping coupon. Then create a coupon under Marketing, Coupons and tick Allow free shipping."
+msgstr ""
+
+#: includes/delivery-admin.php:333
+msgid "Charge more for heavy or bulky products"
+msgstr ""
+
+#: includes/delivery-admin.php:333
+msgid "Add a shipping class under Shipping, Classes, and choose it on each product under Shipping. Then enter that class's extra cost in the Flat rate settings."
+msgstr ""
+
+#: includes/delivery-admin.php:335
+#: includes/site-care.php:76
+msgid "How to"
+msgstr ""
+
+#: includes/delivery-admin.php:366
+msgid "Product weights"
+msgstr ""
+
+#: includes/delivery-admin.php:367
+msgid "Set category weights"
+msgstr ""
+
+#: includes/delivery-admin.php:369
+msgid "Every delivered product has a weight."
+msgstr ""
+
+#. translators: %d: number of products.
+#: includes/delivery-admin.php:373
+#, php-format
+msgid "%d product has no weight of its own or from its category, so it adds nothing to the delivery fee."
+msgid_plural "%d products have no weight of their own or from their category, so they add nothing to the delivery fee."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/delivery-tracking.php:90
+msgid "We are waiting for payment for this order."
+msgstr ""
+
+#: includes/delivery-tracking.php:91
+msgid "This order is on hold. Please contact us if you have any questions."
+msgstr ""
+
+#: includes/delivery-tracking.php:92
+msgid "Payment for this order was not successful."
+msgstr ""
+
+#: includes/delivery-tracking.php:93
+msgid "This order was cancelled."
+msgstr ""
+
+#: includes/delivery-tracking.php:94
+msgid "This order was refunded."
+msgstr ""
+
+#: includes/delivery-tracking.php:104
+msgid "We could not complete this delivery. Please contact us so we can arrange it again."
+msgstr ""
+
+#: includes/delivery-tracking.php:106
+msgid "This order has been returned to us. Please contact us."
+msgstr ""
+
+#. translators: %s: order number.
+#: includes/delivery-tracking.php:119
+#, php-format
+msgid "Order #%s"
+msgstr ""
+
+#. translators: %s: order date.
+#: includes/delivery-tracking.php:121
+#, php-format
+msgid "Placed on %s"
+msgstr ""
+
+#: includes/delivery-tracking.php:148
+msgid "Expected delivery"
+msgstr ""
+
+#: includes/delivery-tracking.php:192
+msgid "Too many attempts. Please try again in an hour, or contact us."
+msgstr ""
+
+#: includes/delivery-tracking.php:207
+msgid "We could not find that order. Please check the order number and the phone number or email you used."
+msgstr ""
+
+#: includes/delivery-tracking.php:232
+msgid "Track another order"
+msgstr ""
+
+#: includes/delivery-tracking.php:236
+msgid "Enter your order number and the phone number or email you used at checkout. Your order number is in your confirmation email."
+msgstr ""
+
+#: includes/delivery-tracking.php:239
+msgid "Order number"
+msgstr ""
+
+#: includes/delivery-tracking.php:240
+msgid "Phone number or email"
+msgstr ""
+
+#: includes/delivery-tracking.php:241
+msgid "Track order"
+msgstr ""
+
+#. translators: %s: phone number.
+#: includes/delivery-tracking.php:247
+#, php-format
+msgid "Need help? Call or WhatsApp us on %s."
+msgstr ""
+
+#: includes/delivery-tracking.php:293
+#: includes/delivery-tracking.php:309
+#: templates/emails/order-dispatched.php:43
+msgid "Track your order"
+msgstr ""
+
+#: includes/delivery-tracking.php:307
+#: templates/emails/plain/order-dispatched.php:22
+msgid "Track your order:"
+msgstr ""
+
+#: includes/delivery.php:21
+msgid "Preparing your order"
+msgstr ""
+
+#: includes/delivery.php:22
+msgid "Packed"
+msgstr ""
+
+#: includes/delivery.php:23
+msgid "Dispatched"
+msgstr ""
+
+#: includes/delivery.php:24
+msgid "Out for delivery"
+msgstr ""
+
+#: includes/delivery.php:25
+msgid "Delivered"
+msgstr ""
+
+#: includes/delivery.php:26
+msgid "Delivery unsuccessful"
+msgstr ""
+
+#: includes/delivery.php:27
+msgid "Returned to us"
+msgstr ""
+
+#. translators: %s: delivery stage.
+#: includes/delivery.php:129
+#, php-format
+msgid "Delivery status changed to: %s."
+msgstr ""
+
+#: includes/delivery.php:137
+msgid "Marked as delivered."
+msgstr ""
+
+#. translators: %s: order status.
+#: includes/delivery.php:140
+#, php-format
+msgid "Marked as delivered, but the order status was left as %s. Please check this order."
+msgstr ""
+
+#: includes/delivery.php:235
+msgid "Free delivery"
+msgstr ""
+
+#: includes/delivery.php:313
+#: includes/delivery.php:330
+msgid "Your order qualifies for free delivery."
+msgstr ""
+
+#. translators: %d: number of items still needed.
+#: includes/delivery.php:317
+#, php-format
+msgid "Add %d more item for free delivery."
+msgid_plural "Add %d more items for free delivery."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: amount still to spend.
+#: includes/delivery.php:328
+#, php-format
+msgid "Spend %s more for free delivery."
+msgstr ""
+
+#. translators: 1: store name, 2: order number.
+#: includes/delivery.php:365
+#, php-format
+msgid "Your %1$s order #%2$s has been delivered"
+msgstr ""
+
+#: includes/delivery.php:377
+msgid "Your order has been delivered"
+msgstr ""
+
+#: includes/delivery.php:417
+msgid "Calculate delivery"
+msgstr ""
+
+#: includes/delivery.php:418
+msgid "Delivery options will be updated during checkout."
+msgstr ""
+
+#: includes/delivery.php:419
+msgid "Delivery:"
+msgstr ""
+
+#: includes/delivery.php:421
+msgid "Delivery address"
+msgstr ""
+
+#: includes/delivery.php:422
+msgid "Your details"
+msgstr ""
+
+#: includes/delivery.php:423
+msgid "Deliver to a different address?"
+msgstr ""
+
+#: includes/newsletter.php:20
+msgid "Newsletter subscribers"
+msgstr ""
+
+#: includes/newsletter.php:21
+msgid "Subscriber"
+msgstr ""
+
+#: includes/newsletter.php:22
+#: includes/newsletter.php:23
+msgid "Subscribers"
+msgstr ""
+
+#: includes/newsletter.php:138
+msgid "Thank you for subscribing."
+msgstr ""
+
+#: includes/newsletter.php:139
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/newsletter.php:140
+msgid "Too many attempts. Please try again later."
+msgstr ""
+
+#: includes/newsletter.php:149
+msgid "Get offers and new arrivals by email"
+msgstr ""
+
+#: includes/newsletter.php:150
+msgid "Join our list. You can ask to be removed at any time."
+msgstr ""
+
+#: includes/newsletter.php:157
+msgid "Email address"
+msgstr ""
+
+#: includes/newsletter.php:158
+msgid "Your email address"
+msgstr ""
+
+#: includes/newsletter.php:159
+msgid "Subscribe"
+msgstr ""
+
+#. translators: %s: order number.
+#: includes/payhere.php:110
+#, php-format
+msgid "[Bloom Style] Chargeback on order #%s"
+msgstr ""
+
+#. translators: %s: order number.
+#: includes/payhere.php:112
+#, php-format
+msgid "PayHere reported a chargeback on order #%s. The order has been put on hold. Please review it and check your PayHere account."
+msgstr ""
+
+#. translators: %s: PayHere payment ID.
+#: includes/payhere.php:143
+#, php-format
+msgid "PayHere reported a chargeback (payment %s). Please review this order."
+msgstr ""
+
+#. translators: 1: PayHere status code, 2: PayHere payment ID.
+#: includes/payhere.php:149
+#, php-format
+msgid "Ignored a late PayHere notification (status %1$s, payment %2$s) because this order is already paid."
+msgstr ""
+
+#. translators: %s: PayHere payment ID.
+#: includes/payhere.php:155
+#, php-format
+msgid "Customer cancelled the PayHere payment (payment %s)."
+msgstr ""
+
+#: includes/payhere.php:171
+msgid "PayHere is in Sandbox mode. Customers can place orders here without any real payment. Turn Sandbox mode off, or disable PayHere, before taking real orders."
+msgstr ""
+
+#: includes/payhere.php:181
+#: includes/payhere.php:182
+#: includes/payhere.php:221
+msgid "PayHere setup"
+msgstr ""
+
+#: includes/payhere.php:204
+msgid "Official PayHere plugin active"
+msgstr ""
+
+#: includes/payhere.php:205
+msgid "Store currency is LKR"
+msgstr ""
+
+#: includes/payhere.php:206
+#: includes/site-care.php:33
+msgid "Site uses HTTPS"
+msgstr ""
+
+#: includes/payhere.php:207
+msgid "Merchant ID entered"
+msgstr ""
+
+#: includes/payhere.php:208
+msgid "Merchant Secret entered"
+msgstr ""
+
+#: includes/payhere.php:209
+msgid "PayHere enabled at checkout"
+msgstr ""
+
+#: includes/payhere.php:212
+msgid "Apply for your PayHere merchant account and wait for approval. Cash on Delivery keeps working until then."
+msgstr ""
+
+#: includes/payhere.php:213
+msgid "Make sure this store is live on your real domain with HTTPS. PayHere cannot reach a site on your own computer."
+msgstr ""
+
+#: includes/payhere.php:214
+msgid "Create a PayHere Sandbox account, add your domain under its domain and credentials settings, and copy the Merchant ID and Merchant Secret."
+msgstr ""
+
+#: includes/payhere.php:215
+msgid "Open the PayHere settings using the button below, enter those details, tick Sandbox Mode and enable PayHere."
+msgstr ""
+
+#: includes/payhere.php:216
+msgid "Using PayHere's published test cards, place one order each for a successful, failed and cancelled payment. Confirm the orders become Processing, Failed and Cancelled."
+msgstr ""
+
+#: includes/payhere.php:217
+msgid "Add your domain in your live PayHere account, then replace both values with your live Merchant ID and Merchant Secret. Sandbox and live details are different."
+msgstr ""
+
+#: includes/payhere.php:218
+msgid "Untick Sandbox Mode, place one small real order, confirm it becomes Processing, then refund it from your PayHere account."
+msgstr ""
+
+#: includes/payhere.php:222
+msgid "Card details are entered on PayHere's own secure pages and never reach this website."
+msgstr ""
+
+#: includes/payhere.php:226
+#: includes/site-care.php:59
+msgid "Yes"
+msgstr ""
+
+#: includes/payhere.php:226
+#: includes/site-care.php:59
+msgid "Not yet"
+msgstr ""
+
+#: includes/payhere.php:228
+msgid "Mode"
+msgstr ""
+
+#: includes/payhere.php:228
+msgid "Sandbox (no real money)"
+msgstr ""
+
+#: includes/payhere.php:228
+msgid "Live"
+msgstr ""
+
+#: includes/payhere.php:231
+msgid "Open PayHere settings"
+msgstr ""
+
+#: includes/payhere.php:233
+msgid "How to activate"
+msgstr ""
+
+#. translators: %d: number of records removed.
+#: includes/sample-data.php:126
+#, php-format
+msgid "Removed %d sample records."
+msgstr ""
+
+#: includes/sample-data.php:134
+msgid "Sample data"
+msgstr ""
+
+#. translators: 1: products, 2: reviews, 3: images.
+#: includes/sample-data.php:136
+#, php-format
+msgid "The store contains %1$d sample products, %2$d sample reviews and %3$d sample images. Remove them before launch. Your own products are not affected."
+msgstr ""
+
+#: includes/sample-data.php:137
+msgid "Permanently delete all sample data?"
+msgstr ""
+
+#: includes/sample-data.php:140
+msgid "Remove sample data"
+msgstr ""
+
+#: includes/security.php:53
+msgid "The username, email or password is not correct."
+msgstr ""
+
+#: includes/settings.php:18
+msgid "Main banner"
+msgstr ""
+
+#: includes/settings.php:19
+msgid "Main banner, slide 2"
+msgstr ""
+
+#: includes/settings.php:20
+msgid "Main banner, slide 3"
+msgstr ""
+
+#: includes/settings.php:21
+msgid "Promotion tile 1"
+msgstr ""
+
+#: includes/settings.php:22
+msgid "Promotion tile 2"
+msgstr ""
+
+#: includes/settings.php:134
+#: includes/settings.php:135
+#: includes/settings.php:204
+msgid "Bloom Style"
+msgstr ""
+
+#: includes/settings.php:188
+msgid "Image"
+msgstr ""
+
+#: includes/settings.php:191
+msgid "Choose image"
+msgstr ""
+
+#: includes/settings.php:192
+msgid "Remove"
+msgstr ""
+
+#: includes/settings.php:193
+msgid "Wide images, about 1600 x 700 pixels, fill the main banner. Tall or square images sit beside the text instead."
+msgstr ""
+
+#: includes/settings.php:209
+msgid "Announcement bar"
+msgstr ""
+
+#: includes/settings.php:210
+msgid "Message"
+msgstr ""
+
+#: includes/settings.php:210
+msgid "Shown above the header on every page. Leave empty to hide the bar."
+msgstr ""
+
+#: includes/settings.php:211
+msgid "Link"
+msgstr ""
+
+#: includes/settings.php:217
+msgid "Heading"
+msgstr ""
+
+#: includes/settings.php:217
+msgid "Leave heading and image empty to hide this banner."
+msgstr ""
+
+#: includes/settings.php:218
+msgid "Text"
+msgstr ""
+
+#: includes/settings.php:219
+msgid "Button text"
+msgstr ""
+
+#: includes/settings.php:220
+msgid "Button link"
+msgstr ""
+
+#: includes/settings.php:224
+msgid "Contact details"
+msgstr ""
+
+#: includes/settings.php:225
+msgid "WhatsApp number"
+msgstr ""
+
+#: includes/settings.php:225
+msgid "For example 077 123 4567. Leave empty to hide the WhatsApp button."
+msgstr ""
+
+#: includes/settings.php:226
+msgid "WhatsApp opening message"
+msgstr ""
+
+#: includes/settings.php:228
+#: includes/storefront.php:387
+msgid "Email"
+msgstr ""
+
+#: includes/settings.php:229
+#: includes/storefront.php:390
+msgid "Address"
+msgstr ""
+
+#: includes/settings.php:232
+#: includes/storefront.php:198
+msgid "Cash on Delivery"
+msgstr ""
+
+#: includes/settings.php:233
+msgid "Maximum order value (Rs.)"
+msgstr ""
+
+#: includes/settings.php:233
+msgid "Orders above this amount cannot use Cash on Delivery. Leave at 0 for no limit."
+msgstr ""
+
+#: includes/settings.php:237
+msgid "Usual delivery time"
+msgstr ""
+
+#: includes/settings.php:237
+msgid "Shown under the delivery option in the cart and at checkout, for example: Usually 2 to 4 working days. Leave empty to hide it."
+msgstr ""
+
+#: includes/settings.php:238
+msgid "Weight included in the starting fee (kg)"
+msgstr ""
+
+#: includes/settings.php:238
+msgid "The starting fee itself is set in the delivery zone. It covers parcels up to this weight."
+msgstr ""
+
+#: includes/settings.php:239
+msgid "Fee for each extra kg (Rs.)"
+msgstr ""
+
+#: includes/settings.php:239
+msgid "Added for each extra kg or part of a kg above the included weight. Leave at 0 to charge only the starting fee."
+msgstr ""
+
+#: includes/settings.php:240
+msgid "Free delivery from this many items"
+msgstr ""
+
+#: includes/settings.php:240
+msgid "Orders with at least this many delivered items pay no delivery fee, whatever their weight. Leave at 0 to turn this off."
+msgstr ""
+
+#: includes/settings.php:241
+msgid "Couriers"
+msgstr ""
+
+#: includes/settings.php:241
+msgid "One per line: the courier name, a | sign, then their tracking address with {tracking} where the number goes, and {phone} if they also need the customer's phone number. The address is optional. Example: My Courier | https://example.com/track?no={tracking}"
+msgstr ""
+
+#: includes/settings.php:244
+msgid "Social media"
+msgstr ""
+
+#: includes/settings.php:245
+msgid "Facebook page"
+msgstr ""
+
+#: includes/settings.php:246
+msgid "Instagram profile"
+msgstr ""
+
+#: includes/settings.php:247
+msgid "TikTok profile"
+msgstr ""
+
+#: includes/settings.php:254
+msgid "Newsletter"
+msgstr ""
+
+#: includes/settings.php:255
+msgid "View subscribers"
+msgstr ""
+
+#: includes/settings.php:256
+msgid "Download as CSV"
+msgstr ""
+
+#: includes/shop-filters.php:35
+msgid "Bloom Style shop filters"
+msgstr ""
+
+#: includes/shop-filters.php:36
+msgid "Price and category attribute filters."
+msgstr ""
+
+#: includes/shop-filters.php:59
+msgid "Active filters"
+msgstr ""
+
+#: includes/shop-filters.php:60
+msgid "Price"
+msgstr ""
+
+#: includes/shop-filters.php:78
+msgid "Filter products"
+msgstr ""
+
+#: includes/site-care.php:14
+#: includes/site-care.php:56
+msgid "Site care"
+msgstr ""
+
+#: includes/site-care.php:34
+msgid "Search engines allowed"
+msgstr ""
+
+#: includes/site-care.php:35
+msgid "Privacy Policy published"
+msgstr ""
+
+#: includes/site-care.php:36
+msgid "Debug mode off"
+msgstr ""
+
+#: includes/site-care.php:37
+msgid "Wordfence active"
+msgstr ""
+
+#: includes/site-care.php:38
+msgid "Automatic backups scheduled"
+msgstr ""
+
+#: includes/site-care.php:39
+msgid "Backups stored away from this server"
+msgstr ""
+
+#: includes/site-care.php:40
+msgid "Page caching on"
+msgstr ""
+
+#: includes/site-care.php:41
+msgid "Google Analytics connected"
+msgstr ""
+
+#: includes/site-care.php:42
+msgid "Social media links entered"
+msgstr ""
+
+#. translators: %d: number of administrator accounts.
+#: includes/site-care.php:44
+#, php-format
+msgid "Few administrator accounts (now %d)"
+msgstr ""
+
+#: includes/site-care.php:45
+msgid "WordPress, plugins and theme up to date"
+msgstr ""
+
+#: includes/site-care.php:61
+msgid "Open"
+msgstr ""
+
+#: includes/site-care.php:68
+msgid "Every week"
+msgstr ""
+
+#: includes/site-care.php:68
+msgid "Install updates, after checking that the latest backup finished. Then place a test order. Read any Wordfence email about scan results."
+msgstr ""
+
+#: includes/site-care.php:69
+msgid "Backups"
+msgstr ""
+
+#: includes/site-care.php:69
+msgid "Under Settings, UpdraftPlus Backups, connect Google Drive or another storage service. A backup kept only on this server is lost if the server fails."
+msgstr ""
+
+#: includes/site-care.php:70
+msgid "Restoring a backup"
+msgstr ""
+
+#: includes/site-care.php:70
+msgid "Open UpdraftPlus, choose the date under Existing backups and click Restore. Practise once, soon after launch, so you know it works."
+msgstr ""
+
+#: includes/site-care.php:71
+msgid "Passwords and accounts"
+msgstr ""
+
+#: includes/site-care.php:71
+msgid "Use long, unique passwords and turn on two-factor login under Wordfence, Login Security. Give staff the Shop manager role, not Administrator."
+msgstr ""
+
+#: includes/site-care.php:72
+msgid "Reviews and spam"
+msgstr ""
+
+#: includes/site-care.php:72
+msgid "Every review waits for your approval under Products, Reviews. Antispam Bee filters most spam on its own."
+msgstr ""
+
+#: includes/site-care.php:73
+msgid "Search results"
+msgstr ""
+
+#: includes/site-care.php:73
+msgid "Give each product a clear name and description. In the Yoast SEO box you can edit how a page appears in Google. Submit your sitemap (/sitemap_index.xml) in Google Search Console."
+msgstr ""
+
+#: includes/site-care.php:74
+msgid "Speed"
+msgstr ""
+
+#: includes/site-care.php:74
+msgid "Upload photos under about 2000 pixels wide. WordPress makes lighter copies automatically. After big changes, clear the cache under WP-Optimize."
+msgstr ""
+
+#: includes/social-share.php:21
+msgid "Share"
+msgstr ""
+
+#. translators: %s: social network.
+#: includes/social-share.php:24
+#, php-format
+msgid "Share on %s"
+msgstr ""
+
+#: includes/sri-lanka.php:16
+msgid "Ampara"
+msgstr ""
+
+#: includes/sri-lanka.php:17
+msgid "Anuradhapura"
+msgstr ""
+
+#: includes/sri-lanka.php:18
+msgid "Badulla"
+msgstr ""
+
+#: includes/sri-lanka.php:19
+msgid "Batticaloa"
+msgstr ""
+
+#: includes/sri-lanka.php:20
+msgid "Colombo"
+msgstr ""
+
+#: includes/sri-lanka.php:21
+msgid "Galle"
+msgstr ""
+
+#: includes/sri-lanka.php:22
+msgid "Gampaha"
+msgstr ""
+
+#: includes/sri-lanka.php:23
+msgid "Hambantota"
+msgstr ""
+
+#: includes/sri-lanka.php:24
+msgid "Jaffna"
+msgstr ""
+
+#: includes/sri-lanka.php:25
+msgid "Kalutara"
+msgstr ""
+
+#: includes/sri-lanka.php:26
+msgid "Kandy"
+msgstr ""
+
+#: includes/sri-lanka.php:27
+msgid "Kegalle"
+msgstr ""
+
+#: includes/sri-lanka.php:28
+msgid "Kilinochchi"
+msgstr ""
+
+#: includes/sri-lanka.php:29
+msgid "Kurunegala"
+msgstr ""
+
+#: includes/sri-lanka.php:30
+msgid "Mannar"
+msgstr ""
+
+#: includes/sri-lanka.php:31
+msgid "Matale"
+msgstr ""
+
+#: includes/sri-lanka.php:32
+msgid "Matara"
+msgstr ""
+
+#: includes/sri-lanka.php:33
+msgid "Monaragala"
+msgstr ""
+
+#: includes/sri-lanka.php:34
+msgid "Mullaitivu"
+msgstr ""
+
+#: includes/sri-lanka.php:35
+msgid "Nuwara Eliya"
+msgstr ""
+
+#: includes/sri-lanka.php:36
+msgid "Polonnaruwa"
+msgstr ""
+
+#: includes/sri-lanka.php:37
+msgid "Puttalam"
+msgstr ""
+
+#: includes/sri-lanka.php:38
+msgid "Ratnapura"
+msgstr ""
+
+#: includes/sri-lanka.php:39
+msgid "Trincomalee"
+msgstr ""
+
+#: includes/sri-lanka.php:40
+msgid "Vavuniya"
+msgstr ""
+
+#: includes/sri-lanka.php:53
+msgid "District"
+msgstr ""
+
+#: includes/sri-lanka.php:58
+msgid "Postal code"
+msgstr ""
+
+#: includes/storefront.php:78
+#: includes/storefront.php:384
+msgid "Chat with us"
+msgstr ""
+
+#: includes/storefront.php:89
+#: includes/storefront.php:90
+msgid "Search products"
+msgstr ""
+
+#: includes/storefront.php:92
+msgid "Search"
+msgstr ""
+
+#: includes/storefront.php:144
+msgid "Browse categories"
+msgstr ""
+
+#: includes/storefront.php:181
+msgid "Previous slide"
+msgstr ""
+
+#: includes/storefront.php:181
+msgid "Next slide"
+msgstr ""
+
+#: includes/storefront.php:181
+msgid "Show slide"
+msgstr ""
+
+#: includes/storefront.php:197
+msgid "Islandwide delivery"
+msgstr ""
+
+#: includes/storefront.php:197
+msgid "To all 25 districts"
+msgstr ""
+
+#: includes/storefront.php:198
+msgid "Pay when it arrives"
+msgstr ""
+
+#: includes/storefront.php:199
+msgid "Guest checkout"
+msgstr ""
+
+#: includes/storefront.php:199
+msgid "No account needed"
+msgstr ""
+
+#: includes/storefront.php:202
+msgid "WhatsApp support"
+msgstr ""
+
+#: includes/storefront.php:202
+msgid "Message us any time"
+msgstr ""
+
+#: includes/storefront.php:232
+msgid "Shop by category"
+msgstr ""
+
+#. translators: %d: number of products.
+#: includes/storefront.php:238
+#, php-format
+msgid "%d product"
+msgid_plural "%d products"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/storefront.php:258
+msgid "Choose your style"
+msgstr ""
+
+#: includes/storefront.php:258
+msgid "Browse the collection and add what you love to your cart."
+msgstr ""
+
+#: includes/storefront.php:259
+msgid "Place your order"
+msgstr ""
+
+#: includes/storefront.php:259
+msgid "Check out as a guest or with an account. We confirm your order."
+msgstr ""
+
+#: includes/storefront.php:260
+msgid "Pay at your door"
+msgstr ""
+
+#: includes/storefront.php:260
+msgid "We deliver to all 25 districts, and you can pay on delivery."
+msgstr ""
+
+#: includes/storefront.php:262
+msgid "How it works"
+msgstr ""
+
+#: includes/storefront.php:277
+msgid "Special offers"
+msgstr ""
+
+#: includes/storefront.php:278
+msgid "Good prices on selected products, while stocks last."
+msgstr ""
+
+#: includes/storefront.php:279
+msgid "Browse the shop"
+msgstr ""
+
+#: includes/storefront.php:325
+msgid "View all"
+msgstr ""
+
+#: includes/storefront.php:359
+msgid "What customers say"
+msgstr ""
+
+#: includes/storefront.php:364
+msgid "on"
+msgstr ""
+
+#: includes/storefront.php:384
+msgid "WhatsApp"
+msgstr ""
+
+#. translators: %s: customer first name.
+#: templates/emails/order-dispatched.php:25
+#: templates/emails/plain/order-dispatched.php:27
+#, php-format
+msgid "Hi %s,"
+msgstr ""
+
+#. translators: %s: order number.
+#: templates/emails/order-dispatched.php:26
+#: templates/emails/plain/order-dispatched.php:29
+#, php-format
+msgid "Order #%s has left us and is on its way to you."
+msgstr ""
+
+#: templates/emails/order-dispatched.php:28
+#: templates/emails/plain/order-dispatched.php:18
+msgid "Courier:"
+msgstr ""
+
+#: templates/emails/order-dispatched.php:31
+#: templates/emails/plain/order-dispatched.php:19
+msgid "Tracking number:"
+msgstr ""
+
+#: templates/emails/order-dispatched.php:40
+#: templates/emails/plain/order-dispatched.php:21
+msgid "Expected delivery:"
+msgstr ""
+
+#: templates/emails/plain/order-dispatched.php:20
+msgid "Tracking link:"
+msgstr ""

@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html/wp-content
+    - /bin/cp -R plugins/bloomstyle-store $DEPLOYPATH/plugins/
+    - /bin/cp -R themes/bloomstyle-astra $DEPLOYPATH/themes/

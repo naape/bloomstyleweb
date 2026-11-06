@@ -1,0 +1,16 @@
+# Allow-list: Git sees only the custom code. Everything else stays out,
+# including uploads, other plugins, logs and any file with passwords.
+/*
+!/.gitignore
+!/.cpanel.yml
+!/README.md
+!/plugins/
+/plugins/*
+!/plugins/bloomstyle-store/
+!/themes/
+/themes/*
+!/themes/bloomstyle-astra/
+.DS_Store
+*.log
+*.sql
+*.gz
