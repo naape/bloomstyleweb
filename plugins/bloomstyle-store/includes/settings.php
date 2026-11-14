@@ -144,7 +144,19 @@ add_action(
 			'dashicons-store',
 			56
 		);
-	}
+		// Name the settings page's own entry. Without this, the Subscribers and
+		// Contact messages lists, which WordPress adds first, push it out of the menu.
+		add_submenu_page(
+			'bloomstyle-store',
+			__( 'Bloom Style settings', 'bloomstyle-store' ),
+			__( 'Settings', 'bloomstyle-store' ),
+			'manage_woocommerce',
+			'bloomstyle-store',
+			'bloomstyle_render_settings',
+			0
+		);
+	},
+	9
 );
 
 add_action(
