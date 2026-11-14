@@ -3,7 +3,7 @@ Theme Name:   Bloom Style
 Description:  Astra child theme for the Bloom Style online store.
 Author:       Bloom Style (Pvt) Ltd
 Template:     astra
-Version: 1.4.0
+Version: 1.6.0
 Requires PHP: 7.4
 Text Domain:  bloomstyle-astra
 */
@@ -217,4 +217,94 @@ h1, h2, h3, h4, h5, h6,
 
 .woocommerce-js .widget_price_filter .price_slider {
 	margin-bottom: 16px;
+}
+
+/* Soft pink theme */
+.ast-below-header-bar {
+	background: #fbd3e0;
+}
+
+.ast-below-header-bar .main-header-menu > .menu-item > .menu-link,
+.ast-below-header-bar .main-header-menu > .menu-item > .ast-menu-toggle,
+.ast-below-header-bar .main-header-menu > .menu-item:hover > .menu-link,
+.ast-below-header-bar .main-header-menu > .current-menu-item > .menu-link {
+	color: #5a2340;
+}
+
+.bs-footer {
+	background: #fde8ef;
+	color: #5a2340;
+}
+
+.bs-footer h2,
+.bs-footer a,
+.bs-footer dt,
+.bs-footer__base {
+	color: #5a2340;
+}
+
+.bs-footer a:hover,
+.bs-footer a:focus {
+	color: #9c3d63;
+}
+
+.bs-footer__base {
+	border-top-color: #f3d9e3;
+}
+
+.bs-footer .bs-footer__legal {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 20px;
+}
+
+.bs-footer .bs-footer__legal li {
+	margin: 0;
+}
+
+.bs-footer__legal a {
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+/* Every WooCommerce and theme button */
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce-page #place_order,
+.woocommerce .wc-proceed-to-checkout a.checkout-button,
+.ast-button,
+.bs-track-form button,
+.wp-block-button__link,
+body input[type="submit"],
+body button[type="submit"]:not(.bs-search button) {
+	background-color: #f2a3bf !important;
+	border-color: #f2a3bf !important;
+	color: #5a2340 !important;
+}
+
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce-page #place_order:hover,
+.woocommerce .wc-proceed-to-checkout a.checkout-button:hover,
+.ast-button:hover,
+body input[type="submit"]:hover {
+	background-color: #ee8fb0 !important;
+	border-color: #ee8fb0 !important;
+	color: #5a2340 !important;
+}
+
+.woocommerce-js .widget_price_filter .ui-slider .ui-slider-handle {
+	background-color: #f2a3bf;
+}
+
+#ast-scroll-top {
+	background-color: #f2a3bf;
+	color: #5a2340;
 }

@@ -28,13 +28,57 @@ add_action(
 	}
 );
 
+// No hover zoom or magnifying-glass popup on product photos, at the owner's
+// request. Astra switches them on, so this runs after it. The photo slider stays.
+add_action(
+	'after_setup_theme',
+	function () {
+		remove_theme_support( 'wc-product-gallery-zoom' );
+		remove_theme_support( 'wc-product-gallery-lightbox' );
+	},
+	100
+);
+
+// Without the popup, a click on the photo would open the bare full-size image
+// in the browser, which is still a zoom. Keep the photo, drop the link.
+add_filter(
+	'woocommerce_single_product_image_thumbnail_html',
+	function ( $html ) {
+		return preg_replace( '#<a\b[^>]*>(.*?)</a>#s', '$1', $html, 1 );
+	}
+);
+
+/**
+ * Refund, privacy and terms pages, taken from the pages chosen in WooCommerce
+ * and WordPress settings. A page that is missing or not published is skipped.
+ *
+ * @return int[] Page IDs in display order.
+ */
+function bloomstyle_astra_legal_pages() {
+	$ids = array(
+		(int) get_option( 'woocommerce_refund_returns_page_id' ),
+		(int) get_option( 'wp_page_for_privacy_policy' ),
+		function_exists( 'wc_terms_and_conditions_page_id' ) ? (int) wc_terms_and_conditions_page_id() : 0,
+	);
+	return array_values(
+		array_filter(
+			$ids,
+			function ( $id ) {
+				return $id > 0 && 'publish' === get_post_status( $id );
+			}
+		)
+	);
+}
+
 /**
  * Site footer. Categories, contact details and social links all come from
  * store data, so the footer keeps itself up to date.
  */
 function bloomstyle_astra_footer() {
 	$has_store = function_exists( 'bloomstyle_setting' );
-	$terms     = get_terms(
+	// The store plugin also counts products in sub-categories, so Sarees shows
+	// even though its products sit in Batik Sarees and Handloom Sarees.
+	$terms     = function_exists( 'bloomstyle_top_categories' ) ? bloomstyle_top_categories( 8 ) : get_terms(
 		array(
 			'taxonomy'   => 'product_cat',
 			'parent'     => 0,
@@ -108,6 +152,15 @@ function bloomstyle_astra_footer() {
 		<div class="bs-footer__base">
 			<div class="bs-wrap">
 				<span>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> Bloom Style (Pvt) Ltd. <?php esc_html_e( 'All rights reserved.', 'bloomstyle-astra' ); ?></span>
+				<?php
+				$legal = '';
+				foreach ( bloomstyle_astra_legal_pages() as $page_id ) {
+					$legal .= '<li><a href="' . esc_url( get_permalink( $page_id ) ) . '">' . esc_html( get_the_title( $page_id ) ) . '</a></li>';
+				}
+				if ( '' !== $legal ) {
+					echo '<nav aria-label="' . esc_attr__( 'Store policies', 'bloomstyle-astra' ) . '"><ul class="bs-footer__legal">' . $legal . '</ul></nav>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above.
+				}
+				?>
 				<span><?php esc_html_e( 'Cash on Delivery available', 'bloomstyle-astra' ); ?></span>
 			</div>
 		</div>

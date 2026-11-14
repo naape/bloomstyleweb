@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Bloom Style Store plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bloom Style Store 1.9.6\n"
+"Project-Id-Version: Bloom Style Store 1.12.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bloomstyle-store\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T15:13:16+00:00\n"
+"POT-Creation-Date: 2026-11-06T18:01:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: bloomstyle-store\n"
@@ -69,10 +69,19 @@ msgstr ""
 msgid "Please enter a valid Sri Lankan phone number, for example 077 123 4567."
 msgstr ""
 
+#: includes/checkout.php:62
+#: includes/registration.php:26
+msgid "Mobile number"
+msgstr ""
+
 #. translators: %s: phone number.
-#: includes/checkout.php:86
+#: includes/checkout.php:87
 #, php-format
 msgid "Online payment is not available for this order yet. Please call or WhatsApp us on %s and we will help you."
+msgstr ""
+
+#: includes/checkout.php:106
+msgid "We will create your account with this email address, so you can track your orders. We will email you a link to set your password."
 msgstr ""
 
 #: includes/class-bloomstyle-email-order-dispatched.php:22
@@ -89,6 +98,122 @@ msgstr ""
 
 #: includes/class-bloomstyle-email-order-dispatched.php:49
 msgid "Your order is on its way"
+msgstr ""
+
+#: includes/contact-form.php:18
+#: includes/contact-form.php:20
+#: includes/contact-form.php:21
+msgid "Contact messages"
+msgstr ""
+
+#: includes/contact-form.php:19
+msgid "Contact message"
+msgstr ""
+
+#: includes/contact-form.php:89
+msgid "This page has expired. Please try again."
+msgstr ""
+
+#: includes/contact-form.php:92
+msgid "Please enter your name."
+msgstr ""
+
+#: includes/contact-form.php:95
+#: includes/newsletter.php:139
+msgid "Please enter a valid email address."
+msgstr ""
+
+#: includes/contact-form.php:101
+msgid "Please enter your message."
+msgstr ""
+
+#: includes/contact-form.php:111
+msgid "Too many messages. Please try again later, or call or WhatsApp us."
+msgstr ""
+
+#. translators: %s: sender's name.
+#: includes/contact-form.php:126
+#, php-format
+msgid "Message from %s"
+msgstr ""
+
+#. translators: %s: sender's name.
+#: includes/contact-form.php:135
+#, php-format
+msgid "[Bloom Style] Contact message from %s"
+msgstr ""
+
+#: includes/contact-form.php:148
+msgid "Write to us"
+msgstr ""
+
+#: includes/contact-form.php:152
+msgid "Thanks for getting in touch. Your message has reached us and we will reply soon."
+msgstr ""
+
+#: includes/contact-form.php:166
+msgid "Your name"
+msgstr ""
+
+#: includes/contact-form.php:167
+#: includes/newsletter.php:157
+msgid "Email address"
+msgstr ""
+
+#: includes/contact-form.php:168
+msgid "Mobile number (optional)"
+msgstr ""
+
+#: includes/contact-form.php:169
+msgid "Subject (optional)"
+msgstr ""
+
+#: includes/contact-form.php:175
+msgid "Your message"
+msgstr ""
+
+#: includes/contact-form.php:178
+msgid "Send message"
+msgstr ""
+
+#: includes/contact-form.php:194
+msgid "Find us"
+msgstr ""
+
+#: includes/contact-form.php:197
+msgid "Call us"
+msgstr ""
+
+#: includes/contact-form.php:200
+#: includes/storefront.php:390
+msgid "WhatsApp"
+msgstr ""
+
+#: includes/contact-form.php:200
+#: includes/storefront.php:82
+#: includes/storefront.php:390
+msgid "Chat with us"
+msgstr ""
+
+#: includes/contact-form.php:203
+msgid "Email us"
+msgstr ""
+
+#: includes/contact-form.php:206
+#: includes/settings.php:231
+msgid "Business hours"
+msgstr ""
+
+#: includes/contact-form.php:209
+msgid "How to reach us"
+msgstr ""
+
+#: includes/contact-form.php:222
+msgid "Follow us"
+msgstr ""
+
+#: includes/contact-form.php:236
+msgid "Map showing our location"
 msgstr ""
 
 #: includes/custom-orders-admin.php:16
@@ -274,7 +399,7 @@ msgstr ""
 #: includes/delivery-tracking.php:271
 #: includes/delivery.php:298
 #: includes/delivery.php:420
-#: includes/settings.php:236
+#: includes/settings.php:238
 msgid "Delivery"
 msgstr ""
 
@@ -360,8 +485,8 @@ msgid "Nothing here right now."
 msgstr ""
 
 #: includes/delivery-admin.php:238
-#: includes/settings.php:227
-#: includes/storefront.php:381
+#: includes/settings.php:228
+#: includes/storefront.php:387
 msgid "Phone"
 msgstr ""
 
@@ -502,7 +627,7 @@ msgid "Add a shipping class under Shipping, Classes, and choose it on each produ
 msgstr ""
 
 #: includes/delivery-admin.php:335
-#: includes/site-care.php:76
+#: includes/site-care.php:77
 msgid "How to"
 msgstr ""
 
@@ -716,6 +841,25 @@ msgstr ""
 msgid "Deliver to a different address?"
 msgstr ""
 
+#: includes/human-check.php:77
+#: includes/human-check.php:98
+msgid "Leave this empty"
+msgstr ""
+
+#. translators: 1: first number, 2: second number.
+#: includes/human-check.php:94
+#, php-format
+msgid "Human check: what is %1$d plus %2$d?"
+msgstr ""
+
+#: includes/human-check.php:143
+msgid "Please complete the reCAPTCHA and try again."
+msgstr ""
+
+#: includes/human-check.php:143
+msgid "Please answer the human check correctly and try again."
+msgstr ""
+
 #: includes/newsletter.php:20
 msgid "Newsletter subscribers"
 msgstr ""
@@ -733,10 +877,6 @@ msgstr ""
 msgid "Thank you for subscribing."
 msgstr ""
 
-#: includes/newsletter.php:139
-msgid "Please enter a valid email address."
-msgstr ""
-
 #: includes/newsletter.php:140
 msgid "Too many attempts. Please try again later."
 msgstr ""
@@ -747,10 +887,6 @@ msgstr ""
 
 #: includes/newsletter.php:150
 msgid "Join our list. You can ask to be removed at any time."
-msgstr ""
-
-#: includes/newsletter.php:157
-msgid "Email address"
 msgstr ""
 
 #: includes/newsletter.php:158
@@ -859,12 +995,12 @@ msgid "Card details are entered on PayHere's own secure pages and never reach th
 msgstr ""
 
 #: includes/payhere.php:226
-#: includes/site-care.php:59
+#: includes/site-care.php:60
 msgid "Yes"
 msgstr ""
 
 #: includes/payhere.php:226
-#: includes/site-care.php:59
+#: includes/site-care.php:60
 msgid "Not yet"
 msgstr ""
 
@@ -886,6 +1022,37 @@ msgstr ""
 
 #: includes/payhere.php:233
 msgid "How to activate"
+msgstr ""
+
+#: includes/registration.php:27
+#: includes/settings.php:230
+#: includes/storefront.php:396
+msgid "Address"
+msgstr ""
+
+#: includes/registration.php:28
+msgid "City"
+msgstr ""
+
+#: includes/registration.php:36
+#: includes/sri-lanka.php:53
+msgid "District"
+msgstr ""
+
+#: includes/registration.php:37
+msgid "Choose your district"
+msgstr ""
+
+#: includes/registration.php:53
+msgid "Please enter your address."
+msgstr ""
+
+#: includes/registration.php:56
+msgid "Please enter your city."
+msgstr ""
+
+#: includes/registration.php:59
+msgid "Please choose your district."
 msgstr ""
 
 #. translators: %d: number of records removed.
@@ -936,168 +1103,183 @@ msgstr ""
 msgid "Promotion tile 2"
 msgstr ""
 
-#: includes/settings.php:134
 #: includes/settings.php:135
-#: includes/settings.php:204
+#: includes/settings.php:136
+#: includes/settings.php:205
 msgid "Bloom Style"
 msgstr ""
 
-#: includes/settings.php:188
+#: includes/settings.php:189
 msgid "Image"
 msgstr ""
 
-#: includes/settings.php:191
+#: includes/settings.php:192
 msgid "Choose image"
 msgstr ""
 
-#: includes/settings.php:192
+#: includes/settings.php:193
 msgid "Remove"
 msgstr ""
 
-#: includes/settings.php:193
+#: includes/settings.php:194
 msgid "Wide images, about 1600 x 700 pixels, fill the main banner. Tall or square images sit beside the text instead."
 msgstr ""
 
-#: includes/settings.php:209
+#: includes/settings.php:210
 msgid "Announcement bar"
 msgstr ""
 
-#: includes/settings.php:210
+#: includes/settings.php:211
 msgid "Message"
 msgstr ""
 
-#: includes/settings.php:210
+#: includes/settings.php:211
 msgid "Shown above the header on every page. Leave empty to hide the bar."
 msgstr ""
 
-#: includes/settings.php:211
+#: includes/settings.php:212
 msgid "Link"
 msgstr ""
 
-#: includes/settings.php:217
+#: includes/settings.php:218
 msgid "Heading"
 msgstr ""
 
-#: includes/settings.php:217
+#: includes/settings.php:218
 msgid "Leave heading and image empty to hide this banner."
 msgstr ""
 
-#: includes/settings.php:218
+#: includes/settings.php:219
 msgid "Text"
 msgstr ""
 
-#: includes/settings.php:219
+#: includes/settings.php:220
 msgid "Button text"
 msgstr ""
 
-#: includes/settings.php:220
+#: includes/settings.php:221
 msgid "Button link"
 msgstr ""
 
-#: includes/settings.php:224
+#: includes/settings.php:225
 msgid "Contact details"
 msgstr ""
 
-#: includes/settings.php:225
+#: includes/settings.php:226
 msgid "WhatsApp number"
 msgstr ""
 
-#: includes/settings.php:225
+#: includes/settings.php:226
 msgid "For example 077 123 4567. Leave empty to hide the WhatsApp button."
 msgstr ""
 
-#: includes/settings.php:226
+#: includes/settings.php:227
 msgid "WhatsApp opening message"
 msgstr ""
 
-#: includes/settings.php:228
-#: includes/storefront.php:387
+#: includes/settings.php:229
+#: includes/storefront.php:393
 msgid "Email"
 msgstr ""
 
-#: includes/settings.php:229
-#: includes/storefront.php:390
-msgid "Address"
+#: includes/settings.php:231
+msgid "Shown on the Contact Us page. Leave empty to hide them."
 msgstr ""
 
-#: includes/settings.php:232
-#: includes/storefront.php:198
+#: includes/settings.php:234
+#: includes/storefront.php:202
 msgid "Cash on Delivery"
 msgstr ""
 
-#: includes/settings.php:233
+#: includes/settings.php:235
 msgid "Maximum order value (Rs.)"
 msgstr ""
 
-#: includes/settings.php:233
+#: includes/settings.php:235
 msgid "Orders above this amount cannot use Cash on Delivery. Leave at 0 for no limit."
 msgstr ""
 
-#: includes/settings.php:237
+#: includes/settings.php:239
 msgid "Usual delivery time"
 msgstr ""
 
-#: includes/settings.php:237
+#: includes/settings.php:239
 msgid "Shown under the delivery option in the cart and at checkout, for example: Usually 2 to 4 working days. Leave empty to hide it."
 msgstr ""
 
-#: includes/settings.php:238
+#: includes/settings.php:240
 msgid "Weight included in the starting fee (kg)"
 msgstr ""
 
-#: includes/settings.php:238
+#: includes/settings.php:240
 msgid "The starting fee itself is set in the delivery zone. It covers parcels up to this weight."
 msgstr ""
 
-#: includes/settings.php:239
+#: includes/settings.php:241
 msgid "Fee for each extra kg (Rs.)"
 msgstr ""
 
-#: includes/settings.php:239
+#: includes/settings.php:241
 msgid "Added for each extra kg or part of a kg above the included weight. Leave at 0 to charge only the starting fee."
 msgstr ""
 
-#: includes/settings.php:240
+#: includes/settings.php:242
 msgid "Free delivery from this many items"
 msgstr ""
 
-#: includes/settings.php:240
+#: includes/settings.php:242
 msgid "Orders with at least this many delivered items pay no delivery fee, whatever their weight. Leave at 0 to turn this off."
 msgstr ""
 
-#: includes/settings.php:241
+#: includes/settings.php:243
 msgid "Couriers"
 msgstr ""
 
-#: includes/settings.php:241
+#: includes/settings.php:243
 msgid "One per line: the courier name, a | sign, then their tracking address with {tracking} where the number goes, and {phone} if they also need the customer's phone number. The address is optional. Example: My Courier | https://example.com/track?no={tracking}"
 msgstr ""
 
-#: includes/settings.php:244
-msgid "Social media"
-msgstr ""
-
-#: includes/settings.php:245
-msgid "Facebook page"
+#: includes/settings.php:246
+msgid "Google reCAPTCHA"
 msgstr ""
 
 #: includes/settings.php:246
-msgid "Instagram profile"
+msgid "Use reCAPTCHA v2, \"I am not a robot\" checkbox. With both keys saved, it replaces the built-in human check on the contact, sign-in and register forms. The /wp-admin login always keeps the built-in check, so wrong keys cannot lock you out. Leave them empty to keep the built-in check."
 msgstr ""
 
 #: includes/settings.php:247
-msgid "TikTok profile"
+msgid "Site Key"
+msgstr ""
+
+#: includes/settings.php:248
+msgid "Secret Key"
+msgstr ""
+
+#: includes/settings.php:251
+msgid "Social media"
+msgstr ""
+
+#: includes/settings.php:252
+msgid "Facebook page"
+msgstr ""
+
+#: includes/settings.php:253
+msgid "Instagram profile"
 msgstr ""
 
 #: includes/settings.php:254
+msgid "TikTok profile"
+msgstr ""
+
+#: includes/settings.php:261
 msgid "Newsletter"
 msgstr ""
 
-#: includes/settings.php:255
+#: includes/settings.php:262
 msgid "View subscribers"
 msgstr ""
 
-#: includes/settings.php:256
+#: includes/settings.php:263
 msgid "Download as CSV"
 msgstr ""
 
@@ -1122,7 +1304,7 @@ msgid "Filter products"
 msgstr ""
 
 #: includes/site-care.php:14
-#: includes/site-care.php:56
+#: includes/site-care.php:57
 msgid "Site care"
 msgstr ""
 
@@ -1159,76 +1341,80 @@ msgid "Google Analytics connected"
 msgstr ""
 
 #: includes/site-care.php:42
+msgid "Google reCAPTCHA keys entered"
+msgstr ""
+
+#: includes/site-care.php:43
 msgid "Social media links entered"
 msgstr ""
 
 #. translators: %d: number of administrator accounts.
-#: includes/site-care.php:44
+#: includes/site-care.php:45
 #, php-format
 msgid "Few administrator accounts (now %d)"
 msgstr ""
 
-#: includes/site-care.php:45
+#: includes/site-care.php:46
 msgid "WordPress, plugins and theme up to date"
 msgstr ""
 
-#: includes/site-care.php:61
+#: includes/site-care.php:62
 msgid "Open"
 msgstr ""
 
-#: includes/site-care.php:68
+#: includes/site-care.php:69
 msgid "Every week"
 msgstr ""
 
-#: includes/site-care.php:68
+#: includes/site-care.php:69
 msgid "Install updates, after checking that the latest backup finished. Then place a test order. Read any Wordfence email about scan results."
 msgstr ""
 
-#: includes/site-care.php:69
+#: includes/site-care.php:70
 msgid "Backups"
 msgstr ""
 
-#: includes/site-care.php:69
+#: includes/site-care.php:70
 msgid "Under Settings, UpdraftPlus Backups, connect Google Drive or another storage service. A backup kept only on this server is lost if the server fails."
 msgstr ""
 
-#: includes/site-care.php:70
+#: includes/site-care.php:71
 msgid "Restoring a backup"
 msgstr ""
 
-#: includes/site-care.php:70
+#: includes/site-care.php:71
 msgid "Open UpdraftPlus, choose the date under Existing backups and click Restore. Practise once, soon after launch, so you know it works."
 msgstr ""
 
-#: includes/site-care.php:71
+#: includes/site-care.php:72
 msgid "Passwords and accounts"
 msgstr ""
 
-#: includes/site-care.php:71
+#: includes/site-care.php:72
 msgid "Use long, unique passwords and turn on two-factor login under Wordfence, Login Security. Give staff the Shop manager role, not Administrator."
 msgstr ""
 
-#: includes/site-care.php:72
+#: includes/site-care.php:73
 msgid "Reviews and spam"
 msgstr ""
 
-#: includes/site-care.php:72
+#: includes/site-care.php:73
 msgid "Every review waits for your approval under Products, Reviews. Antispam Bee filters most spam on its own."
 msgstr ""
 
-#: includes/site-care.php:73
+#: includes/site-care.php:74
 msgid "Search results"
 msgstr ""
 
-#: includes/site-care.php:73
+#: includes/site-care.php:74
 msgid "Give each product a clear name and description. In the Yoast SEO box you can edit how a page appears in Google. Submit your sitemap (/sitemap_index.xml) in Google Search Console."
 msgstr ""
 
-#: includes/site-care.php:74
+#: includes/site-care.php:75
 msgid "Speed"
 msgstr ""
 
-#: includes/site-care.php:74
+#: includes/site-care.php:75
 msgid "Upload photos under about 2000 pixels wide. WordPress makes lighter copies automatically. After big changes, clear the cache under WP-Optimize."
 msgstr ""
 
@@ -1342,138 +1528,137 @@ msgstr ""
 msgid "Vavuniya"
 msgstr ""
 
-#: includes/sri-lanka.php:53
-msgid "District"
-msgstr ""
-
 #: includes/sri-lanka.php:58
 msgid "Postal code"
 msgstr ""
 
-#: includes/storefront.php:78
-#: includes/storefront.php:384
-msgid "Chat with us"
-msgstr ""
-
-#: includes/storefront.php:89
-#: includes/storefront.php:90
+#: includes/storefront.php:93
+#: includes/storefront.php:94
 msgid "Search products"
 msgstr ""
 
-#: includes/storefront.php:92
+#: includes/storefront.php:96
 msgid "Search"
 msgstr ""
 
-#: includes/storefront.php:144
+#: includes/storefront.php:148
 msgid "Browse categories"
 msgstr ""
 
-#: includes/storefront.php:181
+#: includes/storefront.php:185
 msgid "Previous slide"
 msgstr ""
 
-#: includes/storefront.php:181
+#: includes/storefront.php:185
 msgid "Next slide"
 msgstr ""
 
-#: includes/storefront.php:181
+#: includes/storefront.php:185
 msgid "Show slide"
 msgstr ""
 
-#: includes/storefront.php:197
+#: includes/storefront.php:201
 msgid "Islandwide delivery"
 msgstr ""
 
-#: includes/storefront.php:197
+#: includes/storefront.php:201
 msgid "To all 25 districts"
 msgstr ""
 
-#: includes/storefront.php:198
+#: includes/storefront.php:202
 msgid "Pay when it arrives"
 msgstr ""
 
-#: includes/storefront.php:199
+#: includes/storefront.php:204
 msgid "Guest checkout"
 msgstr ""
 
-#: includes/storefront.php:199
+#: includes/storefront.php:204
 msgid "No account needed"
 msgstr ""
 
-#: includes/storefront.php:202
+#: includes/storefront.php:205
+msgid "Your own account"
+msgstr ""
+
+#: includes/storefront.php:205
+msgid "Track every order"
+msgstr ""
+
+#: includes/storefront.php:208
 msgid "WhatsApp support"
 msgstr ""
 
-#: includes/storefront.php:202
+#: includes/storefront.php:208
 msgid "Message us any time"
 msgstr ""
 
-#: includes/storefront.php:232
+#: includes/storefront.php:238
 msgid "Shop by category"
 msgstr ""
 
 #. translators: %d: number of products.
-#: includes/storefront.php:238
+#: includes/storefront.php:244
 #, php-format
 msgid "%d product"
 msgid_plural "%d products"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/storefront.php:258
+#: includes/storefront.php:264
 msgid "Choose your style"
 msgstr ""
 
-#: includes/storefront.php:258
+#: includes/storefront.php:264
 msgid "Browse the collection and add what you love to your cart."
 msgstr ""
 
-#: includes/storefront.php:259
+#: includes/storefront.php:265
 msgid "Place your order"
 msgstr ""
 
-#: includes/storefront.php:259
+#: includes/storefront.php:265
 msgid "Check out as a guest or with an account. We confirm your order."
 msgstr ""
 
-#: includes/storefront.php:260
+#: includes/storefront.php:265
+msgid "We create your account at checkout, so you can track your orders."
+msgstr ""
+
+#: includes/storefront.php:266
 msgid "Pay at your door"
 msgstr ""
 
-#: includes/storefront.php:260
+#: includes/storefront.php:266
 msgid "We deliver to all 25 districts, and you can pay on delivery."
 msgstr ""
 
-#: includes/storefront.php:262
+#: includes/storefront.php:268
 msgid "How it works"
 msgstr ""
 
-#: includes/storefront.php:277
+#: includes/storefront.php:283
 msgid "Special offers"
 msgstr ""
 
-#: includes/storefront.php:278
+#: includes/storefront.php:284
 msgid "Good prices on selected products, while stocks last."
 msgstr ""
 
-#: includes/storefront.php:279
+#: includes/storefront.php:285
 msgid "Browse the shop"
 msgstr ""
 
-#: includes/storefront.php:325
+#: includes/storefront.php:331
 msgid "View all"
 msgstr ""
 
-#: includes/storefront.php:359
+#: includes/storefront.php:365
 msgid "What customers say"
 msgstr ""
 
-#: includes/storefront.php:364
+#: includes/storefront.php:370
 msgid "on"
-msgstr ""
-
-#: includes/storefront.php:384
-msgid "WhatsApp"
 msgstr ""
 
 #. translators: %s: customer first name.

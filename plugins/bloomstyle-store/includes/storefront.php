@@ -40,6 +40,10 @@ function bloomstyle_line_icon( $name ) {
 		'cash'   => '<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
 		'user'   => '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
 		'chat'   => '<path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.4A8.5 8.5 0 1 1 21 12z"/>',
+		'pin'    => '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+		'phone'  => '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>',
+		'mail'   => '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>',
+		'clock'  => '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
 	);
 	if ( ! isset( $shapes[ $name ] ) ) {
 		return '';
@@ -196,7 +200,9 @@ add_shortcode(
 		$items = array(
 			array( 'truck', __( 'Islandwide delivery', 'bloomstyle-store' ), __( 'To all 25 districts', 'bloomstyle-store' ) ),
 			array( 'cash', __( 'Cash on Delivery', 'bloomstyle-store' ), __( 'Pay when it arrives', 'bloomstyle-store' ) ),
-			array( 'user', __( 'Guest checkout', 'bloomstyle-store' ), __( 'No account needed', 'bloomstyle-store' ) ),
+			'yes' === get_option( 'woocommerce_enable_guest_checkout' )
+				? array( 'user', __( 'Guest checkout', 'bloomstyle-store' ), __( 'No account needed', 'bloomstyle-store' ) )
+				: array( 'user', __( 'Your own account', 'bloomstyle-store' ), __( 'Track every order', 'bloomstyle-store' ) ),
 		);
 		if ( '' !== bloomstyle_setting( 'whatsapp_number' ) ) {
 			$items[] = array( 'chat', __( 'WhatsApp support', 'bloomstyle-store' ), __( 'Message us any time', 'bloomstyle-store' ) );
@@ -210,21 +216,53 @@ add_shortcode(
 	}
 );
 
+/**
+ * Products in a category, including those in its sub-categories. A main
+ * category such as Sarees often holds no products itself, only through
+ * Batik Sarees and Handloom Sarees under it.
+ *
+ * @param WP_Term $term Category.
+ * @return int
+ */
+function bloomstyle_category_count( $term ) {
+	$count = get_term_meta( $term->term_id, 'product_count_product_cat', true ); // Kept up to date by WooCommerce.
+	return '' === $count ? (int) $term->count : (int) $count;
+}
+
+/**
+ * Top-level categories that have products, directly or in a sub-category.
+ *
+ * @param int $limit Most to return.
+ * @return WP_Term[]
+ */
+function bloomstyle_top_categories( $limit ) {
+	$terms = get_terms(
+		array(
+			'taxonomy'   => 'product_cat',
+			'parent'     => 0,
+			'hide_empty' => false,
+			'exclude'    => array( (int) get_option( 'default_product_cat' ) ),
+			'orderby'    => 'menu_order',
+		)
+	);
+	if ( is_wp_error( $terms ) ) {
+		return array();
+	}
+	$terms = array_filter(
+		$terms,
+		function ( $term ) {
+			return bloomstyle_category_count( $term ) > 0;
+		}
+	);
+	return array_slice( array_values( $terms ), 0, $limit );
+}
+
 add_shortcode(
 	'bloomstyle_categories',
 	function ( $atts ) {
 		$atts  = shortcode_atts( array( 'limit' => 8 ), $atts );
-		$terms = get_terms(
-			array(
-				'taxonomy'   => 'product_cat',
-				'parent'     => 0,
-				'hide_empty' => true,
-				'exclude'    => array( (int) get_option( 'default_product_cat' ) ),
-				'number'     => absint( $atts['limit'] ),
-				'orderby'    => 'menu_order',
-			)
-		);
-		if ( is_wp_error( $terms ) || ! $terms ) {
+		$terms = bloomstyle_top_categories( absint( $atts['limit'] ) );
+		if ( ! $terms ) {
 			return '';
 		}
 
@@ -235,7 +273,8 @@ add_shortcode(
 			$html     .= '<li><a href="' . esc_url( get_term_link( $term ) ) . '">';
 			$html     .= $thumbnail ? wp_get_attachment_image( $thumbnail, 'woocommerce_thumbnail', false, array( 'alt' => '' ) ) : '';
 			/* translators: %d: number of products. */
-			$html     .= '<span>' . esc_html( $term->name ) . '<small>' . esc_html( sprintf( _n( '%d product', '%d products', $term->count, 'bloomstyle-store' ), $term->count ) ) . '</small></span></a></li>';
+			$count     = bloomstyle_category_count( $term );
+			$html     .= '<span>' . esc_html( $term->name ) . '<small>' . esc_html( sprintf( _n( '%d product', '%d products', $count, 'bloomstyle-store' ), $count ) ) . '</small></span></a></li>';
 		}
 		return $html . '</ul></div></section>';
 	}
@@ -256,7 +295,7 @@ add_shortcode(
 	function () {
 		$steps = array(
 			array( __( 'Choose your style', 'bloomstyle-store' ), __( 'Browse the collection and add what you love to your cart.', 'bloomstyle-store' ) ),
-			array( __( 'Place your order', 'bloomstyle-store' ), __( 'Check out as a guest or with an account. We confirm your order.', 'bloomstyle-store' ) ),
+			array( __( 'Place your order', 'bloomstyle-store' ), 'yes' === get_option( 'woocommerce_enable_guest_checkout' ) ? __( 'Check out as a guest or with an account. We confirm your order.', 'bloomstyle-store' ) : __( 'We create your account at checkout, so you can track your orders.', 'bloomstyle-store' ) ),
 			array( __( 'Pay at your door', 'bloomstyle-store' ), __( 'We deliver to all 25 districts, and you can pay on delivery.', 'bloomstyle-store' ) ),
 		);
 		$html  = '<section class="bs-steps"><div class="bs-wrap"><h2>' . esc_html__( 'How it works', 'bloomstyle-store' ) . '</h2><ol>';
@@ -270,13 +309,13 @@ add_shortcode(
 add_shortcode(
 	'bloomstyle_offers',
 	function () {
-		$products = do_shortcode( '[products limit="3" columns="3" on_sale="true"]' );
+		$products = bloomstyle_home_products( '[products limit="3" columns="3" on_sale="true"]' );
 		if ( false === strpos( $products, '<li' ) ) {
 			return '';
 		}
 		$html  = '<section class="bs-section"><div class="bs-wrap bs-offers"><div class="bs-offers__panel"><h2>' . esc_html__( 'Special offers', 'bloomstyle-store' ) . '</h2>';
 		$html .= '<p>' . esc_html__( 'Good prices on selected products, while stocks last.', 'bloomstyle-store' ) . '</p>';
-		$html .= '<a class="bs-button" href="' . esc_url( wc_get_page_permalink( 'shop' ) ) . '">' . esc_html__( 'Browse the shop', 'bloomstyle-store' ) . '</a></div>';
+		$html .= '<a class="bs-button" href="' . esc_url( home_url( '/#categories' ) ) . '">' . esc_html__( 'Browse categories', 'bloomstyle-store' ) . '</a></div>';
 		return $html . $products . '</div></section>';
 	}
 );
@@ -310,7 +349,7 @@ add_shortcode(
 		}
 
 		$limit    = absint( $atts['limit'] );
-		$products = do_shortcode( sprintf( '[products limit="%d" columns="%d" %s]', $limit, absint( $atts['columns'] ), $queries[ $atts['type'] ] ) );
+		$products = bloomstyle_home_products( sprintf( '[products limit="%d" columns="%d" %s]', $limit, absint( $atts['columns'] ), $queries[ $atts['type'] ] ) );
 		if ( false === strpos( $products, '<li' ) ) {
 			return '';
 		}
@@ -398,5 +437,20 @@ add_shortcode(
 			$html .= '<dt>' . esc_html( $row[0] ) . '</dt><dd>' . $row[1] . '</dd>';
 		}
 		return $html . '</dl>';
+	}
+);
+
+// The store is browsed by category from the main menu, not from one big Shop
+// page, so "Return to shop" and "Continue shopping" go back to the home page.
+add_filter(
+	'woocommerce_return_to_shop_redirect',
+	function () {
+		return home_url( '/' );
+	}
+);
+add_filter(
+	'woocommerce_continue_shopping_redirect',
+	function ( $url ) {
+		return wc_get_page_permalink( 'shop' ) === $url ? home_url( '/' ) : $url;
 	}
 );

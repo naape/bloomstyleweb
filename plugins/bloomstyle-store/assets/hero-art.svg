@@ -11,24 +11,24 @@
 		<!-- Handloom stripes -->
 		<pattern id="loom" width="74" height="10" patternUnits="userSpaceOnUse">
 			<rect width="74" height="10" fill="#fbf5e9"/>
-			<rect x="0" width="16" height="10" fill="#d6336c"/>
-			<rect x="19" width="3" height="10" fill="#8f1d47"/>
+			<rect x="0" width="16" height="10" fill="#f2a3bf"/>
+			<rect x="19" width="3" height="10" fill="#c2557f"/>
 			<rect x="25" width="9" height="10" fill="#f7a8c4"/>
-			<rect x="37" width="3" height="10" fill="#8f1d47"/>
+			<rect x="37" width="3" height="10" fill="#c2557f"/>
 			<rect x="52" width="7" height="10" fill="#f08fb0"/>
-			<rect x="62" width="2" height="10" fill="#d6336c"/>
+			<rect x="62" width="2" height="10" fill="#f2a3bf"/>
 		</pattern>
 		<!-- Batik flowers -->
 		<pattern id="batik" width="84" height="84" patternUnits="userSpaceOnUse">
 			<rect width="84" height="84" fill="#f7a8c4"/>
-			<g fill="#8f1d47"><use xlink:href="#petal-flower" transform="translate(21 21)"/><use xlink:href="#petal-flower" transform="translate(63 63)"/></g>
+			<g fill="#c2557f"><use xlink:href="#petal-flower" transform="translate(21 21)"/><use xlink:href="#petal-flower" transform="translate(63 63)"/></g>
 			<circle cx="21" cy="21" r="4.5" fill="#fbf5e9"/><circle cx="63" cy="63" r="4.5" fill="#fbf5e9"/>
-			<g fill="#d6336c"><circle cx="63" cy="21" r="5"/><circle cx="21" cy="63" r="5"/></g>
-			<g fill="#8f1d47"><circle cx="42" cy="42" r="2.2"/><circle cx="0" cy="42" r="2.2"/><circle cx="84" cy="42" r="2.2"/><circle cx="42" cy="0" r="2.2"/><circle cx="42" cy="84" r="2.2"/></g>
+			<g fill="#f2a3bf"><circle cx="63" cy="21" r="5"/><circle cx="21" cy="63" r="5"/></g>
+			<g fill="#c2557f"><circle cx="42" cy="42" r="2.2"/><circle cx="0" cy="42" r="2.2"/><circle cx="84" cy="42" r="2.2"/><circle cx="42" cy="0" r="2.2"/><circle cx="42" cy="84" r="2.2"/></g>
 		</pattern>
 		<!-- Scattered petals on rose -->
 		<pattern id="rose" width="70" height="70" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-			<rect width="70" height="70" fill="#d6336c"/>
+			<rect width="70" height="70" fill="#f2a3bf"/>
 			<g fill="#fbf5e9"><use xlink:href="#petal-flower" transform="translate(35 35) scale(.72)"/></g>
 			<circle cx="35" cy="35" r="3.2" fill="#f7a8c4"/>
 			<g fill="#f7a8c4"><circle cx="0" cy="0" r="3.4"/><circle cx="70" cy="0" r="3.4"/><circle cx="0" cy="70" r="3.4"/><circle cx="70" cy="70" r="3.4"/></g>
@@ -36,7 +36,7 @@
 	</defs>
 
 	<!-- Three arches -->
-	<g stroke="#b81f5c" stroke-width="4">
+	<g stroke="#f2a3bf" stroke-width="4">
 		<path d="M16 480V226a80 80 0 0 1 160 0v254z" fill="url(#loom)"/>
 		<path d="M424 480V226a80 80 0 0 1 160 0v254z" fill="url(#rose)"/>
 		<path d="M196 480V132a104 104 0 0 1 208 0v348z" fill="url(#batik)"/>
@@ -46,16 +46,16 @@
 	<g>
 		<path d="M300 60c0-13 19-13 19 1 0 11-19 9-19 25" fill="none" stroke="#fbf5e9" stroke-width="5" stroke-linecap="round"/>
 		<path d="M300 86l-82 44h164z" fill="none" stroke="#fbf5e9" stroke-width="5" stroke-linejoin="round"/>
-		<path d="M262 124q38 30 76 0l14 18-24 22 8 46 62 212q-98 28-196 0l62-212 8-46-24-22z" fill="#8f1d47" stroke="#fbf5e9" stroke-width="4" stroke-linejoin="round"/>
+		<path d="M262 124q38 30 76 0l14 18-24 22 8 46 62 212q-98 28-196 0l62-212 8-46-24-22z" fill="#c2557f" stroke="#fbf5e9" stroke-width="4" stroke-linejoin="round"/>
 		<path d="M272 210q28 12 56 0" fill="none" stroke="#f7a8c4" stroke-width="5"/>
 		<path d="M212 410q88 26 176 0" fill="none" stroke="#f7a8c4" stroke-width="4"/>
 		<path d="M220 392q80 24 160 0" fill="none" stroke="#f7a8c4" stroke-width="2"/>
 		<g fill="#f7a8c4"><use xlink:href="#petal-flower" transform="translate(300 300) scale(1.2)"/><use xlink:href="#petal-flower" transform="translate(252 352) scale(.7)"/><use xlink:href="#petal-flower" transform="translate(348 352) scale(.7)"/></g>
-		<circle cx="300" cy="300" r="6" fill="#d6336c"/><circle cx="252" cy="352" r="3.6" fill="#d6336c"/><circle cx="348" cy="352" r="3.6" fill="#d6336c"/>
+		<circle cx="300" cy="300" r="6" fill="#f2a3bf"/><circle cx="252" cy="352" r="3.6" fill="#f2a3bf"/><circle cx="348" cy="352" r="3.6" fill="#f2a3bf"/>
 	</g>
 
 	<!-- Blooms around the arches -->
-	<g fill="#d6336c"><use xlink:href="#petal-flower" transform="translate(96 108) scale(1.1)"/><use xlink:href="#petal-flower" transform="translate(520 92) scale(.8)"/></g>
-	<circle cx="96" cy="108" r="5" fill="#d6336c"/><circle cx="520" cy="92" r="4" fill="#d6336c"/>
+	<g fill="#f2a3bf"><use xlink:href="#petal-flower" transform="translate(96 108) scale(1.1)"/><use xlink:href="#petal-flower" transform="translate(520 92) scale(.8)"/></g>
+	<circle cx="96" cy="108" r="5" fill="#f2a3bf"/><circle cx="520" cy="92" r="4" fill="#f2a3bf"/>
 	<g fill="#f29fbd"><circle cx="46" cy="66" r="4"/><circle cx="150" cy="58" r="3"/><circle cx="472" cy="44" r="3.5"/><circle cx="568" cy="150" r="3"/></g>
 </svg>

@@ -56,6 +56,16 @@ function bloomstyle_find_samples() {
 	);
 }
 
+// A product duplicated from a sample is the owner's real product, so it must
+// not inherit the sample tag and be deleted along with the samples.
+add_filter(
+	'woocommerce_duplicate_product_exclude_meta',
+	function ( $exclude ) {
+		$exclude[] = '_bloomstyle_sample';
+		return $exclude;
+	}
+);
+
 /**
  * Delete everything tagged as sample data.
  *

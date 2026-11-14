@@ -180,7 +180,8 @@ add_action(
 );
 
 /**
- * Total weight of the items being delivered.
+ * Total weight of the items whose delivery is charged. Items marked for free
+ * delivery are left out.
  *
  * @param array $package Shipping package.
  * @return float Weight in kg.
@@ -188,11 +189,31 @@ add_action(
 function bloomstyle_package_weight( $package ) {
 	$weight = 0;
 	foreach ( $package['contents'] as $item ) {
-		if ( $item['data']->needs_shipping() ) {
+		if ( $item['data']->needs_shipping() && ! bloomstyle_has_free_delivery( $item['data'] ) ) {
 			$weight += bloomstyle_product_weight( $item['data'] ) * $item['quantity'];
 		}
 	}
 	return $weight;
+}
+
+/**
+ * Whether everything being delivered is marked for free delivery.
+ *
+ * @param array $package Shipping package.
+ * @return bool
+ */
+function bloomstyle_package_all_free( $package ) {
+	$any = false;
+	foreach ( $package['contents'] as $item ) {
+		if ( ! $item['data']->needs_shipping() ) {
+			continue;
+		}
+		if ( ! bloomstyle_has_free_delivery( $item['data'] ) ) {
+			return false;
+		}
+		$any = true;
+	}
+	return $any;
 }
 
 /**
@@ -230,7 +251,7 @@ add_filter(
 	function ( $args, $method ) {
 		if ( 'flat_rate' === $method->id && ! empty( $args['package'] ) ) {
 			$items = (int) bloomstyle_setting( 'free_delivery_items' );
-			if ( $items > 0 && bloomstyle_package_quantity( $args['package'] ) >= $items ) {
+			if ( bloomstyle_package_all_free( $args['package'] ) || ( $items > 0 && bloomstyle_package_quantity( $args['package'] ) >= $items ) ) {
 				$args['cost']  = 0;
 				$args['label'] = __( 'Free delivery', 'bloomstyle-store' );
 				return $args;

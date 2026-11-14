@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Bloom Style Store
  * Description:       Sri Lanka localisation and custom store features for Bloom Style.
- * Version:           1.9.7
+ * Version:           1.18.0
  * Requires at least: 7.0
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BLOOMSTYLE_STORE_VERSION', '1.9.7' );
+define( 'BLOOMSTYLE_STORE_VERSION', '1.18.0' );
 define( 'BLOOMSTYLE_STORE_FILE', __FILE__ );
 define( 'BLOOMSTYLE_STORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BLOOMSTYLE_STORE_URL', plugin_dir_url( __FILE__ ) );
@@ -49,7 +49,14 @@ require_once BLOOMSTYLE_STORE_DIR . 'includes/category-attributes.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/category-weights.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/shop-filters.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/checkout.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/human-check.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/contact-form.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/product-tabs.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/registration.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/payhere.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/free-delivery.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/home-visibility.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/sizes.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/delivery.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/delivery-tracking.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/delivery-admin.php';

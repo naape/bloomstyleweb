@@ -30,7 +30,7 @@ function bloomstyle_banner_slots() {
  */
 function bloomstyle_settings() {
 	$defaults = array_fill_keys(
-		array( 'promo_text', 'promo_url', 'whatsapp_number', 'whatsapp_message', 'phone', 'email', 'address', 'facebook_url', 'instagram_url', 'tiktok_url', 'cod_max', 'delivery_time', 'couriers', 'weight_included', 'weight_extra_fee', 'free_delivery_items' ),
+		array( 'promo_text', 'promo_url', 'whatsapp_number', 'whatsapp_message', 'phone', 'email', 'address', 'facebook_url', 'instagram_url', 'tiktok_url', 'cod_max', 'delivery_time', 'couriers', 'weight_included', 'weight_extra_fee', 'free_delivery_items', 'business_hours', 'recaptcha_site_key', 'recaptcha_secret_key' ),
 		''
 	);
 	foreach ( array_keys( bloomstyle_banner_slots() ) as $slot ) {
@@ -77,7 +77,7 @@ function bloomstyle_sanitize_settings( $input ) {
 	$input = is_array( $input ) ? $input : array();
 	$clean = array();
 
-	foreach ( array( 'promo_text', 'whatsapp_message', 'phone', 'delivery_time' ) as $key ) {
+	foreach ( array( 'promo_text', 'whatsapp_message', 'phone', 'delivery_time', 'recaptcha_site_key', 'recaptcha_secret_key' ) as $key ) {
 		$clean[ $key ] = sanitize_text_field( isset( $input[ $key ] ) ? $input[ $key ] : '' );
 	}
 	foreach ( array( 'promo_url', 'facebook_url', 'instagram_url', 'tiktok_url' ) as $key ) {
@@ -88,6 +88,7 @@ function bloomstyle_sanitize_settings( $input ) {
 	$clean['email']           = sanitize_email( isset( $input['email'] ) ? $input['email'] : '' );
 	$clean['address']         = sanitize_textarea_field( isset( $input['address'] ) ? $input['address'] : '' );
 	$clean['couriers']        = sanitize_textarea_field( isset( $input['couriers'] ) ? $input['couriers'] : '' );
+	$clean['business_hours']  = sanitize_textarea_field( isset( $input['business_hours'] ) ? $input['business_hours'] : '' );
 	foreach ( array( 'weight_included', 'weight_extra_fee' ) as $key ) {
 		$clean[ $key ] = max( 0, (float) ( isset( $input[ $key ] ) ? $input[ $key ] : 0 ) );
 	}
@@ -227,6 +228,7 @@ function bloomstyle_render_settings() {
 	bloomstyle_field( 'phone', __( 'Phone', 'bloomstyle-store' ) );
 	bloomstyle_field( 'email', __( 'Email', 'bloomstyle-store' ), '', 'email' );
 	bloomstyle_field( 'address', __( 'Address', 'bloomstyle-store' ), '', 'textarea' );
+	bloomstyle_field( 'business_hours', __( 'Business hours', 'bloomstyle-store' ), __( 'Shown on the Contact Us page. Leave empty to hide them.', 'bloomstyle-store' ), 'textarea' );
 	echo '</table>';
 
 	echo '<h2>' . esc_html__( 'Cash on Delivery', 'bloomstyle-store' ) . '</h2><table class="form-table" role="presentation">';
@@ -239,6 +241,11 @@ function bloomstyle_render_settings() {
 	bloomstyle_field( 'weight_extra_fee', __( 'Fee for each extra kg (Rs.)', 'bloomstyle-store' ), __( 'Added for each extra kg or part of a kg above the included weight. Leave at 0 to charge only the starting fee.', 'bloomstyle-store' ) );
 	bloomstyle_field( 'free_delivery_items', __( 'Free delivery from this many items', 'bloomstyle-store' ), __( 'Orders with at least this many delivered items pay no delivery fee, whatever their weight. Leave at 0 to turn this off.', 'bloomstyle-store' ), 'number' );
 	bloomstyle_field( 'couriers', __( 'Couriers', 'bloomstyle-store' ), __( 'One per line: the courier name, a | sign, then their tracking address with {tracking} where the number goes, and {phone} if they also need the customer\'s phone number. The address is optional. Example: My Courier | https://example.com/track?no={tracking}', 'bloomstyle-store' ), 'textarea' );
+	echo '</table>';
+
+	echo '<h2>' . esc_html__( 'Google reCAPTCHA', 'bloomstyle-store' ) . '</h2><p>' . esc_html__( 'Use reCAPTCHA v2, "I am not a robot" checkbox. With both keys saved, it replaces the built-in human check on the contact, sign-in and register forms. The /wp-admin login always keeps the built-in check, so wrong keys cannot lock you out. Leave them empty to keep the built-in check.', 'bloomstyle-store' ) . '</p><table class="form-table" role="presentation">';
+	bloomstyle_field( 'recaptcha_site_key', __( 'Site Key', 'bloomstyle-store' ) );
+	bloomstyle_field( 'recaptcha_secret_key', __( 'Secret Key', 'bloomstyle-store' ), '', 'password' );
 	echo '</table>';
 
 	echo '<h2>' . esc_html__( 'Social media', 'bloomstyle-store' ) . '</h2><table class="form-table" role="presentation">';

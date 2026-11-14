@@ -39,6 +39,7 @@ function bloomstyle_site_care_checks() {
 		array( __( 'Backups stored away from this server', 'bloomstyle-store' ), (bool) $storage, admin_url( 'options-general.php?page=updraftplus' ) ),
 		array( __( 'Page caching on', 'bloomstyle-store' ), defined( 'WP_CACHE' ) && WP_CACHE, admin_url( 'admin.php?page=wpo_cache' ) ),
 		array( __( 'Google Analytics connected', 'bloomstyle-store' ), ! empty( $analytics['ga_id'] ), admin_url( 'admin.php?page=wc-settings&tab=integration' ) ),
+		array( __( 'Google reCAPTCHA keys entered', 'bloomstyle-store' ), bloomstyle_recaptcha_enabled(), admin_url( 'admin.php?page=bloomstyle-store' ) ),
 		array( __( 'Social media links entered', 'bloomstyle-store' ), (bool) $social, admin_url( 'admin.php?page=bloomstyle-store' ) ),
 		/* translators: %d: number of administrator accounts. */
 		array( sprintf( __( 'Few administrator accounts (now %d)', 'bloomstyle-store' ), $admins ), $admins <= 2, admin_url( 'users.php?role=administrator' ) ),

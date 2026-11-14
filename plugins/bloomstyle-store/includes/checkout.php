@@ -59,6 +59,7 @@ add_filter(
 	function ( $fields ) {
 		if ( isset( $fields['billing']['billing_phone'] ) ) {
 			$fields['billing']['billing_phone']['placeholder'] = '077 123 4567';
+			$fields['billing']['billing_phone']['label']       = __( 'Mobile number', 'bloomstyle-store' );
 		}
 		return $fields;
 	}
@@ -93,5 +94,16 @@ add_filter(
 	'woocommerce_get_privacy_policy_text',
 	function ( $text ) {
 		return '' === get_privacy_policy_url() ? '' : $text;
+	}
+);
+
+// With guest checkout off, an account is made from the billing details. Say so
+// before the customer places the order.
+add_action(
+	'woocommerce_after_checkout_billing_form',
+	function () {
+		if ( ! is_user_logged_in() && 'no' === get_option( 'woocommerce_enable_guest_checkout' ) ) {
+			echo '<p class="bs-account-note">' . esc_html__( 'We will create your account with this email address, so you can track your orders. We will email you a link to set your password.', 'bloomstyle-store' ) . '</p>';
+		}
 	}
 );
