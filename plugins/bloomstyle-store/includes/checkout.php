@@ -10,15 +10,42 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * The nine digits of a Sri Lankan phone number, without 0 or +94 in front.
+ * Accepts 0771234567, 077 123 4567, 077-123-4567, 771234567, +94771234567,
+ * +94 (0)77 123 4567, 0094771234567 and 94771234567.
+ *
+ * @param string $phone Phone number as typed.
+ * @return string Nine digits, or '' when it is not a Sri Lankan number.
+ */
+function bloomstyle_phone_digits( $phone ) {
+	// Spaces, dashes, dots and brackets are only spacing.
+	$compact = preg_replace( '#[\s().\-/]+#u', '', trim( (string) $phone ) );
+	if ( 1 === preg_match( '/^(?:\+94|0094|94)?0?([1-9]\d{8})$/', $compact, $match ) ) {
+		return $match[1];
+	}
+	return '';
+}
+
+/**
  * Whether a phone number looks like a Sri Lankan number.
- * Accepts 0771234567, 077 123 4567, +94771234567 and 94771234567.
  *
  * @param string $phone Phone number.
  * @return bool
  */
 function bloomstyle_is_valid_phone( $phone ) {
-	$compact = preg_replace( '/[\s().-]+/', '', (string) $phone );
-	return 1 === preg_match( '/^(?:\+94|0094|94|0)[1-9]\d{8}$/', $compact );
+	return '' !== bloomstyle_phone_digits( $phone );
+}
+
+/**
+ * A Sri Lankan phone number written the usual way, 077 123 4567, so every
+ * order shows numbers alike and the WhatsApp and call buttons work.
+ *
+ * @param string $phone Phone number as typed.
+ * @return string The tidy number, or the original text when it is not valid.
+ */
+function bloomstyle_format_phone( $phone ) {
+	$digits = bloomstyle_phone_digits( $phone );
+	return '' === $digits ? (string) $phone : '0' . substr( $digits, 0, 2 ) . ' ' . substr( $digits, 2, 3 ) . ' ' . substr( $digits, 5 );
 }
 
 /**
@@ -27,7 +54,7 @@ function bloomstyle_is_valid_phone( $phone ) {
  * @return string
  */
 function bloomstyle_phone_error() {
-	return __( 'Please enter a valid Sri Lankan phone number, for example 077 123 4567.', 'bloomstyle-store' );
+	return __( 'Please enter a Sri Lankan mobile or landline number with 10 digits, for example 077 123 4567.', 'bloomstyle-store' );
 }
 
 add_action(
@@ -40,6 +67,97 @@ add_action(
 	10,
 	2
 );
+
+// Save the number the usual way, however it was typed.
+add_filter(
+	'woocommerce_checkout_posted_data',
+	function ( $data ) {
+		if ( ! empty( $data['billing_phone'] ) ) {
+			$data['billing_phone'] = bloomstyle_format_phone( $data['billing_phone'] );
+		}
+		if ( ! empty( $data['shipping_phone'] ) ) {
+			$data['shipping_phone'] = bloomstyle_format_phone( $data['shipping_phone'] );
+		}
+		return $data;
+	}
+);
+
+/* ---------- Returning customers who are not logged in ---------- */
+
+/**
+ * The customer account that owns the email typed at checkout, when the
+ * shopper is not logged in. Staff accounts are never matched, so their orders
+ * stay as guest orders.
+ *
+ * @return int User ID, or 0.
+ */
+function bloomstyle_checkout_returning_customer() {
+	// phpcs:disable WordPress.Security.NonceVerification.Missing -- Only read during checkout, after WooCommerce has checked its nonce.
+	if ( is_user_logged_in() || empty( $_POST['woocommerce-process-checkout-nonce'] ) || empty( $_POST['billing_email'] ) || ! is_string( $_POST['billing_email'] ) ) {
+		return 0;
+	}
+	$user = get_user_by( 'email', sanitize_email( wp_unslash( $_POST['billing_email'] ) ) );
+	// phpcs:enable WordPress.Security.NonceVerification.Missing
+	if ( ! $user || user_can( $user, 'edit_posts' ) || user_can( $user, 'manage_woocommerce' ) ) {
+		return 0;
+	}
+	return (int) $user->ID;
+}
+
+// With guest checkout off, WooCommerce tries to make a new account for every
+// shopper who is not logged in, and stops anyone whose email already has one
+// with "An account is already registered". Let them order without logging in.
+add_filter(
+	'woocommerce_checkout_registration_required',
+	function ( $required ) {
+		return $required && bloomstyle_checkout_returning_customer() ? false : $required;
+	},
+	20
+);
+
+// Put the order in their account, so they still see it under My account.
+add_filter(
+	'woocommerce_checkout_customer_id',
+	function ( $customer_id ) {
+		$returning = $customer_id ? 0 : bloomstyle_checkout_returning_customer();
+		return $returning ? $returning : $customer_id;
+	}
+);
+
+add_action(
+	'woocommerce_checkout_order_processed',
+	function ( $order_id, $posted_data, $order ) {
+		if ( is_user_logged_in() || ! $order instanceof WC_Order || ! $order->get_customer_id() ) {
+			return;
+		}
+		$order->add_order_note( __( 'Placed without logging in. Added to the customer account that uses this email address.', 'bloomstyle-store' ) );
+		// This browser placed the order, so it may see the order received page.
+		if ( WC()->session ) {
+			WC()->session->set( 'bs_returning_order', (int) $order_id );
+		}
+	},
+	10,
+	3
+);
+
+// WooCommerce asks account holders to log in before showing the order received
+// page. Skip that only for the order this browser has just placed.
+add_filter(
+	'woocommerce_order_received_verify_known_shoppers',
+	function ( $verify ) {
+		$order_id = absint( get_query_var( 'order-received' ) );
+		if ( $verify && $order_id && WC()->session && (int) WC()->session->get( 'bs_returning_order' ) === $order_id ) {
+			return false;
+		}
+		return $verify;
+	}
+);
+
+/* ---------- Faster "Place order" ---------- */
+
+// Send order and account emails just after the order is saved, instead of
+// making the customer wait for the mail server before they see "Thank you".
+add_filter( 'woocommerce_defer_transactional_emails', '__return_true' );
 
 add_action(
 	'woocommerce_after_save_address_validation',

@@ -63,6 +63,10 @@ function bloomstyle_normalise_whatsapp( $number ) {
 	$digits = preg_replace( '/\D+/', '', (string) $number );
 	if ( 10 === strlen( $digits ) && '0' === $digits[0] ) {
 		$digits = '94' . substr( $digits, 1 );
+	} elseif ( 9 === strlen( $digits ) && '0' !== $digits[0] ) {
+		$digits = '94' . $digits; // Typed without the 0, such as 77 123 4567.
+	} elseif ( 12 === strlen( $digits ) && 0 === strpos( $digits, '940' ) ) {
+		$digits = '94' . substr( $digits, 3 ); // Typed as +94 (0)77 123 4567.
 	}
 	return $digits;
 }

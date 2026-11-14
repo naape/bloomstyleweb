@@ -72,7 +72,7 @@ add_action(
 		}
 		$customer = new WC_Customer( $customer_id );
 		$customer->set_billing_country( 'LK' );
-		$customer->set_billing_phone( bloomstyle_registration_value( 'billing_phone' ) );
+		$customer->set_billing_phone( bloomstyle_format_phone( bloomstyle_registration_value( 'billing_phone' ) ) );
 		$customer->set_billing_address_1( bloomstyle_registration_value( 'billing_address_1' ) );
 		$customer->set_billing_city( bloomstyle_registration_value( 'billing_city' ) );
 		$customer->set_billing_state( bloomstyle_registration_value( 'billing_state' ) );
