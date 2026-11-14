@@ -106,6 +106,15 @@ function bloomstyle_sanitize_settings( $input ) {
 		$clean[ $slot . '_url' ]   = esc_url_raw( isset( $input[ $slot . '_url' ] ) ? $input[ $slot . '_url' ] : '' );
 		$clean[ $slot . '_image' ] = absint( isset( $input[ $slot . '_image' ] ) ? $input[ $slot . '_image' ] : 0 );
 	}
+
+	// A form that shows only some settings, such as the reCAPTCHA page, must
+	// leave the others as they are, so keep the saved value of any field it lacks.
+	$stored = (array) get_option( 'bloomstyle_store_settings', array() );
+	foreach ( array_keys( $clean ) as $key ) {
+		if ( ! array_key_exists( $key, $input ) && array_key_exists( $key, $stored ) ) {
+			$clean[ $key ] = $stored[ $key ];
+		}
+	}
 	return $clean;
 }
 
@@ -154,6 +163,15 @@ add_action(
 			'bloomstyle-store',
 			'bloomstyle_render_settings',
 			0
+		);
+		add_submenu_page(
+			'bloomstyle-store',
+			__( 'Google reCAPTCHA', 'bloomstyle-store' ),
+			__( 'Google reCAPTCHA', 'bloomstyle-store' ),
+			'manage_woocommerce',
+			'bloomstyle-recaptcha',
+			'bloomstyle_render_recaptcha',
+			1
 		);
 	},
 	9
@@ -212,6 +230,30 @@ function bloomstyle_image_field( $slot ) {
 }
 
 /**
+ * Render the Google reCAPTCHA screen. It saves into the same settings as the
+ * main screen; fields not on this form keep their values.
+ */
+function bloomstyle_render_recaptcha() {
+	if ( ! current_user_can( 'manage_woocommerce' ) ) {
+		return;
+	}
+	echo '<div class="wrap"><h1>' . esc_html__( 'Google reCAPTCHA', 'bloomstyle-store' ) . '</h1>';
+	settings_errors();
+	echo '<p>' . esc_html__( 'Get the two keys from Google at google.com/recaptcha/admin/create: choose reCAPTCHA v2, "I am not a robot" checkbox, and add the domains bloomstyle.lk and www.bloomstyle.lk.', 'bloomstyle-store' ) . '</p>';
+	echo '<p>' . esc_html__( 'With both keys saved, it replaces the built-in human check on the contact, sign-in and register forms. The /wp-admin login always keeps the built-in check, so wrong keys cannot lock you out. Empty both boxes to go back to the built-in check.', 'bloomstyle-store' ) . '</p>';
+	$on = '' !== bloomstyle_setting( 'recaptcha_site_key' ) && '' !== bloomstyle_setting( 'recaptcha_secret_key' );
+	echo '<p><strong>' . esc_html__( 'Status:', 'bloomstyle-store' ) . '</strong> ' . ( $on ? esc_html__( 'On. Forms show the "I am not a robot" box.', 'bloomstyle-store' ) : esc_html__( 'Off. Forms use the built-in human check.', 'bloomstyle-store' ) ) . '</p>';
+	echo '<form method="post" action="options.php">';
+	settings_fields( 'bloomstyle_store' );
+	echo '<table class="form-table" role="presentation">';
+	bloomstyle_field( 'recaptcha_site_key', __( 'Site Key', 'bloomstyle-store' ) );
+	bloomstyle_field( 'recaptcha_secret_key', __( 'Secret Key', 'bloomstyle-store' ), '', 'password' );
+	echo '</table>';
+	submit_button();
+	echo '</form></div>';
+}
+
+/**
  * Render the settings screen.
  */
 function bloomstyle_render_settings() {
@@ -259,10 +301,9 @@ function bloomstyle_render_settings() {
 	bloomstyle_field( 'couriers', __( 'Couriers', 'bloomstyle-store' ), __( 'One per line: the courier name, a | sign, then their tracking address with {tracking} where the number goes, and {phone} if they also need the customer\'s phone number. The address is optional. Example: My Courier | https://example.com/track?no={tracking}', 'bloomstyle-store' ), 'textarea' );
 	echo '</table>';
 
-	echo '<h2>' . esc_html__( 'Google reCAPTCHA', 'bloomstyle-store' ) . '</h2><p>' . esc_html__( 'Use reCAPTCHA v2, "I am not a robot" checkbox. With both keys saved, it replaces the built-in human check on the contact, sign-in and register forms. The /wp-admin login always keeps the built-in check, so wrong keys cannot lock you out. Leave them empty to keep the built-in check.', 'bloomstyle-store' ) . '</p><table class="form-table" role="presentation">';
-	bloomstyle_field( 'recaptcha_site_key', __( 'Site Key', 'bloomstyle-store' ) );
-	bloomstyle_field( 'recaptcha_secret_key', __( 'Secret Key', 'bloomstyle-store' ), '', 'password' );
-	echo '</table>';
+	$recaptcha = admin_url( 'admin.php?page=bloomstyle-recaptcha' );
+	echo '<h2>' . esc_html__( 'Google reCAPTCHA', 'bloomstyle-store' ) . '</h2><p>' . esc_html__( 'Google reCAPTCHA has its own page, under Bloom Style in the left menu.', 'bloomstyle-store' ) . ' <a class="button" href="' . esc_url( $recaptcha ) . '">' . esc_html__( 'Open Google reCAPTCHA', 'bloomstyle-store' ) . '</a></p>';
+
 
 	echo '<h2>' . esc_html__( 'Social media', 'bloomstyle-store' ) . '</h2><table class="form-table" role="presentation">';
 	bloomstyle_field( 'facebook_url', __( 'Facebook page', 'bloomstyle-store' ), '', 'url' );
