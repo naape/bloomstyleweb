@@ -82,74 +82,71 @@ add_filter(
 	}
 );
 
-/* ---------- Returning customers who are not logged in ---------- */
+/* ---------- Log in or register before checkout ---------- */
 
 /**
- * The customer account that owns the email typed at checkout, when the
- * shopper is not logged in. Staff accounts are never matched, so their orders
- * stay as guest orders.
+ * The message shown to shoppers who must log in or register first.
  *
- * @return int User ID, or 0.
+ * @return string
  */
-function bloomstyle_checkout_returning_customer() {
-	// phpcs:disable WordPress.Security.NonceVerification.Missing -- Only read during checkout, after WooCommerce has checked its nonce.
-	if ( is_user_logged_in() || empty( $_POST['woocommerce-process-checkout-nonce'] ) || empty( $_POST['billing_email'] ) || ! is_string( $_POST['billing_email'] ) ) {
-		return 0;
-	}
-	$user = get_user_by( 'email', sanitize_email( wp_unslash( $_POST['billing_email'] ) ) );
-	// phpcs:enable WordPress.Security.NonceVerification.Missing
-	if ( ! $user || user_can( $user, 'edit_posts' ) || user_can( $user, 'manage_woocommerce' ) ) {
-		return 0;
-	}
-	return (int) $user->ID;
+function bloomstyle_login_first_message() {
+	return __( 'Please log in, or create an account, to place your order. You will come straight back to checkout.', 'bloomstyle-store' );
 }
 
-// With guest checkout off, WooCommerce tries to make a new account for every
-// shopper who is not logged in, and stops anyone whose email already has one
-// with "An account is already registered". Let them order without logging in.
-add_filter(
-	'woocommerce_checkout_registration_required',
-	function ( $required ) {
-		return $required && bloomstyle_checkout_returning_customer() ? false : $required;
-	},
-	20
-);
+// No account fields or automatic account at checkout: the account comes first.
+add_filter( 'woocommerce_checkout_registration_enabled', '__return_false', 20 );
+add_filter( 'woocommerce_checkout_registration_required', '__return_true', 20 );
 
-// Put the order in their account, so they still see it under My account.
+// The My Account page carries the register form, so keep it switched on.
 add_filter(
-	'woocommerce_checkout_customer_id',
-	function ( $customer_id ) {
-		$returning = $customer_id ? 0 : bloomstyle_checkout_returning_customer();
-		return $returning ? $returning : $customer_id;
+	'pre_option_woocommerce_enable_myaccount_registration',
+	function () {
+		return 'yes';
 	}
 );
 
+// Send shoppers who are not logged in from checkout to My Account. The order
+// received and payment pages stay open, so PayHere and thank-you pages work.
 add_action(
-	'woocommerce_checkout_order_processed',
-	function ( $order_id, $posted_data, $order ) {
-		if ( is_user_logged_in() || ! $order instanceof WC_Order || ! $order->get_customer_id() ) {
+	'template_redirect',
+	function () {
+		if ( is_user_logged_in() || ! function_exists( 'is_checkout' ) || ! is_checkout() || is_wc_endpoint_url() || ! WC()->cart || WC()->cart->is_empty() ) {
 			return;
 		}
-		$order->add_order_note( __( 'Placed without logging in. Added to the customer account that uses this email address.', 'bloomstyle-store' ) );
-		// This browser placed the order, so it may see the order received page.
-		if ( WC()->session ) {
-			WC()->session->set( 'bs_returning_order', (int) $order_id );
-		}
-	},
-	10,
-	3
+		WC()->session->set( 'bs_back_to_checkout', 1 );
+		wc_add_notice( bloomstyle_login_first_message(), 'notice' );
+		wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
+		exit;
+	}
 );
 
-// WooCommerce asks account holders to log in before showing the order received
-// page. Skip that only for the order this browser has just placed.
-add_filter(
-	'woocommerce_order_received_verify_known_shoppers',
-	function ( $verify ) {
-		$order_id = absint( get_query_var( 'order-received' ) );
-		if ( $verify && $order_id && WC()->session && (int) WC()->session->get( 'bs_returning_order' ) === $order_id ) {
-			return false;
+/**
+ * After logging in or registering, return to checkout if that is where the
+ * shopper was going.
+ *
+ * @param string $redirect Where WooCommerce would go.
+ * @return string
+ */
+function bloomstyle_back_to_checkout( $redirect ) {
+	if ( WC()->session && WC()->session->get( 'bs_back_to_checkout' ) ) {
+		WC()->session->set( 'bs_back_to_checkout', null );
+		return wc_get_checkout_url();
+	}
+	return $redirect;
+}
+add_filter( 'woocommerce_login_redirect', 'bloomstyle_back_to_checkout', 20 );
+add_filter( 'woocommerce_registration_redirect', 'bloomstyle_back_to_checkout', 20 );
+
+// The page itself is never shown to them, but say the same if it ever is.
+add_filter( 'woocommerce_checkout_must_be_logged_in_message', 'bloomstyle_login_first_message' );
+
+// Refuse an order sent without logging in, however it was sent.
+add_action(
+	'woocommerce_checkout_process',
+	function () {
+		if ( ! is_user_logged_in() ) {
+			wc_add_notice( bloomstyle_login_first_message(), 'error' );
 		}
-		return $verify;
 	}
 );
 
@@ -212,16 +209,5 @@ add_filter(
 	'woocommerce_get_privacy_policy_text',
 	function ( $text ) {
 		return '' === get_privacy_policy_url() ? '' : $text;
-	}
-);
-
-// With guest checkout off, an account is made from the billing details. Say so
-// before the customer places the order.
-add_action(
-	'woocommerce_after_checkout_billing_form',
-	function () {
-		if ( ! is_user_logged_in() && 'no' === get_option( 'woocommerce_enable_guest_checkout' ) ) {
-			echo '<p class="bs-account-note">' . esc_html__( 'We will create your account with this email address, so you can track your orders. We will email you a link to set your password.', 'bloomstyle-store' ) . '</p>';
-		}
 	}
 );

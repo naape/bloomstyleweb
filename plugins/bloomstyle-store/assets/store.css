@@ -1575,14 +1575,6 @@
 	background: linear-gradient(90deg, rgba(90, 35, 64, .6), transparent 68%);
 }
 
-.bs-account-note {
-	margin: 12px 0 0;
-	padding: 10px 14px;
-	border-radius: 6px;
-	background: var(--bs-soft);
-	color: var(--bs-ink);
-}
-
 .woocommerce-form-register select {
 	box-sizing: border-box;
 	width: 100%;
