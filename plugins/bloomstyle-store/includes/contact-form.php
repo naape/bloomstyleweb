@@ -128,7 +128,7 @@ function bloomstyle_contact_handle() {
 		)
 	);
 
-	$to = bloomstyle_setting( 'email' ) ? bloomstyle_setting( 'email' ) : get_option( 'admin_email' );
+	$to = bloomstyle_store_notification_recipients();
 	wp_mail(
 		$to,
 		/* translators: %s: sender's name. */

@@ -54,6 +54,21 @@ function bloomstyle_setting( $key ) {
 }
 
 /**
+ * Who gets the shop's own notifications: the recipients of WooCommerce's
+ * "New order" email, so one setting controls them all. Falls back to the
+ * shop email, then the site admin email.
+ *
+ * @return string Comma-separated addresses.
+ */
+function bloomstyle_store_notification_recipients() {
+	$settings = (array) get_option( 'woocommerce_new_order_settings', array() );
+	if ( ! empty( $settings['recipient'] ) ) {
+		return $settings['recipient'];
+	}
+	return bloomstyle_setting( 'email' ) ? bloomstyle_setting( 'email' ) : get_option( 'admin_email' );
+}
+
+/**
  * Normalise a Sri Lankan phone number to the international digits wa.me needs.
  *
  * @param string $number Raw input, for example 077 123 4567 or +94771234567.

@@ -298,13 +298,14 @@ add_filter(
 );
 
 /**
- * Private folder for reference images, created with its access rules.
+ * A folder under uploads that visitors cannot open, created with its access rules.
  *
+ * @param string $name Folder name.
  * @return string Absolute path without a trailing slash.
  */
-function bloomstyle_reference_dir() {
+function bloomstyle_private_dir( $name ) {
 	$uploads = wp_upload_dir( null, false );
-	$dir     = $uploads['basedir'] . '/bloomstyle-custom-orders';
+	$dir     = $uploads['basedir'] . '/' . $name;
 	wp_mkdir_p( $dir );
 
 	$rules = $dir . '/.htaccess';
@@ -317,6 +318,15 @@ function bloomstyle_reference_dir() {
 		file_put_contents( $dir . '/index.html', '' );
 	}
 	return $dir;
+}
+
+/**
+ * Private folder for reference images.
+ *
+ * @return string Absolute path without a trailing slash.
+ */
+function bloomstyle_reference_dir() {
+	return bloomstyle_private_dir( 'bloomstyle-custom-orders' );
 }
 
 add_filter(

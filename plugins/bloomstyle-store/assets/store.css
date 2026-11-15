@@ -1575,6 +1575,27 @@
 	background: linear-gradient(90deg, rgba(90, 35, 64, .6), transparent 68%);
 }
 
+.bs-slips {
+	margin: 24px 0;
+	padding: 16px 18px;
+	border-radius: 8px;
+	background: var(--bs-soft);
+	color: var(--bs-ink);
+}
+
+.bs-slips h2 {
+	margin-top: 0;
+}
+
+.bs-slips input[type="file"] {
+	max-width: 100%;
+	margin: 8px 0 4px;
+}
+
+.bs-slips__list {
+	margin: 0 0 8px 1.2em;
+}
+
 .woocommerce-form-register select {
 	box-sizing: border-box;
 	width: 100%;

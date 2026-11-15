@@ -102,10 +102,8 @@ function bloomstyle_payhere_stop() {
  * @param WC_Order $order Order.
  */
 function bloomstyle_payhere_alert_chargeback( $order ) {
-	$settings = (array) get_option( 'woocommerce_new_order_settings', array() );
-	$to       = ! empty( $settings['recipient'] ) ? $settings['recipient'] : get_option( 'admin_email' );
 	wp_mail(
-		$to,
+		bloomstyle_store_notification_recipients(),
 		/* translators: %s: order number. */
 		sprintf( __( '[Bloom Style] Chargeback on order #%s', 'bloomstyle-store' ), $order->get_order_number() ),
 		/* translators: %s: order number. */

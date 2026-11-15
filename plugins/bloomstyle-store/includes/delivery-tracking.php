@@ -94,6 +94,9 @@ function bloomstyle_order_halted_message( $order ) {
 		'refunded'  => __( 'This order was refunded.', 'bloomstyle-store' ),
 	);
 	if ( 'bacs' === $order->get_payment_method() && $order->has_status( 'on-hold' ) ) {
+		if ( function_exists( 'bloomstyle_order_slips' ) && bloomstyle_order_slips( $order ) ) {
+			return __( 'We have your payment slip and are checking the payment. Once it reaches our account, we will prepare your order.', 'bloomstyle-store' );
+		}
 		return __( 'We are waiting for your bank deposit. Once it reaches us, we will prepare your order. The bank details are in your order confirmation email.', 'bloomstyle-store' );
 	}
 	if ( isset( $messages[ $order->get_status() ] ) ) {
