@@ -249,7 +249,14 @@ function bloomstyle_render_deliveries() {
 		$state     = $order->get_shipping_state() ? $order->get_shipping_state() : $order->get_billing_state();
 		$city      = $order->get_shipping_city() ? $order->get_shipping_city() : $order->get_billing_city();
 		$district  = isset( $states[ $state ] ) ? $states[ $state ] : $state;
-		$collect   = 'cod' === $order->get_payment_method() ? wc_price( $order->get_total(), array( 'currency' => $order->get_currency() ) ) : esc_html__( 'Paid', 'bloomstyle-store' );
+		if ( 'cod' === $order->get_payment_method() ) {
+			$collect = wc_price( $order->get_total(), array( 'currency' => $order->get_currency() ) );
+		} elseif ( $order->is_paid() ) {
+			$collect = esc_html__( 'Paid', 'bloomstyle-store' );
+		} else {
+			// A bank deposit not yet confirmed: do not send it out yet.
+			$collect = '<strong>' . esc_html__( 'Not paid yet', 'bloomstyle-store' ) . '</strong>';
+		}
 		$tracking  = trim( $order->get_meta( '_bs_courier' ) . ' ' . $order->get_meta( '_bs_tracking_number' ) );
 		echo '<tr><td><a href="' . esc_url( $order->get_edit_order_url() ) . '">#' . esc_html( $order->get_order_number() ) . '</a></td>';
 		echo '<td>' . esc_html( $created ? wc_format_datetime( $created ) : '' ) . '</td>';

@@ -137,6 +137,9 @@ function bloomstyle_render_delivery_tab() {
 	if ( isset( $gateways['cod'] ) && 'yes' === $gateways['cod']->enabled ) {
 		$rows[] = __( 'Cash on Delivery is available, so you can pay when your order arrives.', 'bloomstyle-store' );
 	}
+	if ( isset( $gateways['bacs'] ) && 'yes' === $gateways['bacs']->enabled ) {
+		$rows[] = __( 'You can also pay by bank deposit. Our bank details are shown when you place your order.', 'bloomstyle-store' );
+	}
 	$rows[] = __( 'You can follow your order from your account or the Track your order page.', 'bloomstyle-store' );
 
 	echo '<h2>' . esc_html__( 'Delivery and payment', 'bloomstyle-store' ) . '</h2><ul>';

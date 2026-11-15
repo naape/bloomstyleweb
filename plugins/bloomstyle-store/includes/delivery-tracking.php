@@ -93,6 +93,9 @@ function bloomstyle_order_halted_message( $order ) {
 		'cancelled' => __( 'This order was cancelled.', 'bloomstyle-store' ),
 		'refunded'  => __( 'This order was refunded.', 'bloomstyle-store' ),
 	);
+	if ( 'bacs' === $order->get_payment_method() && $order->has_status( 'on-hold' ) ) {
+		return __( 'We are waiting for your bank deposit. Once it reaches us, we will prepare your order. The bank details are in your order confirmation email.', 'bloomstyle-store' );
+	}
 	if ( isset( $messages[ $order->get_status() ] ) ) {
 		return $messages[ $order->get_status() ];
 	}
