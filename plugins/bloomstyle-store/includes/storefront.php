@@ -271,7 +271,7 @@ add_shortcode(
 		foreach ( $terms as $term ) {
 			$thumbnail = (int) get_term_meta( $term->term_id, 'thumbnail_id', true );
 			$html     .= '<li><a href="' . esc_url( get_term_link( $term ) ) . '">';
-			$html     .= $thumbnail ? wp_get_attachment_image( $thumbnail, 'woocommerce_thumbnail', false, array( 'alt' => '' ) ) : '';
+			$html     .= $thumbnail ? wp_get_attachment_image( $thumbnail, 'woocommerce_thumbnail', false, array( 'alt' => $term->name ) ) : '';
 			/* translators: %d: number of products. */
 			$count     = bloomstyle_category_count( $term );
 			$html     .= '<span>' . esc_html( $term->name ) . '<small>' . esc_html( sprintf( _n( '%d product', '%d products', $count, 'bloomstyle-store' ), $count ) ) . '</small></span></a></li>';

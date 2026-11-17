@@ -104,6 +104,11 @@ function bloomstyle_sanitize_settings( $input ) {
 	}
 	$clean['cod_max']         = absint( isset( $input['cod_max'] ) ? $input['cod_max'] : 0 );
 	$clean['free_delivery_items'] = absint( isset( $input['free_delivery_items'] ) ? $input['free_delivery_items'] : 0 );
+	if ( array_key_exists( 'return_days', $input ) ) {
+		$clean['return_days'] = '' === trim( (string) $input['return_days'] ) ? '' : absint( $input['return_days'] );
+	} elseif ( array_key_exists( 'return_days', (array) get_option( 'bloomstyle_store_settings', array() ) ) ) {
+		$clean['return_days'] = get_option( 'bloomstyle_store_settings' )['return_days'];
+	}
 	$clean['email']           = sanitize_email( isset( $input['email'] ) ? $input['email'] : '' );
 	$clean['address']         = sanitize_textarea_field( isset( $input['address'] ) ? $input['address'] : '' );
 	$clean['couriers']        = sanitize_textarea_field( isset( $input['couriers'] ) ? $input['couriers'] : '' );
@@ -339,6 +344,7 @@ function bloomstyle_render_settings() {
 	bloomstyle_field( 'weight_included', __( 'Weight included in the starting fee (kg)', 'bloomstyle-store' ), __( 'The starting fee itself is set in the delivery zone. It covers parcels up to this weight.', 'bloomstyle-store' ) );
 	bloomstyle_field( 'weight_extra_fee', __( 'Fee for each extra kg (Rs.)', 'bloomstyle-store' ), __( 'Added for each extra kg or part of a kg above the included weight. Leave at 0 to charge only the starting fee.', 'bloomstyle-store' ) );
 	bloomstyle_field( 'free_delivery_items', __( 'Free delivery from this many items', 'bloomstyle-store' ), __( 'Orders with at least this many delivered items pay no delivery fee, whatever their weight. Leave at 0 to turn this off.', 'bloomstyle-store' ), 'number' );
+	echo '<tr><th scope="row"><label for="bs-return-days">' . esc_html__( 'Returns accepted within (days)', 'bloomstyle-store' ) . '</label></th><td><input type="number" min="0" step="1" class="small-text" id="bs-return-days" name="bloomstyle_store_settings[return_days]" value="' . esc_attr( bloomstyle_return_days() ) . '"><p class="description">' . esc_html__( 'Shown to Google with your products. Keep it the same as your Refund policy page. Use 0 if you do not accept returns.', 'bloomstyle-store' ) . '</p></td></tr>';
 	bloomstyle_field( 'couriers', __( 'Couriers', 'bloomstyle-store' ), __( 'One per line: the courier name, a | sign, then their tracking address with {tracking} where the number goes, and {phone} if they also need the customer\'s phone number. The address is optional. Example: My Courier | https://example.com/track?no={tracking}', 'bloomstyle-store' ), 'textarea' );
 	echo '</table>';
 
