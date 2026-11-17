@@ -2152,3 +2152,37 @@ form.cart .bs-size-pick {
 	outline: 2px solid var(--bs-primary-dark);
 	outline-offset: 2px;
 }
+
+/* Continue with Google, above the sign-in and register forms. */
+.bs-google {
+	max-width: 420px;
+	margin: 0 auto 28px;
+	text-align: center;
+}
+
+.bs-google__lead {
+	margin: 0 0 12px;
+	color: var(--bs-muted);
+}
+
+.bs-google .g_id_signin {
+	display: flex;
+	justify-content: center;
+	min-height: 44px;
+}
+
+.bs-google__or {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin: 20px 0 0;
+	color: var(--bs-muted);
+	font-size: 0.9em;
+}
+
+.bs-google__or::before,
+.bs-google__or::after {
+	content: "";
+	flex: 1;
+	border-top: 1px solid var(--bs-line);
+}

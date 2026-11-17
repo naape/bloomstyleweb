@@ -30,7 +30,7 @@ function bloomstyle_banner_slots() {
  */
 function bloomstyle_settings() {
 	$defaults = array_fill_keys(
-		array( 'promo_text', 'promo_url', 'whatsapp_number', 'whatsapp_message', 'phone', 'email', 'address', 'facebook_url', 'instagram_url', 'tiktok_url', 'cod_max', 'delivery_time', 'couriers', 'weight_included', 'weight_extra_fee', 'free_delivery_items', 'business_hours', 'recaptcha_site_key', 'recaptcha_secret_key', 'order_prefix' ),
+		array( 'promo_text', 'promo_url', 'whatsapp_number', 'whatsapp_message', 'phone', 'email', 'address', 'facebook_url', 'instagram_url', 'tiktok_url', 'cod_max', 'delivery_time', 'couriers', 'weight_included', 'weight_extra_fee', 'free_delivery_items', 'business_hours', 'recaptcha_site_key', 'recaptcha_secret_key', 'order_prefix', 'google_client_id' ),
 		''
 	);
 	foreach ( array_keys( bloomstyle_banner_slots() ) as $slot ) {
@@ -96,7 +96,7 @@ function bloomstyle_sanitize_settings( $input ) {
 	$input = is_array( $input ) ? $input : array();
 	$clean = array();
 
-	foreach ( array( 'promo_text', 'whatsapp_message', 'phone', 'delivery_time', 'recaptcha_site_key', 'recaptcha_secret_key' ) as $key ) {
+	foreach ( array( 'promo_text', 'whatsapp_message', 'phone', 'delivery_time', 'recaptcha_site_key', 'recaptcha_secret_key', 'google_client_id' ) as $key ) {
 		$clean[ $key ] = sanitize_text_field( isset( $input[ $key ] ) ? $input[ $key ] : '' );
 	}
 	foreach ( array( 'promo_url', 'facebook_url', 'instagram_url', 'tiktok_url' ) as $key ) {
@@ -202,6 +202,15 @@ add_action(
 			'bloomstyle-recaptcha',
 			'bloomstyle_render_recaptcha',
 			1
+		);
+		add_submenu_page(
+			'bloomstyle-store',
+			__( 'Sign in with Google', 'bloomstyle-store' ),
+			__( 'Sign in with Google', 'bloomstyle-store' ),
+			'manage_woocommerce',
+			'bloomstyle-google-login',
+			'bloomstyle_render_google_login',
+			2
 		);
 	},
 	9
@@ -336,6 +345,9 @@ function bloomstyle_render_settings() {
 	$recaptcha = admin_url( 'admin.php?page=bloomstyle-recaptcha' );
 	echo '<h2>' . esc_html__( 'Google reCAPTCHA', 'bloomstyle-store' ) . '</h2><p>' . esc_html__( 'Google reCAPTCHA has its own page, under Bloom Style in the left menu.', 'bloomstyle-store' ) . ' <a class="button" href="' . esc_url( $recaptcha ) . '">' . esc_html__( 'Open Google reCAPTCHA', 'bloomstyle-store' ) . '</a></p>';
 
+
+	$google = admin_url( 'admin.php?page=bloomstyle-google-login' );
+	echo '<h2>' . esc_html__( 'Sign in with Google', 'bloomstyle-store' ) . '</h2><p>' . esc_html__( 'Lets customers sign in with their Google account. It has its own page, under Bloom Style in the left menu.', 'bloomstyle-store' ) . ' <a class="button" href="' . esc_url( $google ) . '">' . esc_html__( 'Open Sign in with Google', 'bloomstyle-store' ) . '</a></p>';
 
 	echo '<h2>' . esc_html__( 'Social media', 'bloomstyle-store' ) . '</h2><table class="form-table" role="presentation">';
 	bloomstyle_field( 'facebook_url', __( 'Facebook page', 'bloomstyle-store' ), '', 'url' );
