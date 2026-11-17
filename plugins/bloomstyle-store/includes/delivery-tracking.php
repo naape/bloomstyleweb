@@ -69,13 +69,13 @@ function bloomstyle_contact_matches( $order, $contact ) {
 }
 
 /**
- * A real customer order by number, if there is one.
+ * A real customer order, if there is one.
  *
- * @param int $number Order number.
+ * @param int|WC_Order|null $order Order ID, or an order already found.
  * @return WC_Order|null
  */
-function bloomstyle_trackable_order( $number ) {
-	$order = $number ? wc_get_order( $number ) : false;
+function bloomstyle_trackable_order( $order ) {
+	$order = $order instanceof WC_Order ? $order : ( $order ? wc_get_order( $order ) : false );
 	return $order instanceof WC_Order && ! $order->has_status( array( 'trash', 'auto-draft', 'checkout-draft' ) ) ? $order : null;
 }
 
@@ -199,9 +199,10 @@ function bloomstyle_track_request() {
 	}
 
 	$source  = $posted ? $_POST : $_GET;
-	$number  = isset( $source[ $posted ? 'bs_track_order' : 'order' ] ) && is_string( $source[ $posted ? 'bs_track_order' : 'order' ] ) ? absint( preg_replace( '/\D+/', '', wp_unslash( $source[ $posted ? 'bs_track_order' : 'order' ] ) ) ) : 0;
+	$typed   = isset( $source[ $posted ? 'bs_track_order' : 'order' ] ) && is_string( $source[ $posted ? 'bs_track_order' : 'order' ] ) ? sanitize_text_field( wp_unslash( $source[ $posted ? 'bs_track_order' : 'order' ] ) ) : '';
 	$contact = $posted && isset( $_POST['bs_track_contact'] ) && is_string( $_POST['bs_track_contact'] ) ? sanitize_text_field( wp_unslash( $_POST['bs_track_contact'] ) ) : '';
-	$order   = bloomstyle_trackable_order( $number );
+	// Customers type the order number they were given; the private link carries the order ID.
+	$order = bloomstyle_trackable_order( $posted ? bloomstyle_order_by_number( $typed ) : absint( $typed ) );
 	// phpcs:enable WordPress.Security.NonceVerification
 
 	if ( $order && ( $posted ? bloomstyle_contact_matches( $order, $contact ) : $order->key_is_valid( $key ) ) ) {
@@ -242,7 +243,7 @@ add_shortcode(
 			$html  .= '<p>' . esc_html__( 'Enter your order number and the phone number or email you used at checkout. Your order number is in your confirmation email.', 'bloomstyle-store' ) . '</p>';
 			$html  .= $error ? '<p class="bs-track__error" role="alert">' . esc_html( $error ) . '</p>' : '';
 			$html  .= '<form class="bs-track-form" method="post">';
-			$html  .= '<p><label for="bs-track-order">' . esc_html__( 'Order number', 'bloomstyle-store' ) . '</label><input id="bs-track-order" name="bs_track_order" type="text" inputmode="numeric" autocomplete="off" required value="' . esc_attr( $number ) . '"></p>';
+			$html  .= '<p><label for="bs-track-order">' . esc_html__( 'Order number', 'bloomstyle-store' ) . '</label><input id="bs-track-order" name="bs_track_order" type="text" autocomplete="off" required value="' . esc_attr( $number ) . '"></p>';
 			$html  .= '<p><label for="bs-track-contact">' . esc_html__( 'Phone number or email', 'bloomstyle-store' ) . '</label><input id="bs-track-contact" name="bs_track_contact" type="text" autocomplete="off" required></p>';
 			$html  .= '<p><button class="bs-button" type="submit">' . esc_html__( 'Track order', 'bloomstyle-store' ) . '</button></p></form>';
 		}

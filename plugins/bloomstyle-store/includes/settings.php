@@ -30,7 +30,7 @@ function bloomstyle_banner_slots() {
  */
 function bloomstyle_settings() {
 	$defaults = array_fill_keys(
-		array( 'promo_text', 'promo_url', 'whatsapp_number', 'whatsapp_message', 'phone', 'email', 'address', 'facebook_url', 'instagram_url', 'tiktok_url', 'cod_max', 'delivery_time', 'couriers', 'weight_included', 'weight_extra_fee', 'free_delivery_items', 'business_hours', 'recaptcha_site_key', 'recaptcha_secret_key' ),
+		array( 'promo_text', 'promo_url', 'whatsapp_number', 'whatsapp_message', 'phone', 'email', 'address', 'facebook_url', 'instagram_url', 'tiktok_url', 'cod_max', 'delivery_time', 'couriers', 'weight_included', 'weight_extra_fee', 'free_delivery_items', 'business_hours', 'recaptcha_site_key', 'recaptcha_secret_key', 'order_prefix' ),
 		''
 	);
 	foreach ( array_keys( bloomstyle_banner_slots() ) as $slot ) {
@@ -112,6 +112,21 @@ function bloomstyle_sanitize_settings( $input ) {
 		$clean[ $key ] = max( 0, (float) ( isset( $input[ $key ] ) ? $input[ $key ] : 0 ) );
 	}
 	$clean['whatsapp_number'] = bloomstyle_normalise_whatsapp( isset( $input['whatsapp_number'] ) ? $input['whatsapp_number'] : '' );
+	if ( array_key_exists( 'order_prefix', $input ) ) {
+		$old_prefix            = bloomstyle_clean_order_prefix( bloomstyle_setting( 'order_prefix' ) );
+		$clean['order_prefix'] = bloomstyle_clean_order_prefix( $input['order_prefix'] );
+		$saved                 = bloomstyle_save_order_next(
+			isset( $input['order_next'] ) ? $input['order_next'] : '',
+			isset( $input['order_next_was'] ) ? $input['order_next_was'] : '',
+			$clean['order_prefix'],
+			$old_prefix
+		);
+		if ( ! $saved ) {
+			$clean['order_prefix'] = $old_prefix;
+		}
+	} else {
+		$clean['order_prefix'] = bloomstyle_setting( 'order_prefix' );
+	}
 
 	foreach ( array_keys( bloomstyle_banner_slots() ) as $slot ) {
 		foreach ( array( 'heading', 'text', 'button' ) as $field ) {
@@ -303,6 +318,8 @@ function bloomstyle_render_settings() {
 	bloomstyle_field( 'address', __( 'Address', 'bloomstyle-store' ), '', 'textarea' );
 	bloomstyle_field( 'business_hours', __( 'Business hours', 'bloomstyle-store' ), __( 'Shown on the Contact Us page. Leave empty to hide them.', 'bloomstyle-store' ), 'textarea' );
 	echo '</table>';
+
+	bloomstyle_render_order_number_fields();
 
 	echo '<h2>' . esc_html__( 'Cash on Delivery', 'bloomstyle-store' ) . '</h2><table class="form-table" role="presentation">';
 	bloomstyle_field( 'cod_max', __( 'Maximum order value (Rs.)', 'bloomstyle-store' ), __( 'Orders above this amount cannot use Cash on Delivery. Leave at 0 for no limit.', 'bloomstyle-store' ), 'number' );
