@@ -226,6 +226,11 @@ add_shortcode(
  */
 function bloomstyle_category_count( $term ) {
 	$count = get_term_meta( $term->term_id, 'product_count_product_cat', true ); // Kept up to date by WooCommerce.
+	// While categories choose whether to hide sold-out products, count what shoppers can see.
+	$visible = function_exists( 'bloomstyle_visible_count_in' ) ? bloomstyle_visible_count_in( $term ) : null;
+	if ( null !== $visible ) {
+		return $visible;
+	}
 	return '' === $count ? (int) $term->count : (int) $count;
 }
 
