@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Bloom Style Store
  * Description:       Sri Lanka localisation and custom store features for Bloom Style.
- * Version:           1.26.0
+ * Version:           1.27.0
  * Requires at least: 7.0
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BLOOMSTYLE_STORE_VERSION', '1.26.0' );
+define( 'BLOOMSTYLE_STORE_VERSION', '1.27.0' );
 define( 'BLOOMSTYLE_STORE_FILE', __FILE__ );
 define( 'BLOOMSTYLE_STORE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BLOOMSTYLE_STORE_URL', plugin_dir_url( __FILE__ ) );
@@ -66,6 +66,7 @@ require_once BLOOMSTYLE_STORE_DIR . 'includes/order-numbers.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/google-login.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/seo.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/category-stock.php';
+require_once BLOOMSTYLE_STORE_DIR . 'includes/koko.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/security.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/performance.php';
 require_once BLOOMSTYLE_STORE_DIR . 'includes/social-share.php';
