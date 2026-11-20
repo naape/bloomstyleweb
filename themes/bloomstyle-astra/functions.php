@@ -168,3 +168,30 @@ function bloomstyle_astra_footer() {
 	<?php
 }
 add_action( 'astra_footer', 'bloomstyle_astra_footer', 20 );
+
+/**
+ * Keep a product code such as "PHL8-142" or "SLB 04" on one line, so narrow
+ * product cards never show "PHL8-" on one line and "142" on the next.
+ *
+ * @param string $title Product title.
+ * @return string
+ */
+function bloomstyle_astra_keep_code_together( $title ) {
+	$title = preg_replace( '/(?<=[A-Za-z0-9])-(?=[0-9])/u', "\u{2011}", $title ); // Non-breaking hyphen.
+	return preg_replace( '/\b([A-Z]{1,5}[0-9]*)\s+(?=[0-9])/u', "$1\u{00A0}", $title ); // Non-breaking space.
+}
+
+// Product cards: Astra prints the title between these two hooks, so change the
+// title only there. Elsewhere, such as page titles and links, it stays as typed.
+add_action(
+	'astra_woo_shop_title_before',
+	function () {
+		add_filter( 'the_title', 'bloomstyle_astra_keep_code_together' );
+	}
+);
+add_action(
+	'astra_woo_shop_title_after',
+	function () {
+		remove_filter( 'the_title', 'bloomstyle_astra_keep_code_together' );
+	}
+);

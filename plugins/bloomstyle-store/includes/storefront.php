@@ -459,3 +459,14 @@ add_filter(
 		return wc_get_page_permalink( 'shop' ) === $url ? home_url( '/' ) : $url;
 	}
 );
+
+// Product cards show the whole photo. The usual card image is cut to a tall
+// 4:5 shape, which crops wide photos such as folded sarees, labels included.
+// The product page size keeps each photo's own shape; WordPress still serves
+// a small copy to phones through srcset.
+add_filter(
+	'single_product_archive_thumbnail_size',
+	function () {
+		return 'woocommerce_single';
+	}
+);

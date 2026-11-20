@@ -2186,3 +2186,89 @@ form.cart .bs-size-pick {
 	flex: 1;
 	border-top: 1px solid var(--bs-line);
 }
+
+/* ---------- Phone layout polish ---------- */
+
+/* Card photos keep their own shape, so nothing is cropped. */
+.woocommerce ul.products li.product a img,
+.woocommerce-page ul.products li.product a img {
+	width: 100%;
+	height: auto;
+	object-fit: contain;
+}
+
+/* On a category page every card is in that category already. */
+.tax-product_cat.woocommerce-page ul.products li.product .ast-woo-product-category {
+	display: none;
+}
+
+@media (max-width: 600px) {
+	/* Products start sooner: less space above and around the page title. */
+	.archive.woocommerce #primary,
+	.post-type-archive-product #primary {
+		margin-top: 8px;
+	}
+
+	.archive.woocommerce .woocommerce-breadcrumb {
+		margin-bottom: 4px;
+		font-size: 13px;
+	}
+
+	.archive.woocommerce .woocommerce-products-header__title {
+		margin-bottom: 8px;
+		font-size: 26px;
+	}
+
+	.archive.woocommerce .bs-filters {
+		margin-bottom: 0;
+	}
+
+	/* Result count and sorting share one line. */
+	.woocommerce .woocommerce-result-count {
+		margin: 0 0 12px;
+		font-size: 13px;
+		line-height: 36px;
+	}
+
+	.woocommerce .woocommerce-ordering {
+		float: right;
+		width: auto;
+		margin: 0 0 12px;
+	}
+
+	.woocommerce .woocommerce-ordering select {
+		width: auto;
+		max-width: 170px;
+		height: 36px;
+		min-height: 0;
+		padding-block: 0;
+		font-size: 13px;
+	}
+
+	.woocommerce ul.products {
+		clear: both;
+	}
+
+	/* Smaller WhatsApp button, tucked into the corner over the page edge. */
+	.bs-whatsapp {
+		right: 10px;
+		bottom: 10px;
+		padding: 11px;
+	}
+
+	.bs-whatsapp svg {
+		width: 22px;
+		height: 22px;
+	}
+
+	#ast-scroll-top {
+		bottom: 66px !important;
+	}
+
+	/* Shop by category: two arches per row. */
+	.bs-cats,
+	.bs-cats--few {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 16px;
+	}
+}
