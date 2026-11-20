@@ -74,6 +74,32 @@ function bloomstyle_check_slip( $file ) {
 /* ---------- Customer side ---------- */
 
 /**
+ * The page where the customer sees the order and its upload box: My account
+ * for a customer with an account, otherwise the private order received page.
+ *
+ * @param WC_Order $order Order.
+ * @return string
+ */
+function bloomstyle_slip_page_url( $order ) {
+	return $order->get_customer_id() ? $order->get_view_order_url() : $order->get_checkout_order_received_url();
+}
+
+/**
+ * Whether the visitor may upload a slip for the order: the logged-in owner,
+ * or anyone holding the order's private key, as for a guest order.
+ *
+ * @param WC_Order $order Order.
+ * @param string   $key   Order key sent with the form.
+ * @return bool
+ */
+function bloomstyle_can_send_slip( $order, $key ) {
+	if ( is_user_logged_in() && current_user_can( 'view_order', $order->get_id() ) ) {
+		return true;
+	}
+	return '' !== $key && hash_equals( $order->get_order_key(), $key );
+}
+
+/**
  * The upload box, with the slips already sent.
  *
  * @param WC_Order $order Order.
@@ -88,6 +114,10 @@ function bloomstyle_render_slip_box( $order ) {
 	}
 
 	echo '<section class="bs-slips" id="payment-slip"><h2>' . esc_html__( 'Payment slip', 'bloomstyle-store' ) . '</h2>';
+	// The order received page prints no messages, so show the upload's result here.
+	if ( function_exists( 'is_order_received_page' ) && is_order_received_page() ) {
+		woocommerce_output_all_notices();
+	}
 	if ( $slips ) {
 		echo '<ul class="bs-slips__list">';
 		foreach ( $slips as $slip ) {
@@ -102,11 +132,14 @@ function bloomstyle_render_slip_box( $order ) {
 
 	if ( bloomstyle_order_takes_slips( $order ) ) {
 		$input = 'bs-slip-' . $order->get_id();
-		echo '<form class="bs-slips__form" method="post" enctype="multipart/form-data" action="' . esc_url( $order->get_view_order_url() ) . '">';
+		echo '<form class="bs-slips__form" method="post" enctype="multipart/form-data" action="' . esc_url( bloomstyle_slip_page_url( $order ) ) . '">';
 		echo '<p><label for="' . esc_attr( $input ) . '">' . esc_html( $slips ? __( 'Send another file', 'bloomstyle-store' ) : __( 'Paid already? Upload a photo of the deposit slip or a screenshot of the transfer, so we can prepare your order sooner.', 'bloomstyle-store' ) ) . '</label><br>';
 		echo '<input id="' . esc_attr( $input ) . '" name="bs_slip" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required> ';
 		echo '<small>' . esc_html__( 'JPG, PNG, WebP or PDF, up to 5 MB.', 'bloomstyle-store' ) . '</small></p>';
 		echo '<input type="hidden" name="bs_slip_order" value="' . esc_attr( $order->get_id() ) . '">';
+		if ( ! is_user_logged_in() ) {
+			echo '<input type="hidden" name="bs_slip_key" value="' . esc_attr( $order->get_order_key() ) . '">';
+		}
 		wp_nonce_field( 'bloomstyle_slip_' . $order->get_id(), 'bs_slip_nonce' );
 		echo '<p><button type="submit" class="button">' . esc_html__( 'Upload slip', 'bloomstyle-store' ) . '</button></p></form>';
 	}
@@ -143,11 +176,12 @@ add_action(
 			return;
 		}
 		$order = wc_get_order( $order_id );
-		// The customer must be logged in and own the order.
-		if ( ! $order instanceof WC_Order || ! is_user_logged_in() || ! current_user_can( 'view_order', $order_id ) ) {
+		// The logged-in owner, or a guest with the order's private key.
+		$key = isset( $_POST['bs_slip_key'] ) && is_string( $_POST['bs_slip_key'] ) ? sanitize_text_field( wp_unslash( $_POST['bs_slip_key'] ) ) : '';
+		if ( ! $order instanceof WC_Order || ! bloomstyle_can_send_slip( $order, $key ) ) {
 			return;
 		}
-		$back = $order->get_view_order_url() . '#payment-slip';
+		$back = bloomstyle_slip_page_url( $order ) . '#payment-slip';
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- Checked by content below.
 		$file = isset( $_FILES['bs_slip'] ) && is_array( $_FILES['bs_slip'] ) && ! is_array( $_FILES['bs_slip']['error'] ?? null ) ? $_FILES['bs_slip'] : null;
@@ -214,7 +248,7 @@ add_action(
 			return;
 		}
 		$text = __( 'Once you have paid, you can upload the deposit slip or a screenshot of the transfer here:', 'bloomstyle-store' );
-		$url  = $order->get_view_order_url();
+		$url  = bloomstyle_slip_page_url( $order );
 		if ( $plain_text ) {
 			echo esc_html( $text ) . "\n" . esc_url_raw( $url ) . "\n\n";
 		} else {

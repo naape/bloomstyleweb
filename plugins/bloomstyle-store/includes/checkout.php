@@ -82,22 +82,16 @@ add_filter(
 	}
 );
 
-/* ---------- Log in or register before checkout ---------- */
+/* ---------- Checkout without logging in, with an automatic account ---------- */
 
-/**
- * The message shown to shoppers who must log in or register first.
- *
- * @return string
- */
-function bloomstyle_login_first_message() {
-	return __( 'Please log in, or create an account, to place your order. You will come straight back to checkout.', 'bloomstyle-store' );
-}
-
-// No account fields or automatic account at checkout: the account comes first.
+// Anyone can check out. There is no account question at checkout: a new
+// customer gets an account from their billing email when the order is placed,
+// with WooCommerce's email to set a password if they ever want one. A returning
+// customer who has not logged in simply places the order as a guest.
+add_filter( 'woocommerce_checkout_registration_required', '__return_false', 20 );
 add_filter( 'woocommerce_checkout_registration_enabled', '__return_false', 20 );
-add_filter( 'woocommerce_checkout_registration_required', '__return_true', 20 );
 
-// The My Account page carries the register form, so keep it switched on.
+// The My Account page keeps its register form for anyone who wants to sign up first.
 add_filter(
 	'pre_option_woocommerce_enable_myaccount_registration',
 	function () {
@@ -105,24 +99,37 @@ add_filter(
 	}
 );
 
-// Send shoppers who are not logged in from checkout to My Account. The order
-// received and payment pages stay open, so PayHere and thank-you pages work.
-add_action(
-	'template_redirect',
-	function () {
-		if ( is_user_logged_in() || ! function_exists( 'is_checkout' ) || ! is_checkout() || is_wc_endpoint_url() || ! WC()->cart || WC()->cart->is_empty() ) {
-			return;
+// Never show account username or password boxes at checkout.
+add_filter(
+	'woocommerce_checkout_fields',
+	function ( $fields ) {
+		$fields['account'] = array();
+		return $fields;
+	},
+	99
+);
+
+add_filter(
+	'woocommerce_checkout_posted_data',
+	function ( $data ) {
+		if ( is_user_logged_in() || empty( $data['billing_email'] ) || ! is_email( $data['billing_email'] ) || email_exists( $data['billing_email'] ) ) {
+			return $data;
 		}
-		WC()->session->set( 'bs_back_to_checkout', 1 );
-		wc_add_notice( bloomstyle_login_first_message(), 'notice' );
-		wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
-		exit;
-	}
+		$data['createaccount'] = 1;
+		// The account gets a generated username and password, whatever the WooCommerce settings say.
+		$yes = function () {
+			return 'yes';
+		};
+		add_filter( 'pre_option_woocommerce_registration_generate_username', $yes );
+		add_filter( 'pre_option_woocommerce_registration_generate_password', $yes );
+		return $data;
+	},
+	20
 );
 
 /**
- * After logging in or registering, return to checkout if that is where the
- * shopper was going.
+ * Where to return after signing in: kept for the Google sign-in, which goes
+ * back to checkout when the shopper came from there.
  *
  * @param string $redirect Where WooCommerce would go.
  * @return string
@@ -136,19 +143,6 @@ function bloomstyle_back_to_checkout( $redirect ) {
 }
 add_filter( 'woocommerce_login_redirect', 'bloomstyle_back_to_checkout', 20 );
 add_filter( 'woocommerce_registration_redirect', 'bloomstyle_back_to_checkout', 20 );
-
-// The page itself is never shown to them, but say the same if it ever is.
-add_filter( 'woocommerce_checkout_must_be_logged_in_message', 'bloomstyle_login_first_message' );
-
-// Refuse an order sent without logging in, however it was sent.
-add_action(
-	'woocommerce_checkout_process',
-	function () {
-		if ( ! is_user_logged_in() ) {
-			wc_add_notice( bloomstyle_login_first_message(), 'error' );
-		}
-	}
-);
 
 /* ---------- Faster "Place order" ---------- */
 
