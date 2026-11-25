@@ -89,6 +89,9 @@ add_action(
 		$before = isset( $_POST['bs_delivery_stage_before'] ) ? sanitize_key( wp_unslash( $_POST['bs_delivery_stage_before'] ) ) : '';
 		if ( $stage !== $before ) {
 			bloomstyle_set_delivery_stage( $order, $stage );
+		} else {
+			// The order's Status was changed instead, now that the courier details are saved.
+			bloomstyle_stage_follow_status( $order );
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 	},
@@ -133,7 +136,7 @@ add_action(
 	'woocommerce_shop_order_list_table_custom_column',
 	function ( $column, $order ) {
 		if ( 'bs_delivery' === $column ) {
-			$active = bloomstyle_order_needs_delivery( $order ) && $order->has_status( array( 'processing', 'on-hold', 'completed' ) );
+			$active = bloomstyle_order_needs_delivery( $order ) && $order->has_status( array_merge( bloomstyle_in_progress_statuses(), array( 'on-hold', 'completed' ) ) );
 			echo esc_html( $active ? bloomstyle_delivery_stages()[ bloomstyle_delivery_stage( $order ) ] : '-' );
 		}
 	},
@@ -161,17 +164,17 @@ function bloomstyle_delivery_views() {
 		'todo'     => array(
 			'label'    => __( 'To dispatch', 'bloomstyle-store' ),
 			'stages'   => array( 'preparing', 'packed' ),
-			'statuses' => array( 'processing' ),
+			'statuses' => bloomstyle_in_progress_statuses(),
 		),
 		'moving'   => array(
 			'label'    => __( 'On the way', 'bloomstyle-store' ),
 			'stages'   => array( 'dispatched', 'out_for_delivery' ),
-			'statuses' => array( 'processing' ),
+			'statuses' => bloomstyle_in_progress_statuses(),
 		),
 		'problems' => array(
 			'label'    => __( 'Problems', 'bloomstyle-store' ),
 			'stages'   => array( 'failed', 'returned' ),
-			'statuses' => array( 'processing', 'on-hold' ),
+			'statuses' => array_merge( bloomstyle_in_progress_statuses(), array( 'on-hold' ) ),
 		),
 	);
 }

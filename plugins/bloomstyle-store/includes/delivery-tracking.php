@@ -99,6 +99,11 @@ function bloomstyle_order_halted_message( $order ) {
 		}
 		return __( 'We are waiting for your bank deposit. Once it reaches us, we will prepare your order. The bank details are in your order confirmation email.', 'bloomstyle-store' );
 	}
+	if ( $order->has_status( 'ready-pickup' ) ) {
+		$address = bloomstyle_pickup_address();
+		/* translators: %s: shop address. */
+		return $address ? sprintf( __( 'Your order is ready. You can collect it from us at %s.', 'bloomstyle-store' ), $address ) : __( 'Your order is ready. You can collect it from us.', 'bloomstyle-store' );
+	}
 	if ( isset( $messages[ $order->get_status() ] ) ) {
 		return $messages[ $order->get_status() ];
 	}
@@ -286,7 +291,7 @@ add_filter(
 add_action(
 	'woocommerce_my_account_my_orders_column_bs-delivery',
 	function ( $order ) {
-		$active = bloomstyle_order_needs_delivery( $order ) && $order->has_status( array( 'processing', 'completed' ) );
+		$active = bloomstyle_order_needs_delivery( $order ) && $order->has_status( array_merge( bloomstyle_in_progress_statuses(), array( 'completed' ) ) );
 		echo esc_html( $active ? bloomstyle_delivery_stages()[ bloomstyle_delivery_stage( $order ) ] : '-' );
 	}
 );

@@ -132,8 +132,10 @@ function bloomstyle_set_delivery_stage( $order, $stage ) {
 		bloomstyle_send_dispatch_email( $order );
 	}
 
-	if ( 'delivered' === $stage ) {
-		if ( $order->has_status( 'processing' ) ) {
+	if ( 'delivered' !== $stage ) {
+		bloomstyle_status_follow_stage( $order, $stage );
+	} else {
+		if ( $order->has_status( bloomstyle_in_progress_statuses() ) ) {
 			$order->update_status( 'completed', __( 'Marked as delivered.', 'bloomstyle-store' ) );
 		} elseif ( ! $order->has_status( 'completed' ) ) {
 			/* translators: %s: order status. */
