@@ -2557,3 +2557,24 @@ form.cart .bs-size-pick {
 	color: var(--bs-muted);
 	font-size: 13px;
 }
+
+/* Material, between the product name and the price */
+.bs-attrs--material {
+	margin: 2px 0 10px;
+}
+
+.bs-attrs--material > div {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.bs-attrs--material dt {
+	margin: 0;
+}
+
+.bs-attrs--material .bs-chip {
+	min-height: 30px;
+	padding: 0 12px;
+	font-size: 14px;
+}

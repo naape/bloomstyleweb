@@ -70,12 +70,27 @@ function bloomstyle_colour_swatches() {
 }
 
 /**
+ * Whether an attribute is the product's material.
+ *
+ * @param WC_Product_Attribute $attribute Attribute.
+ * @return bool
+ */
+function bloomstyle_is_material_attribute( $attribute ) {
+	return 'pa_material' === $attribute->get_name() || 'material' === strtolower( trim( wc_attribute_label( $attribute->get_name() ) ) );
+}
+
+/**
  * Show the product's attributes near the price, where people look when choosing.
  * Options a customer picks from, such as Size on a variable product, stay in the
  * buying form instead.
+ *
+ * @param string $which 'material' for the material only, 'others' for the rest.
  */
-function bloomstyle_render_product_attributes() {
+function bloomstyle_render_product_attributes( $which = 'others' ) {
 	global $product;
+	if ( ! $product instanceof WC_Product ) {
+		return;
+	}
 	$groups = '';
 	$picker = (bool) bloomstyle_product_sizes( $product ); // Sizes are chosen in the buying form instead.
 	// A label such as "Red" lists matching items in this product's own category.
@@ -84,6 +99,9 @@ function bloomstyle_render_product_attributes() {
 	$base   = is_wp_error( $base ) ? home_url( '/' ) : $base;
 	foreach ( $product->get_attributes() as $attribute ) {
 		if ( ! $attribute->get_visible() || $attribute->get_variation() || ( $picker && 'pa_size' === $attribute->get_name() ) ) {
+			continue;
+		}
+		if ( ( 'material' === $which ) !== bloomstyle_is_material_attribute( $attribute ) ) {
 			continue;
 		}
 		$chips = '';
@@ -104,11 +122,28 @@ function bloomstyle_render_product_attributes() {
 		}
 	}
 	if ( '' !== $groups ) {
-		echo '<dl class="bs-attrs">' . $groups . '</dl>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built from escaped parts above.
+		echo '<dl class="bs-attrs' . ( 'material' === $which ? ' bs-attrs--material' : '' ) . '">' . $groups . '</dl>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built from escaped parts above.
 	}
 }
 // Astra arranges this area itself, so use its own spot after the short description.
-add_action( 'astra_woo_single_short_description_after', 'bloomstyle_render_product_attributes' );
+add_action(
+	'astra_woo_single_short_description_after',
+	function () {
+		bloomstyle_render_product_attributes( 'others' );
+	}
+);
+
+// The material sits between the product name and the price.
+add_action(
+	'astra_woo_single_title_after',
+	function () {
+		bloomstyle_render_product_attributes( 'material' );
+	}
+);
+
+// No "Home / Sarees / ..." trail on product pages. Astra's setting is named
+// the other way round: true adds the trail.
+add_filter( 'astra_get_option_single-product-breadcrumb-disable', '__return_false' );
 
 /* ---------- Delivery fee and payment methods under Add to cart ---------- */
 
