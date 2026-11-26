@@ -2366,3 +2366,30 @@ form.cart .bs-size-pick {
 .single-product .summary .price {
 	margin-bottom: 10px;
 }
+
+/* Delivery & Payment page */
+.bs-info-page {
+	max-width: 760px;
+}
+
+.bs-info-page ul {
+	margin: 0 0 1.6em 1.2em;
+}
+
+.bs-info-page li {
+	margin-bottom: .5em;
+}
+
+.bs-info-page__pay {
+	margin: 0 0 1.6em;
+}
+
+.bs-info-page__pay dt {
+	margin-top: 14px;
+	color: var(--bs-primary-dark);
+	font-weight: 700;
+}
+
+.bs-info-page__pay dd {
+	margin: 2px 0 0;
+}

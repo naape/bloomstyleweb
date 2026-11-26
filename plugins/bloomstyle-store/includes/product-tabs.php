@@ -35,18 +35,10 @@ function bloomstyle_delivery_fee_text() {
 add_filter(
 	'woocommerce_product_tabs',
 	function ( $tabs ) {
-		global $product;
-
 		// Now shown beside the price, so the table would only repeat them.
 		unset( $tabs['additional_information'] );
 
-		if ( $product instanceof WC_Product && $product->needs_shipping() ) {
-			$tabs['bs_delivery'] = array(
-				'title'    => __( 'Delivery and payment', 'bloomstyle-store' ),
-				'priority' => 25,
-				'callback' => 'bloomstyle_render_delivery_tab',
-			);
-		}
+		// Delivery and payment details live on their own page, linked from the footer.
 		return $tabs;
 	},
 	98
@@ -117,48 +109,6 @@ function bloomstyle_render_product_attributes() {
 }
 // Astra arranges this area itself, so use its own spot after the short description.
 add_action( 'astra_woo_single_short_description_after', 'bloomstyle_render_product_attributes' );
-
-/**
- * Render the Delivery and payment tab.
- */
-function bloomstyle_render_delivery_tab() {
-	$rows = array( __( 'We deliver to all 25 districts in Sri Lanka.', 'bloomstyle-store' ) );
-	$fee  = bloomstyle_delivery_fee_text();
-	global $product;
-	if ( bloomstyle_has_free_delivery( $product ) ) {
-		$rows[] = __( 'Delivery is free for this item. If you order other items as well, the usual fee applies to those items only.', 'bloomstyle-store' );
-	} elseif ( '' !== $fee ) {
-		$rows[] = $fee . ' ' . __( 'The exact fee is shown in your cart.', 'bloomstyle-store' );
-	}
-	if ( '' !== bloomstyle_setting( 'delivery_time' ) ) {
-		$rows[] = bloomstyle_setting( 'delivery_time' );
-	}
-	$gateways = WC()->payment_gateways()->payment_gateways();
-	if ( isset( $gateways['cod'] ) && 'yes' === $gateways['cod']->enabled ) {
-		$rows[] = __( 'Cash on Delivery is available, so you can pay when your order arrives.', 'bloomstyle-store' );
-	}
-	if ( isset( $gateways['bacs'] ) && 'yes' === $gateways['bacs']->enabled ) {
-		$rows[] = __( 'You can also pay by bank deposit. Our bank details are shown when you place your order.', 'bloomstyle-store' );
-	}
-	$methods = bloomstyle_product_payment_methods( $product );
-	if ( isset( $methods['card'] ) ) {
-		$rows[] = __( 'You can pay online by Visa or Mastercard.', 'bloomstyle-store' );
-	}
-	if ( isset( $methods['koko'] ) ) {
-		$rows[] = __( 'You can split the payment into 3 instalments with Koko.', 'bloomstyle-store' );
-	}
-	$rows[] = __( 'You can follow your order from your account or the Track your order page.', 'bloomstyle-store' );
-
-	echo '<h2>' . esc_html__( 'Delivery and payment', 'bloomstyle-store' ) . '</h2><ul>';
-	foreach ( $rows as $row ) {
-		echo '<li>' . esc_html( $row ) . '</li>';
-	}
-	echo '</ul>';
-	if ( '' !== bloomstyle_setting( 'phone' ) ) {
-		/* translators: %s: phone number. */
-		echo '<p>' . esc_html( sprintf( __( 'Questions before you order? Call or WhatsApp us on %s.', 'bloomstyle-store' ), bloomstyle_setting( 'phone' ) ) ) . '</p>';
-	}
-}
 
 /* ---------- Delivery fee and payment methods under Add to cart ---------- */
 
