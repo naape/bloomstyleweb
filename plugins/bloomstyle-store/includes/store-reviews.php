@@ -139,6 +139,7 @@ function bloomstyle_review_card( $review, $words = 0 ) {
 	$town = get_post_meta( $review->ID, '_bs_town', true );
 	$html = '<li>' . bloomstyle_review_stars( bloomstyle_review_rating( $review->ID ) );
 	$html .= '<blockquote>' . nl2br( esc_html( $text ) ) . '</blockquote>';
+	$html .= bloomstyle_review_photo_html( $review->ID );
 	$html .= '<p><strong>' . esc_html( get_the_title( $review ) ) . '</strong>' . ( $town ? ', ' . esc_html( $town ) : '' );
 	$html .= get_post_meta( $review->ID, '_bs_order_id', true ) ? ' <span class="bs-reviews__verified">' . esc_html__( 'Verified buyer', 'bloomstyle-store' ) . '</span>' : '';
 	$html .= ' <span class="bs-reviews__date">' . esc_html( get_the_date( '', $review ) ) . '</span></p></li>';
@@ -242,6 +243,10 @@ function bloomstyle_review_handle() {
 	if ( ! bloomstyle_human_passed() ) {
 		$errors[] = bloomstyle_human_error();
 	}
+	$photo_error = bloomstyle_review_photo_error();
+	if ( '' !== $photo_error ) {
+		$errors[] = $photo_error;
+	}
 
 	$ip       = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
 	$rate_key = 'bs_review_' . md5( $ip . wp_salt( 'nonce' ) );
@@ -274,6 +279,7 @@ function bloomstyle_review_handle() {
 		if ( '' !== $town ) {
 			update_post_meta( $id, '_bs_town', mb_substr( $town, 0, 60 ) );
 		}
+		$photo = bloomstyle_save_review_photo( $id );
 		if ( $order ) {
 			update_post_meta( $id, '_bs_order_id', $order->get_id() );
 			$order->update_meta_data( '_bs_review_id', $id );
@@ -287,8 +293,8 @@ function bloomstyle_review_handle() {
 			sprintf( __( '[Bloom Style] New review from %s is waiting for approval', 'bloomstyle-store' ), $name ),
 			sprintf(
 				/* translators: 1: stars, 2: name, 3: review, 4: link. */
-				__( "%1\$d stars from %2\$s:\n\n%3\$s\n\nPublish or delete it here: %4\$s", 'bloomstyle-store' ),
-				$rating,
+				__( "%1\$s stars from %2\$s:\n\n%3\$s\n\nPublish or delete it here: %4\$s", 'bloomstyle-store' ),
+				$rating . ( $photo ? ' (' . __( 'with a photo', 'bloomstyle-store' ) . ')' : '' ),
 				$name . ( '' !== $town ? ', ' . $town : '' ) . ( $order ? ' (' . sprintf( /* translators: %s: order number. */ __( 'verified buyer, order #%s', 'bloomstyle-store' ), $order->get_order_number() ) . ')' : '' ),
 				$text,
 				admin_url( 'edit.php?post_status=pending&post_type=' . BLOOMSTYLE_REVIEW_TYPE )
@@ -317,7 +323,7 @@ function bloomstyle_review_form_html() {
 	$name   = $posted || ! $order ? bloomstyle_review_value( 'bs_review_name' ) : $order->get_billing_first_name();
 	$town   = $posted || ! $order ? bloomstyle_review_value( 'bs_review_town' ) : ( $order->get_shipping_city() ? $order->get_shipping_city() : $order->get_billing_city() );
 
-	$html = '<form method="post" action="#write-review">' . wp_nonce_field( 'bloomstyle_review', '_bs_review', true, false );
+	$html = '<form method="post" action="#write-review" enctype="multipart/form-data">' . wp_nonce_field( 'bloomstyle_review', '_bs_review', true, false );
 	if ( $order ) {
 		$html .= '<input type="hidden" name="bs_review_order" value="' . esc_attr( $order->get_id() ) . '"><input type="hidden" name="bs_review_key" value="' . esc_attr( $order->get_order_key() ) . '">';
 	}
@@ -331,6 +337,12 @@ function bloomstyle_review_form_html() {
 	$html .= '<p><label for="bs_review_name">' . esc_html__( 'Your name', 'bloomstyle-store' ) . ' <span class="required" aria-hidden="true">*</span></label><input id="bs_review_name" name="bs_review_name" type="text" autocomplete="name" maxlength="60" required value="' . esc_attr( $name ) . '"></p>';
 	$html .= '<p><label for="bs_review_town">' . esc_html__( 'Your town (optional)', 'bloomstyle-store' ) . '</label><input id="bs_review_town" name="bs_review_town" type="text" autocomplete="address-level2" maxlength="60" value="' . esc_attr( $town ) . '"></p>';
 	$html .= '<p><label for="bs_review_text">' . esc_html__( 'Your review', 'bloomstyle-store' ) . ' <span class="required" aria-hidden="true">*</span></label><textarea id="bs_review_text" name="bs_review_text" rows="5" maxlength="1500" required>' . esc_textarea( bloomstyle_review_value( 'bs_review_text' ) ) . '</textarea></p>';
+	$max   = bloomstyle_review_photo_max_bytes();
+	$html .= '<p><label for="bs_review_photo">' . esc_html__( 'Add a photo (optional)', 'bloomstyle-store' ) . '</label><input id="bs_review_photo" name="bs_review_photo" type="file" accept="image/jpeg,image/png,image/webp" data-max="' . esc_attr( $max ) . '">';
+	/* translators: %s: size such as 8 MB. */
+	$html .= '<small class="bs-review-form__hint">' . esc_html( sprintf( __( 'Show us how you styled it! JPG, PNG or WebP, up to %s.', 'bloomstyle-store' ), size_format( $max ) ) ) . '</small></p>';
+	// Warn before sending a photo the server would refuse, which would otherwise lose the whole form.
+	$html .= '<script>document.getElementById("bs_review_photo").addEventListener("change",function(){var f=this.files[0];if(f&&f.size>+this.dataset.max){alert(' . wp_json_encode( sprintf( /* translators: %s: size such as 8 MB. */ __( 'This photo is too large. Please choose one under %s.', 'bloomstyle-store' ), size_format( $max ) ) ) . ');this.value="";}});</script>';
 	$html .= bloomstyle_human_field();
 	$html .= '<p class="bs-review-form__note">' . esc_html__( 'Your name and town are shown with your review. Reviews appear after we have checked them.', 'bloomstyle-store' ) . '</p>';
 	return $html . '<p><button class="bs-button" type="submit" name="bs_review_submit" value="1">' . esc_html__( 'Send review', 'bloomstyle-store' ) . '</button></p></form>';
@@ -398,7 +410,7 @@ add_action(
 	function () {
 		add_meta_box(
 			'bs-review-details',
-			__( 'Rating and town', 'bloomstyle-store' ),
+			__( 'Rating, town and photo', 'bloomstyle-store' ),
 			function ( $post ) {
 				$rating = (int) get_post_meta( $post->ID, '_bs_rating', true );
 				wp_nonce_field( 'bloomstyle_review_meta', '_bs_review_meta' );
@@ -408,6 +420,11 @@ add_action(
 				}
 				echo '</select></p>';
 				echo '<p><label for="bs-review-town">' . esc_html__( 'Town', 'bloomstyle-store' ) . '</label><br><input id="bs-review-town" name="bs_review_town" type="text" style="width:100%" value="' . esc_attr( get_post_meta( $post->ID, '_bs_town', true ) ) . '"></p>';
+				$photo = (int) get_post_meta( $post->ID, '_bs_photo_id', true );
+				if ( $photo ) {
+					echo '<p><strong>' . esc_html__( 'Photo', 'bloomstyle-store' ) . '</strong><br><a href="' . esc_url( wp_get_attachment_image_url( $photo, 'full' ) ) . '" target="_blank" rel="noopener">' . wp_get_attachment_image( $photo, 'medium', false, array( 'style' => 'max-width:100%;height:auto' ) ) . '</a></p>';
+					echo '<p><label><input type="checkbox" name="bs_review_remove_photo" value="1"> ' . esc_html__( 'Remove this photo', 'bloomstyle-store' ) . '</label></p>';
+				}
 				echo '<p class="description">' . esc_html__( 'The title is the customer\'s name. Click Publish to show the review on the site, or move it to the Bin to delete it.', 'bloomstyle-store' ) . '</p>';
 			},
 			null,
@@ -425,6 +442,13 @@ add_action(
 		}
 		$rating = isset( $_POST['bs_review_rating'] ) ? absint( $_POST['bs_review_rating'] ) : 5;
 		update_post_meta( $post_id, '_bs_rating', max( 1, min( 5, $rating ) ) );
+		if ( ! empty( $_POST['bs_review_remove_photo'] ) ) {
+			$photo = (int) get_post_meta( $post_id, '_bs_photo_id', true );
+			delete_post_meta( $post_id, '_bs_photo_id' );
+			if ( $photo ) {
+				wp_delete_attachment( $photo, true );
+			}
+		}
 		$town = isset( $_POST['bs_review_town'] ) ? sanitize_text_field( wp_unslash( $_POST['bs_review_town'] ) ) : '';
 		if ( '' === $town ) {
 			delete_post_meta( $post_id, '_bs_town' );
@@ -443,6 +467,7 @@ add_filter(
 			'title'     => __( 'Name', 'bloomstyle-store' ),
 			'bs_rating' => __( 'Stars', 'bloomstyle-store' ),
 			'bs_text'   => __( 'Review', 'bloomstyle-store' ),
+			'bs_photo'  => __( 'Photo', 'bloomstyle-store' ),
 			'date'      => $columns['date'],
 		);
 	}
@@ -452,6 +477,9 @@ add_action(
 	function ( $column, $post_id ) {
 		if ( 'bs_rating' === $column ) {
 			echo esc_html( str_repeat( '★', bloomstyle_review_rating( $post_id ) ) );
+		} elseif ( 'bs_photo' === $column ) {
+			$photo = (int) get_post_meta( $post_id, '_bs_photo_id', true );
+			echo $photo ? '<a href="' . esc_url( wp_get_attachment_image_url( $photo, 'full' ) ) . '" target="_blank" rel="noopener">' . wp_get_attachment_image( $photo, array( 60, 60 ) ) . '</a>' : '&ndash;'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Core image markup.
 		} elseif ( 'bs_text' === $column ) {
 			echo esc_html( wp_trim_words( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), 30 ) );
 		}

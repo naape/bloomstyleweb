@@ -2530,3 +2530,30 @@ form.cart .bs-size-pick {
 	font-size: 12px;
 	font-weight: 600;
 }
+
+/* Review photos */
+.bs-reviews__photo {
+	display: block;
+	margin: 0 0 12px;
+}
+
+.bs-reviews__photo img {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	max-height: 220px;
+	border-radius: 8px;
+	object-fit: cover;
+}
+
+.bs-review-form input[type="file"] {
+	display: block;
+	width: 100%;
+	padding: 8px 0;
+}
+
+.bs-review-form__hint {
+	display: block;
+	color: var(--bs-muted);
+	font-size: 13px;
+}
