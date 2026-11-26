@@ -70,7 +70,7 @@ function bloomstyle_render_site_care() {
 		__( 'Backups', 'bloomstyle-store' )                  => __( 'Under Settings, UpdraftPlus Backups, connect Google Drive or another storage service. A backup kept only on this server is lost if the server fails.', 'bloomstyle-store' ),
 		__( 'Restoring a backup', 'bloomstyle-store' )       => __( 'Open UpdraftPlus, choose the date under Existing backups and click Restore. Practise once, soon after launch, so you know it works.', 'bloomstyle-store' ),
 		__( 'Passwords and accounts', 'bloomstyle-store' )   => __( 'Use long, unique passwords and turn on two-factor login under Wordfence, Login Security. Give staff the Shop manager role, not Administrator.', 'bloomstyle-store' ),
-		__( 'Reviews and spam', 'bloomstyle-store' )         => __( 'Every review waits for your approval under Products, Reviews. Antispam Bee filters most spam on its own.', 'bloomstyle-store' ),
+		__( 'Reviews and spam', 'bloomstyle-store' )         => __( 'Every customer review waits for your approval under Bloom Style, Customer reviews. Product reviews are switched off.', 'bloomstyle-store' ),
 		__( 'Search results', 'bloomstyle-store' )           => __( 'Give each product a clear name and description. In the Yoast SEO box you can edit how a page appears in Google. Submit your sitemap (/sitemap_index.xml) in Google Search Console.', 'bloomstyle-store' ),
 		__( 'Speed', 'bloomstyle-store' )                    => __( 'Upload photos under about 2000 pixels wide. WordPress makes lighter copies automatically. After big changes, clear the cache under WP-Optimize.', 'bloomstyle-store' ),
 	);

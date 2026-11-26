@@ -2393,3 +2393,140 @@ form.cart .bs-size-pick {
 .bs-info-page__pay dd {
 	margin: 2px 0 0;
 }
+
+/* Customer reviews of the shop */
+.bs-stars {
+	color: #e0a100;
+	font-size: 18px;
+	letter-spacing: 2px;
+	line-height: 1;
+}
+
+.bs-stars__off {
+	color: #e6d3da;
+}
+
+.bs-reviews .bs-stars {
+	display: block;
+	margin-bottom: 10px;
+}
+
+.bs-reviews__summary {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	margin: -6px 0 18px;
+	color: var(--bs-muted);
+	font-weight: 600;
+}
+
+.bs-reviews__date {
+	display: block;
+	margin-top: 2px;
+	font-size: 13px;
+}
+
+.bs-reviews__empty {
+	margin: 0 0 6px;
+	color: var(--bs-muted);
+}
+
+.bs-reviews__cta {
+	margin: 22px 0 0;
+	text-align: center;
+}
+
+.bs-reviews__cta .bs-button {
+	text-decoration: none;
+}
+
+.bs-reviews--page {
+	margin-bottom: 24px !important;
+}
+
+.bs-reviews__pages {
+	margin: 0 0 32px;
+}
+
+.bs-review-page {
+	max-width: 900px;
+}
+
+.bs-review-form {
+	max-width: 620px;
+	margin: 0 0 40px;
+	padding: 22px;
+	border: 1px solid var(--bs-line);
+	border-radius: var(--bs-radius);
+	background: var(--bs-soft);
+}
+
+.bs-review-form h2 {
+	margin-top: 0;
+}
+
+.bs-review-form input[type="text"],
+.bs-review-form textarea {
+	width: 100%;
+}
+
+.bs-review-form__note {
+	color: var(--bs-muted);
+	font-size: 13px;
+}
+
+/* Star picker: radios are visually hidden; hovering or choosing a star lights it and those before it. */
+.bs-rate {
+	margin: 0 0 16px;
+	padding: 0;
+	border: 0;
+}
+
+.bs-rate legend {
+	margin-bottom: 4px;
+	padding: 0;
+	font-weight: 600;
+}
+
+.bs-rate__stars {
+	display: inline-flex;
+	flex-direction: row-reverse;
+	gap: 4px;
+}
+
+.bs-rate__stars input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+
+.bs-rate__stars label {
+	color: #e6d3da;
+	font-size: 34px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.bs-rate__stars input:checked ~ label,
+.bs-rate__stars label:hover,
+.bs-rate__stars label:hover ~ label {
+	color: #e0a100;
+}
+
+.bs-rate__stars input:focus-visible + label {
+	outline: 2px solid var(--bs-primary);
+	outline-offset: 2px;
+}
+
+.bs-reviews__verified {
+	display: inline-block;
+	margin-left: 4px;
+	padding: 0 8px;
+	border-radius: 999px;
+	background: #e3f4ea;
+	color: #1d6b40;
+	font-size: 12px;
+	font-weight: 600;
+}

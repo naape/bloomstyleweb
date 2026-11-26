@@ -374,45 +374,6 @@ add_shortcode(
 );
 
 add_shortcode(
-	'bloomstyle_reviews',
-	function ( $atts ) {
-		$atts    = shortcode_atts( array( 'limit' => 3 ), $atts );
-		$reviews = get_comments(
-			array(
-				'type'       => 'review',
-				'status'     => 'approve',
-				'number'     => absint( $atts['limit'] ),
-				'meta_query' => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
-					array(
-						'key'     => '_bloomstyle_sample', // Sample reviews never pass as real praise.
-						'compare' => 'NOT EXISTS',
-					),
-					array(
-						'key'     => 'rating',
-						'value'   => 4,
-						'compare' => '>=',
-						'type'    => 'NUMERIC',
-					),
-				),
-			)
-		);
-		if ( ! $reviews ) {
-			return '';
-		}
-
-		$html = '<section class="bs-section bs-section--soft"><div class="bs-wrap"><div class="bs-section__head"><h2>' . esc_html__( 'What customers say', 'bloomstyle-store' ) . '</h2></div><ul class="bs-reviews">';
-		foreach ( $reviews as $review ) {
-			$rating = (int) get_comment_meta( $review->comment_ID, 'rating', true );
-			$html  .= '<li>' . wc_get_rating_html( $rating );
-			$html  .= '<blockquote>' . esc_html( wp_trim_words( $review->comment_content, 32 ) ) . '</blockquote>';
-			$html  .= '<p><strong>' . esc_html( $review->comment_author ) . '</strong> ' . esc_html__( 'on', 'bloomstyle-store' ) . ' ';
-			$html  .= '<a href="' . esc_url( get_permalink( $review->comment_post_ID ) ) . '">' . esc_html( get_the_title( $review->comment_post_ID ) ) . '</a></p></li>';
-		}
-		return $html . '</ul></div></section>';
-	}
-);
-
-add_shortcode(
 	'bloomstyle_contact',
 	function () {
 		$rows = array();

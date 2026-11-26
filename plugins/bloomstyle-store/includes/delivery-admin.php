@@ -58,7 +58,15 @@ function bloomstyle_render_delivery_box( $object ) {
 	if ( $phone ) {
 		/* translators: %s: order number. */
 		$text = sprintf( __( 'Hello, this is Bloom Style about your order #%s.', 'bloomstyle-store' ), $order->get_order_number() );
-		echo '<p><a class="button" target="_blank" rel="noopener" href="' . esc_url( 'https://wa.me/' . ltrim( $phone, '+' ) . '?text=' . rawurlencode( $text ) ) . '">' . esc_html__( 'WhatsApp customer', 'bloomstyle-store' ) . '</a></p>';
+		echo '<p><a class="button" target="_blank" rel="noopener" href="' . esc_url( 'https://wa.me/' . ltrim( $phone, '+' ) . '?text=' . rawurlencode( $text ) ) . '">' . esc_html__( 'WhatsApp customer', 'bloomstyle-store' ) . '</a>';
+		$review = function_exists( 'bloomstyle_review_whatsapp_url' ) && ! $order->get_meta( '_bs_review_id' ) && $order->has_status( array( 'completed', 'out-for-delivery', 'dispatched', 'ready-pickup' ) ) ? bloomstyle_review_whatsapp_url( $order ) : '';
+		if ( $review ) {
+			echo ' <a class="button" target="_blank" rel="noopener" href="' . esc_url( $review ) . '">' . esc_html__( 'Ask for a review', 'bloomstyle-store' ) . '</a>';
+		}
+		echo '</p>';
+		if ( $order->get_meta( '_bs_review_id' ) ) {
+			echo '<p>' . esc_html__( 'The customer has reviewed this order.', 'bloomstyle-store' ) . '</p>';
+		}
 	}
 }
 
