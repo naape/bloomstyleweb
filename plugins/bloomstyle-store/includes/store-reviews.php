@@ -154,25 +154,21 @@ add_shortcode(
 		$query = bloomstyle_published_reviews( absint( $atts['limit'] ) );
 		$url   = bloomstyle_reviews_page_url();
 		list( $average, $total ) = bloomstyle_review_summary();
+		// Nothing to show until the first review is published.
+		if ( ! $total ) {
+			return '';
+		}
 
 		$html  = '<section class="bs-section bs-section--soft"><div class="bs-wrap"><div class="bs-section__head"><h2>' . esc_html__( 'What customers say', 'bloomstyle-store' ) . '</h2>';
 		$html .= $url && $total > $query->post_count ? '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Read all reviews', 'bloomstyle-store' ) . '</a>' : '';
 		$html .= '</div>';
-		if ( $total ) {
-			/* translators: 1: average rating, 2: number of reviews. */
-			$html .= '<p class="bs-reviews__summary">' . bloomstyle_review_stars( (int) round( $average ) ) . ' ' . esc_html( sprintf( _n( '%1$s out of 5 from %2$d review', '%1$s out of 5 from %2$d reviews', $total, 'bloomstyle-store' ), number_format_i18n( $average, 1 ), $total ) ) . '</p>';
-			$html .= '<ul class="bs-reviews">';
-			foreach ( $query->posts as $review ) {
-				$html .= bloomstyle_review_card( $review, 40 );
-			}
-			$html .= '</ul>';
-		} else {
-			$html .= '<p class="bs-reviews__empty">' . esc_html__( 'Bought from us? Tell other shoppers about your experience.', 'bloomstyle-store' ) . '</p>';
+		/* translators: 1: average rating, 2: number of reviews. */
+		$html .= '<p class="bs-reviews__summary">' . bloomstyle_review_stars( (int) round( $average ) ) . ' ' . esc_html( sprintf( _n( '%1$s out of 5 from %2$d review', '%1$s out of 5 from %2$d reviews', $total, 'bloomstyle-store' ), number_format_i18n( $average, 1 ), $total ) ) . '</p>';
+		$html .= '<ul class="bs-reviews">';
+		foreach ( $query->posts as $review ) {
+			$html .= bloomstyle_review_card( $review, 40 );
 		}
-		if ( $url ) {
-			$html .= '<p class="bs-reviews__cta"><a class="bs-button" href="' . esc_url( $url . '#write-review' ) . '">' . esc_html__( 'Write a review', 'bloomstyle-store' ) . '</a></p>';
-		}
-		return $html . '</div></section>';
+		return $html . '</ul></div></section>';
 	}
 );
 
@@ -657,3 +653,19 @@ function bloomstyle_review_whatsapp_url( $order ) {
 	);
 	return 'https://wa.me/' . ltrim( $phone, '+' ) . '?text=' . rawurlencode( $text );
 }
+
+// The link to send customers, at the top of the Customer reviews list.
+add_action(
+	'admin_notices',
+	function () {
+		$screen = get_current_screen();
+		$url    = bloomstyle_reviews_page_url();
+		if ( ! $screen || 'edit-' . BLOOMSTYLE_REVIEW_TYPE !== $screen->id || '' === $url ) {
+			return;
+		}
+		echo '<div class="notice notice-info"><p><strong>' . esc_html__( 'Review link to send customers:', 'bloomstyle-store' ) . '</strong> ';
+		echo '<input type="text" readonly value="' . esc_attr( $url ) . '" style="width:min(420px,100%)" onfocus="this.select()"> ';
+		echo '<button type="button" class="button" onclick="navigator.clipboard.writeText(this.previousElementSibling.value);this.textContent=\'' . esc_js( __( 'Copied', 'bloomstyle-store' ) ) . '\'">' . esc_html__( 'Copy', 'bloomstyle-store' ) . '</button></p>';
+		echo '<p>' . esc_html__( 'Share it on WhatsApp, Facebook or Instagram. For a single order, the "Ask for a review" button on the order fills in the customer\'s name and marks the review as from a verified buyer.', 'bloomstyle-store' ) . '</p></div>';
+	}
+);
