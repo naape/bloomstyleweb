@@ -2272,3 +2272,76 @@ form.cart .bs-size-pick {
 		gap: 16px;
 	}
 }
+
+/* Delivery fee and ways to pay, under Add to cart */
+.bs-buyinfo {
+	clear: both;
+	margin: 18px 0 20px;
+	border: 1px solid var(--bs-line);
+	border-radius: var(--bs-radius);
+	background: var(--bs-soft);
+	color: var(--bs-ink);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.bs-buyinfo__row {
+	display: flex;
+	gap: 10px;
+	padding: 12px 14px;
+}
+
+.bs-buyinfo__row + .bs-buyinfo__row {
+	border-top: 1px solid var(--bs-line);
+}
+
+.bs-buyinfo__row > svg {
+	flex: 0 0 18px;
+	margin-top: 2px;
+	color: var(--bs-primary);
+}
+
+.bs-buyinfo strong {
+	color: var(--bs-primary-dark);
+}
+
+.bs-buyinfo__row > div > span {
+	display: block;
+}
+
+.bs-buyinfo small {
+	display: block;
+	margin-top: 2px;
+	color: var(--bs-muted);
+	font-size: 13px;
+}
+
+.bs-paylist {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 8px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.bs-paylist li {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	padding: 4px 10px;
+	border: 1px solid var(--bs-line);
+	border-radius: 999px;
+	background: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--bs-primary-dark);
+}
+
+.bs-paylist svg {
+	flex: 0 0 16px;
+	width: 16px;
+	height: 16px;
+	color: var(--bs-primary);
+}
