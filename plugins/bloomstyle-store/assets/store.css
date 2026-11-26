@@ -2578,3 +2578,29 @@ form.cart .bs-size-pick {
 	padding: 0 12px;
 	font-size: 14px;
 }
+
+/* "Poor" under the first star, "Best" under the fifth */
+.bs-rate__picker {
+	display: inline-block;
+}
+
+.bs-rate__scale {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2px;
+	color: var(--bs-muted);
+	font-size: 12px;
+	line-height: 1.2;
+}
+
+/* Fixed star width, so each word centres exactly under its star. */
+.bs-rate__stars label {
+	width: 36px;
+	text-align: center;
+}
+
+.bs-rate__scale span {
+	width: 36px;
+	text-align: center;
+	white-space: nowrap;
+}

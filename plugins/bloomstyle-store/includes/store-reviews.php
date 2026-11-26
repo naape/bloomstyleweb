@@ -327,13 +327,14 @@ function bloomstyle_review_form_html() {
 	if ( $order ) {
 		$html .= '<input type="hidden" name="bs_review_order" value="' . esc_attr( $order->get_id() ) . '"><input type="hidden" name="bs_review_key" value="' . esc_attr( $order->get_order_key() ) . '">';
 	}
-	$html .= '<fieldset class="bs-rate"><legend>' . esc_html__( 'Your rating', 'bloomstyle-store' ) . ' <span class="required" aria-hidden="true">*</span></legend><div class="bs-rate__stars">';
+	$html .= '<fieldset class="bs-rate"><legend>' . esc_html__( 'Your rating', 'bloomstyle-store' ) . ' <span class="required" aria-hidden="true">*</span></legend><div class="bs-rate__picker"><div class="bs-rate__stars">';
 	for ( $star = 5; $star >= 1; $star-- ) {
 		/* translators: %d: number of stars. */
 		$label = sprintf( _n( '%d star', '%d stars', $star, 'bloomstyle-store' ), $star );
 		$html .= '<input type="radio" id="bs-rate-' . $star . '" name="bs_review_rating" value="' . $star . '"' . checked( $chosen, $star, false ) . ( 5 === $star ? ' required' : '' ) . '><label for="bs-rate-' . $star . '" title="' . esc_attr( $label ) . '"><span class="screen-reader-text">' . esc_html( $label ) . '</span>★</label>';
 	}
-	$html .= '</div></fieldset>';
+	// Screen readers already hear "1 star" to "5 stars" on each choice.
+	$html .= '</div><div class="bs-rate__scale" aria-hidden="true"><span>' . esc_html__( 'Poor', 'bloomstyle-store' ) . '</span><span>' . esc_html__( 'Best', 'bloomstyle-store' ) . '</span></div></div></fieldset>';
 	$html .= '<p><label for="bs_review_name">' . esc_html__( 'Your name', 'bloomstyle-store' ) . ' <span class="required" aria-hidden="true">*</span></label><input id="bs_review_name" name="bs_review_name" type="text" autocomplete="name" maxlength="60" required value="' . esc_attr( $name ) . '"></p>';
 	$html .= '<p><label for="bs_review_town">' . esc_html__( 'Your town (optional)', 'bloomstyle-store' ) . '</label><input id="bs_review_town" name="bs_review_town" type="text" autocomplete="address-level2" maxlength="60" value="' . esc_attr( $town ) . '"></p>';
 	$html .= '<p><label for="bs_review_text">' . esc_html__( 'Your review', 'bloomstyle-store' ) . ' <span class="required" aria-hidden="true">*</span></label><textarea id="bs_review_text" name="bs_review_text" rows="5" maxlength="1500" required>' . esc_textarea( bloomstyle_review_value( 'bs_review_text' ) ) . '</textarea></p>';
