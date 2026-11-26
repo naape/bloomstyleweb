@@ -2276,7 +2276,7 @@ form.cart .bs-size-pick {
 /* Delivery fee and ways to pay, under Add to cart */
 .bs-buyinfo {
 	clear: both;
-	margin: 18px 0 20px;
+	margin: 14px 0 20px;
 	border: 1px solid var(--bs-line);
 	border-radius: var(--bs-radius);
 	background: var(--bs-soft);
@@ -2287,8 +2287,9 @@ form.cart .bs-size-pick {
 
 .bs-buyinfo__row {
 	display: flex;
+	align-items: flex-start;
 	gap: 10px;
-	padding: 12px 14px;
+	padding: 10px 14px;
 }
 
 .bs-buyinfo__row + .bs-buyinfo__row {
@@ -2301,12 +2302,12 @@ form.cart .bs-size-pick {
 	color: var(--bs-primary);
 }
 
-.bs-buyinfo strong {
-	color: var(--bs-primary-dark);
+.bs-buyinfo__row > div {
+	min-width: 0;
 }
 
-.bs-buyinfo__row > div > span {
-	display: block;
+.bs-buyinfo strong {
+	color: var(--bs-primary-dark);
 }
 
 .bs-buyinfo small {
@@ -2316,27 +2317,32 @@ form.cart .bs-size-pick {
 	font-size: 13px;
 }
 
+/* Payment methods on one line; scrolls sideways rather than wrapping on very narrow phones. */
 .bs-paylist {
 	display: flex;
-	flex-wrap: wrap;
-	gap: 6px;
-	margin: 8px 0 0;
+	flex-wrap: nowrap;
+	gap: 14px;
+	margin: 0;
 	padding: 0;
 	list-style: none;
+	overflow-x: auto;
+	scrollbar-width: none;
+	white-space: nowrap;
+}
+
+.bs-paylist::-webkit-scrollbar {
+	display: none;
 }
 
 .bs-paylist li {
 	display: inline-flex;
+	flex: 0 0 auto;
 	align-items: center;
-	gap: 6px;
+	gap: 5px;
 	margin: 0;
-	padding: 4px 10px;
-	border: 1px solid var(--bs-line);
-	border-radius: 999px;
-	background: #fff;
-	font-size: 13px;
-	font-weight: 600;
 	color: var(--bs-primary-dark);
+	font-size: 14px;
+	font-weight: 600;
 }
 
 .bs-paylist svg {
@@ -2344,4 +2350,19 @@ form.cart .bs-size-pick {
 	width: 16px;
 	height: 16px;
 	color: var(--bs-primary);
+}
+
+@media (max-width: 600px) {
+	.bs-paylist {
+		gap: 12px;
+	}
+
+	.bs-paylist li {
+		font-size: 13px;
+	}
+}
+
+/* Add to cart now sits right under the price. */
+.single-product .summary .price {
+	margin-bottom: 10px;
 }

@@ -140,17 +140,7 @@ add_action(
 	}
 );
 
-// Product page: beside the colour and material labels, above Add to cart.
-add_action(
-	'astra_woo_single_short_description_after',
-	function () {
-		global $product;
-		if ( bloomstyle_has_free_delivery( $product ) ) {
-			echo '<p class="bs-free-single">' . bloomstyle_free_delivery_label() . '</p>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the helper.
-		}
-	},
-	5
-);
+// Product page: shown in the delivery line under Add to cart (product-tabs.php).
 
 // Cart and checkout: a note under each item, so a mixed cart explains its fee.
 add_filter(

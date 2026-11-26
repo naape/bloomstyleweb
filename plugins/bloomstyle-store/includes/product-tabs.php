@@ -210,7 +210,7 @@ function bloomstyle_product_payment_methods( $product ) {
 		switch ( $id ) {
 			case 'payhere':
 				if ( ! function_exists( 'bloomstyle_payhere_has_credentials' ) || bloomstyle_payhere_has_credentials() ) {
-					$methods['card'] = __( 'Visa / Mastercard', 'bloomstyle-store' );
+					$methods['card'] = __( 'Card', 'bloomstyle-store' );
 				}
 				break;
 			case 'cod':
@@ -224,7 +224,7 @@ function bloomstyle_product_payment_methods( $product ) {
 				break;
 			case 'darazbnpl':
 				if ( function_exists( 'bloomstyle_koko_ready' ) && bloomstyle_koko_ready() && bloomstyle_koko_allows_product( $product ) ) {
-					$methods['koko'] = __( 'Koko: 3 instalments', 'bloomstyle-store' );
+					$methods['koko'] = __( 'Koko', 'bloomstyle-store' );
 				}
 				break;
 			default:
@@ -251,6 +251,20 @@ function bloomstyle_buyinfo_icon( $key ) {
 	$path = isset( $paths[ $key ] ) ? $paths[ $key ] : $paths['card'];
 	return '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="' . esc_attr( $path ) . '"/></svg>';
 }
+
+// Add to cart straight after the price, with delivery and payment under it;
+// the description and details follow.
+add_filter(
+	'astra_woo_single_product_structure',
+	function ( $structure ) {
+		if ( ! is_array( $structure ) || ! in_array( 'price', $structure, true ) || ! in_array( 'add_cart', $structure, true ) ) {
+			return $structure;
+		}
+		$structure = array_values( array_diff( $structure, array( 'add_cart' ) ) );
+		array_splice( $structure, array_search( 'price', $structure, true ) + 1, 0, array( 'add_cart' ) );
+		return $structure;
+	}
+);
 
 add_action(
 	'woocommerce_after_add_to_cart_form',
@@ -287,7 +301,7 @@ add_action(
 				$title = '';
 			}
 			if ( '' !== $title ) {
-				$sub   = trim( __( 'To anywhere in Sri Lanka.', 'bloomstyle-store' ) . ' ' . bloomstyle_setting( 'delivery_time' ) );
+				$sub   = trim( __( 'to anywhere in Sri Lanka.', 'bloomstyle-store' ) . ' ' . bloomstyle_setting( 'delivery_time' ) );
 				$html .= '<div class="bs-buyinfo__row">' . bloomstyle_buyinfo_icon( 'truck' ) . '<div><strong>' . esc_html( $title ) . '</strong> <span>' . esc_html( $sub ) . '</span>';
 				$html .= $notes ? '<small>' . esc_html( implode( ' ', $notes ) ) . '</small>' : '';
 				$html .= '</div></div>';
@@ -300,7 +314,7 @@ add_action(
 			foreach ( $methods as $key => $label ) {
 				$chips .= '<li>' . bloomstyle_buyinfo_icon( $key ) . esc_html( $label ) . '</li>';
 			}
-			$html .= '<div class="bs-buyinfo__row bs-buyinfo__row--pay"><div><strong>' . esc_html__( 'Ways to pay', 'bloomstyle-store' ) . '</strong><ul class="bs-paylist">' . $chips . '</ul></div></div>';
+			$html .= '<div class="bs-buyinfo__row bs-buyinfo__row--pay"><div><strong class="screen-reader-text">' . esc_html__( 'Ways to pay', 'bloomstyle-store' ) . '</strong><ul class="bs-paylist">' . $chips . '</ul></div></div>';
 		}
 
 		if ( '' !== $html ) {
