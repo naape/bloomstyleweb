@@ -16,6 +16,20 @@ add_action(
 	}
 );
 
+// The chosen colour scheme, on top of the theme and store styles. The
+// original pink needs no extra file.
+add_action(
+	'wp_enqueue_scripts',
+	function () {
+		$scheme = bloomstyle_colour_scheme();
+		if ( 'pink' !== $scheme ) {
+			$deps = array_values( array_filter( array( 'bloomstyle-store', 'bloomstyle-astra' ), 'wp_style_is' ) );
+			wp_enqueue_style( 'bloomstyle-scheme', BLOOMSTYLE_STORE_URL . 'assets/scheme-' . $scheme . '.css', $deps, BLOOMSTYLE_STORE_VERSION );
+		}
+	},
+	30
+);
+
 // The homepage headings use this font straight away, so fetch it early.
 add_action(
 	'wp_head',

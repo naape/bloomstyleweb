@@ -1,0 +1,254 @@
+/*
+ * "Ivory & burgundy" colour scheme. Loaded only when it is chosen under
+ * Bloom Style > Settings > Colour scheme, on top of the usual pink styles, so
+ * switching back restores the pink look exactly.
+ *
+ * Ivory / off-white background, burgundy brand colour, blush pink as the
+ * secondary colour, champagne gold accents and dark charcoal text.
+ */
+
+:root {
+	--bs-ivory: #faf7f2;
+	--bs-burgundy: #7a1f3d;
+	--bs-burgundy-dark: #5c1530;
+	--bs-blush: #f3dcdc;
+	--bs-blush-light: #fbf0ef;
+	--bs-gold: #c6a15b;
+	--bs-gold-light: #efe3c8;
+	--bs-charcoal: #2e2e2e;
+
+	--bs-primary: var(--bs-burgundy);
+	--bs-primary-dark: var(--bs-burgundy-dark);
+	--bs-accent: var(--bs-blush);
+	--bs-accent-dark: var(--bs-gold);
+	--bs-ink: var(--bs-charcoal);
+	--bs-muted: #6b6461;
+	--bs-line: #eadfd6;
+	--bs-soft: var(--bs-blush-light);
+	--bs-surface: var(--bs-blush);
+	--bs-cream: var(--bs-blush-light);
+	--bs-rose: var(--bs-blush);
+
+	/* Astra's own colours: links, headings, text and backgrounds. */
+	--ast-global-color-0: #7a1f3d;
+	--ast-global-color-1: #5c1530;
+	--ast-global-color-2: #5c1530;
+	--ast-global-color-3: #2e2e2e;
+	--ast-global-color-4: #ffffff;
+	--ast-global-color-5: #faf7f2;
+	--ast-global-color-6: #2e2e2e;
+	--ast-global-color-7: #eadfd6;
+	--ast-global-color-8: #7a1f3d;
+}
+
+/* Page */
+body,
+.ast-separate-container,
+.site-content,
+.ast-plain-container,
+.ast-page-builder-template {
+	background-color: var(--bs-ivory) !important;
+	color: var(--bs-charcoal);
+}
+
+.site-header,
+.ast-primary-header-bar,
+.main-header-bar {
+	background-color: var(--bs-ivory) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+.entry-title,
+.product_title {
+	color: var(--bs-burgundy-dark);
+}
+
+a {
+	color: var(--bs-burgundy);
+}
+
+/* Announcement bar: burgundy with a gold link */
+.bs-promo {
+	background: var(--bs-burgundy);
+	color: var(--bs-ivory);
+}
+
+.bs-promo a {
+	color: var(--bs-gold-light);
+}
+
+/* Menu bar: blush pink with burgundy links */
+.ast-below-header-bar {
+	background: var(--bs-blush) !important;
+	border-bottom: 1px solid var(--bs-gold-light);
+}
+
+.ast-below-header-bar .main-header-menu > .menu-item > .menu-link,
+.ast-below-header-bar .main-header-menu > .menu-item > .ast-menu-toggle,
+.ast-below-header-bar .main-header-menu > .menu-item:hover > .menu-link,
+.ast-below-header-bar .main-header-menu > .current-menu-item > .menu-link {
+	color: var(--bs-burgundy-dark);
+}
+
+/* Buttons: burgundy with ivory text */
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce #respond input#submit,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt,
+.woocommerce-page #place_order,
+.woocommerce .wc-proceed-to-checkout a.checkout-button,
+.ast-button,
+.bs-track-form button,
+.wp-block-button__link,
+body input[type="submit"],
+body button[type="submit"]:not(.bs-search button),
+.bs-button,
+.bs-search button,
+.bs-slider__arrow,
+.bs-newsletter__form button,
+.bs-tile:not(.has-image):nth-child(2) .bs-button {
+	background-color: var(--bs-burgundy) !important;
+	border-color: var(--bs-burgundy) !important;
+	color: var(--bs-ivory) !important;
+}
+
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover,
+.woocommerce-page #place_order:hover,
+.woocommerce .wc-proceed-to-checkout a.checkout-button:hover,
+.ast-button:hover,
+body input[type="submit"]:hover,
+body button[type="submit"]:not(.bs-search button):hover,
+.bs-button:hover,
+.bs-button:focus,
+.bs-search button:hover,
+.bs-slider__arrow:hover,
+.bs-slider__arrow:focus,
+.bs-newsletter__form button:hover,
+.bs-newsletter__form button:focus {
+	background-color: var(--bs-burgundy-dark) !important;
+	border-color: var(--bs-burgundy-dark) !important;
+	color: var(--bs-ivory) !important;
+}
+
+.bs-search input {
+	background: #fff;
+}
+
+/* Product cards */
+.woocommerce ul.products li.product,
+.woocommerce-page ul.products li.product {
+	background: #fff;
+	border-color: var(--bs-line);
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+	color: var(--bs-charcoal);
+}
+
+.woocommerce ul.products li.product .price,
+.woocommerce div.product p.price,
+.woocommerce div.product span.price {
+	color: var(--bs-burgundy);
+}
+
+/* Sale badge: champagne gold */
+.woocommerce .ast-on-card-button.ast-onsale-card,
+.woocommerce span.onsale {
+	border-color: var(--bs-gold-light) !important;
+	background: var(--bs-gold-light) !important;
+	color: var(--bs-burgundy-dark) !important;
+}
+
+/* Stars in gold */
+.bs-stars,
+.bs-rate__stars input:checked ~ label,
+.bs-rate__stars label:hover,
+.bs-rate__stars label:hover ~ label {
+	color: var(--bs-gold);
+}
+
+.bs-stars__off,
+.bs-rate__stars label {
+	color: #e5dccf;
+}
+
+/* Soft boxes and chips */
+.bs-chip {
+	background: var(--bs-blush-light);
+	color: var(--bs-burgundy-dark);
+}
+
+.bs-section--soft {
+	background: var(--bs-blush-light);
+}
+
+.bs-newsletter {
+	background: var(--bs-blush);
+}
+
+.bs-hero p,
+.bs-newsletter p,
+.bs-tile:not(.has-image) p {
+	color: inherit;
+}
+
+.bs-hero.has-image p {
+	color: var(--bs-ivory);
+}
+
+/* Footer: burgundy with ivory text and gold highlights */
+.bs-footer {
+	background: var(--bs-burgundy-dark);
+	color: var(--bs-ivory);
+}
+
+.bs-footer h2,
+.bs-footer a,
+.bs-footer dt,
+.bs-footer__base {
+	color: var(--bs-ivory);
+}
+
+.bs-footer h2 {
+	color: var(--bs-gold-light);
+}
+
+.bs-footer a:hover,
+.bs-footer a:focus {
+	color: var(--bs-gold-light);
+}
+
+.bs-footer__base {
+	border-top-color: rgba(239, 227, 200, .3);
+}
+
+.bs-footer__social a {
+	color: var(--bs-ivory);
+}
+
+/* Small details */
+.woocommerce-js .widget_price_filter .ui-slider .ui-slider-handle {
+	background-color: var(--bs-burgundy);
+}
+
+.woocommerce-js .widget_price_filter .ui-slider .ui-slider-range {
+	background-color: var(--bs-gold);
+}
+
+#ast-scroll-top {
+	background-color: var(--bs-burgundy);
+	color: var(--bs-ivory);
+}
+
+.bs-about-page h2 em {
+	color: var(--bs-burgundy);
+}

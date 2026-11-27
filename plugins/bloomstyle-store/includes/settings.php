@@ -43,6 +43,34 @@ function bloomstyle_settings() {
 }
 
 /**
+ * The colour schemes on offer.
+ *
+ * @return array<string,array{label:string,swatches:string[]}>
+ */
+function bloomstyle_colour_schemes() {
+	return array(
+		'pink'  => array(
+			'label'    => __( 'Soft pink (original)', 'bloomstyle-store' ),
+			'swatches' => array( '#ffffff', '#f9c6d7', '#f2a3bf', '#9c3d63', '#5a2340' ),
+		),
+		'ivory' => array(
+			'label'    => __( 'Ivory, burgundy, blush and champagne gold', 'bloomstyle-store' ),
+			'swatches' => array( '#faf7f2', '#7a1f3d', '#f3dcdc', '#c6a15b', '#2e2e2e' ),
+		),
+	);
+}
+
+/**
+ * The chosen colour scheme.
+ *
+ * @return string
+ */
+function bloomstyle_colour_scheme() {
+	$scheme = (string) bloomstyle_setting( 'colour_scheme' );
+	return array_key_exists( $scheme, bloomstyle_colour_schemes() ) ? $scheme : 'pink';
+}
+
+/**
  * One setting value.
  *
  * @param string $key Setting key.
@@ -112,6 +140,8 @@ function bloomstyle_sanitize_settings( $input ) {
 	$clean['email']           = sanitize_email( isset( $input['email'] ) ? $input['email'] : '' );
 	$clean['address']         = sanitize_textarea_field( isset( $input['address'] ) ? $input['address'] : '' );
 	$clean['couriers']        = sanitize_textarea_field( isset( $input['couriers'] ) ? $input['couriers'] : '' );
+	// Forms that do not show the colour choice keep the stored one.
+	$clean['colour_scheme']   = isset( $input['colour_scheme'] ) && array_key_exists( $input['colour_scheme'], bloomstyle_colour_schemes() ) ? $input['colour_scheme'] : bloomstyle_colour_scheme();
 	$clean['business_hours']  = sanitize_textarea_field( isset( $input['business_hours'] ) ? $input['business_hours'] : '' );
 	foreach ( array( 'weight_included', 'weight_extra_fee' ) as $key ) {
 		$clean[ $key ] = max( 0, (float) ( isset( $input[ $key ] ) ? $input[ $key ] : 0 ) );
@@ -308,6 +338,17 @@ function bloomstyle_render_settings() {
 	settings_errors();
 	echo '<form method="post" action="options.php">';
 	settings_fields( 'bloomstyle_store' );
+
+	echo '<h2>' . esc_html__( 'Colour scheme', 'bloomstyle-store' ) . '</h2><table class="form-table" role="presentation"><tr><th scope="row">' . esc_html__( 'Colours', 'bloomstyle-store' ) . '</th><td><fieldset>';
+	$current = bloomstyle_colour_scheme();
+	foreach ( bloomstyle_colour_schemes() as $key => $scheme ) {
+		echo '<label style="display:block;margin-bottom:8px"><input type="radio" name="bloomstyle_store_settings[colour_scheme]" value="' . esc_attr( $key ) . '"' . checked( $current, $key, false ) . '> <strong>' . esc_html( $scheme['label'] ) . '</strong> ';
+		foreach ( $scheme['swatches'] as $hex ) {
+			echo '<span style="display:inline-block;width:18px;height:18px;margin-left:3px;vertical-align:middle;border:1px solid #ccc;border-radius:50%;background:' . esc_attr( $hex ) . '"></span>';
+		}
+		echo '</label>';
+	}
+	echo '<p class="description">' . esc_html__( 'Switch any time and click Save Changes; the whole site changes at once. Clear the site cache afterwards so every visitor sees it.', 'bloomstyle-store' ) . '</p></fieldset></td></tr></table>';
 
 	echo '<h2>' . esc_html__( 'Announcement bar', 'bloomstyle-store' ) . '</h2><table class="form-table" role="presentation">';
 	bloomstyle_field( 'promo_text', __( 'Message', 'bloomstyle-store' ), __( 'Shown above the header on every page. Leave empty to hide the bar.', 'bloomstyle-store' ) );
