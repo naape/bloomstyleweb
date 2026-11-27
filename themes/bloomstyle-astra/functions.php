@@ -49,13 +49,14 @@ add_filter(
 );
 
 /**
- * Refund, privacy and terms pages, taken from the pages chosen in WooCommerce
+ * Delivery & Payment, refund, privacy and terms pages, taken from the pages chosen in WooCommerce
  * and WordPress settings. A page that is missing or not published is skipped.
  *
  * @return int[] Page IDs in display order.
  */
 function bloomstyle_astra_legal_pages() {
 	$ids = array(
+		(int) get_option( 'bloomstyle_delivery_page_id' ),
 		(int) get_option( 'woocommerce_refund_returns_page_id' ),
 		(int) get_option( 'wp_page_for_privacy_policy' ),
 		function_exists( 'wc_terms_and_conditions_page_id' ) ? (int) wc_terms_and_conditions_page_id() : 0,
@@ -71,32 +72,20 @@ function bloomstyle_astra_legal_pages() {
 }
 
 /**
- * Site footer. Categories, contact details and social links all come from
- * store data, so the footer keeps itself up to date.
+ * Site footer: the shop name, tagline and social links, and the ways to pay.
  */
 function bloomstyle_astra_footer() {
 	$has_store = function_exists( 'bloomstyle_setting' );
-	// The store plugin also counts products in sub-categories, so Sarees shows
-	// even though its products sit in Batik Sarees and Handloom Sarees.
-	$terms     = function_exists( 'bloomstyle_top_categories' ) ? bloomstyle_top_categories( 8 ) : get_terms(
-		array(
-			'taxonomy'   => 'product_cat',
-			'parent'     => 0,
-			'hide_empty' => true,
-			'exclude'    => array( (int) get_option( 'default_product_cat' ) ),
-			'number'     => 8,
-			'orderby'    => 'menu_order',
-		)
-	);
 	$social    = array(
 		'facebook'  => 'Facebook',
 		'instagram' => 'Instagram',
 		'tiktok'    => 'TikTok',
 	);
+	$payments  = function_exists( 'bloomstyle_payment_logos' ) ? bloomstyle_payment_logos() : '';
 	?>
 	<div class="bs-footer">
 		<div class="bs-wrap bs-footer__grid">
-			<div>
+			<div class="bs-footer__brand">
 				<h2><?php bloginfo( 'name' ); ?></h2>
 				<p><?php bloginfo( 'description' ); ?></p>
 				<?php if ( $has_store ) : ?>
@@ -113,39 +102,10 @@ function bloomstyle_astra_footer() {
 				<?php endif; ?>
 			</div>
 
-			<?php if ( ! is_wp_error( $terms ) && $terms ) : ?>
-				<nav aria-label="<?php esc_attr_e( 'Shop categories', 'bloomstyle-astra' ); ?>">
-					<h2><?php esc_html_e( 'Shop', 'bloomstyle-astra' ); ?></h2>
-					<ul>
-						<?php foreach ( $terms as $term ) : ?>
-							<li><a href="<?php echo esc_url( get_term_link( $term ) ); ?>"><?php echo esc_html( $term->name ); ?></a></li>
-						<?php endforeach; ?>
-					</ul>
-				</nav>
-			<?php endif; ?>
-
-			<?php if ( has_nav_menu( 'bloomstyle_footer' ) ) : ?>
-				<nav aria-label="<?php esc_attr_e( 'Customer care', 'bloomstyle-astra' ); ?>">
-					<h2><?php esc_html_e( 'Customer care', 'bloomstyle-astra' ); ?></h2>
-					<?php
-					wp_nav_menu(
-						array(
-							'theme_location' => 'bloomstyle_footer',
-							'container'      => false,
-							'depth'          => 1,
-						)
-					);
-					?>
-				</nav>
-			<?php endif; ?>
-
-			<?php
-			$contact = $has_store ? do_shortcode( '[bloomstyle_contact]' ) : '';
-			if ( $contact ) :
-				?>
-				<div>
-					<h2><?php esc_html_e( 'Contact', 'bloomstyle-astra' ); ?></h2>
-					<?php echo $contact; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php if ( '' !== $payments ) : ?>
+				<div class="bs-footer__pay">
+					<h2><?php esc_html_e( 'We accept', 'bloomstyle-astra' ); ?></h2>
+					<?php echo $payments; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Built and escaped by the store plugin. ?>
 				</div>
 			<?php endif; ?>
 		</div>

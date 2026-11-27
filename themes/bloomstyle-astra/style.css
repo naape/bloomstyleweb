@@ -3,7 +3,7 @@ Theme Name:   Bloom Style
 Description:  Astra child theme for the Bloom Style online store.
 Author:       Bloom Style (Pvt) Ltd
 Template:     astra
-Version: 1.7.0
+Version: 1.8.0
 Requires PHP: 7.4
 Text Domain:  bloomstyle-astra
 */
@@ -265,6 +265,80 @@ h1, h2, h3, h4, h5, h6,
 .bs-footer__legal a {
 	text-decoration: underline;
 	text-underline-offset: 3px;
+}
+
+/* Two blocks: the shop on the left, the ways to pay on the right. */
+.bs-footer .bs-footer__grid {
+	grid-template-columns: minmax(0, 1fr) auto;
+	align-items: start;
+	padding-block: 36px 28px;
+}
+
+.bs-footer__brand p {
+	margin: 0 0 14px;
+}
+
+.bs-footer__social {
+	padding: 0;
+}
+
+.bs-footer__pay h2 {
+	text-align: right;
+}
+
+.bs-footer .bs-paylogos {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 8px;
+	max-width: 560px;
+	padding: 0;
+}
+
+.bs-footer .bs-paylogo {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 36px;
+	margin: 0;
+	padding: 0 12px;
+	border: 1px solid rgba(0, 0, 0, .08);
+	border-radius: 6px;
+	background: #fff;
+	color: #2e2e2e;
+	font-size: 13px;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.bs-paylogo--koko .bs-paylogo__text {
+	font-size: 16px;
+	font-weight: 800;
+	letter-spacing: -.02em;
+}
+
+@media (max-width: 767px) {
+	.bs-footer .bs-footer__grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 24px;
+		text-align: center;
+	}
+
+	.bs-footer__social,
+	.bs-footer .bs-paylogos {
+		justify-content: center;
+		max-width: none;
+	}
+
+	.bs-footer__pay h2 {
+		text-align: center;
+	}
+
+	.bs-footer__base .bs-wrap,
+	.bs-footer .bs-footer__legal {
+		justify-content: center;
+		text-align: center;
+	}
 }
 
 /* Every WooCommerce and theme button */

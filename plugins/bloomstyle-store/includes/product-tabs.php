@@ -237,6 +237,38 @@ function bloomstyle_buyinfo_icon( $key ) {
 	return '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="' . esc_attr( $path ) . '"/></svg>';
 }
 
+/**
+ * Payment logos for the footer, from the payment methods that are switched on.
+ *
+ * @return string HTML, or '' when no payment method is on.
+ */
+function bloomstyle_payment_logos() {
+	$logos = array();
+	foreach ( WC()->payment_gateways()->payment_gateways() as $id => $gateway ) {
+		if ( 'yes' !== $gateway->enabled ) {
+			continue;
+		}
+		if ( 'payhere' === $id && ( ! function_exists( 'bloomstyle_payhere_has_credentials' ) || bloomstyle_payhere_has_credentials() ) ) {
+			$logos['visa']       = '<svg viewBox="0 0 48 16" width="44" height="15" role="img" aria-label="Visa"><text x="24" y="14" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="17" font-style="italic" font-weight="900" fill="#1a1f71">VISA</text></svg>';
+			$logos['mastercard'] = '<svg viewBox="0 0 40 24" width="38" height="23" role="img" aria-label="Mastercard"><circle cx="14" cy="12" r="11" fill="#eb001b"/><circle cx="26" cy="12" r="11" fill="#f79e1b"/><path d="M20 2.8a11 11 0 0 1 0 18.4 11 11 0 0 1 0-18.4z" fill="#ff5f00"/></svg>';
+		} elseif ( 'darazbnpl' === $id && function_exists( 'bloomstyle_koko_ready' ) && bloomstyle_koko_ready() ) {
+			$logos['koko'] = '<span class="bs-paylogo__text">Koko</span>';
+		} elseif ( 'cod' === $id ) {
+			$logos['cash'] = bloomstyle_buyinfo_icon( 'cash' ) . '<span class="bs-paylogo__text">' . esc_html__( 'Cash on delivery', 'bloomstyle-store' ) . '</span>';
+		} elseif ( 'bacs' === $id ) {
+			$logos['bank'] = bloomstyle_buyinfo_icon( 'bank' ) . '<span class="bs-paylogo__text">' . esc_html__( 'Bank transfer', 'bloomstyle-store' ) . '</span>';
+		}
+	}
+	if ( ! $logos ) {
+		return '';
+	}
+	$html = '<ul class="bs-paylogos">';
+	foreach ( $logos as $key => $logo ) {
+		$html .= '<li class="bs-paylogo bs-paylogo--' . esc_attr( $key ) . '">' . $logo . '</li>';
+	}
+	return $html . '</ul>';
+}
+
 // Add to cart straight after the price, with delivery and payment under it;
 // the description and details follow.
 add_filter(
