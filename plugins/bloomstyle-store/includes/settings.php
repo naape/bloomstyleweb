@@ -18,6 +18,9 @@ function bloomstyle_banner_slots() {
 		'hero'    => __( 'Main banner', 'bloomstyle-store' ),
 		'hero2'   => __( 'Main banner, slide 2', 'bloomstyle-store' ),
 		'hero3'   => __( 'Main banner, slide 3', 'bloomstyle-store' ),
+		'hero4'   => __( 'Main banner, slide 4', 'bloomstyle-store' ),
+		'hero5'   => __( 'Main banner, slide 5', 'bloomstyle-store' ),
+		'hero6'   => __( 'Main banner, slide 6', 'bloomstyle-store' ),
 		'banner1' => __( 'Promotion tile 1', 'bloomstyle-store' ),
 		'banner2' => __( 'Promotion tile 2', 'bloomstyle-store' ),
 	);
@@ -38,8 +41,44 @@ function bloomstyle_settings() {
 			$defaults[ $slot . '_' . $field ] = '';
 		}
 		$defaults[ $slot . '_image' ] = 0;
+		$defaults[ $slot . '_order' ] = '';
 	}
 	return array_merge( $defaults, (array) get_option( 'bloomstyle_store_settings', array() ) );
+}
+
+/**
+ * The main banner slides, in the order they show.
+ *
+ * Each slide can be given a place under Bloom Style > Settings ("Place in the
+ * slider"). Slides without one keep their own number, and a chosen place wins
+ * a tie, so a new slide put at 1 shows before the old slide 1.
+ *
+ * @return string[] Slot keys, such as hero4, hero, hero2.
+ */
+function bloomstyle_hero_slots() {
+	$slots = array_values( array_filter( array_keys( bloomstyle_banner_slots() ), 'bloomstyle_is_hero_slot' ) );
+	$rank  = array();
+	foreach ( $slots as $natural => $slot ) {
+		$chosen        = absint( bloomstyle_setting( $slot . '_order' ) );
+		$rank[ $slot ] = array( $chosen ? $chosen : $natural + 1, $chosen ? 0 : 1, $natural );
+	}
+	usort(
+		$slots,
+		function ( $a, $b ) use ( $rank ) {
+			return $rank[ $a ] <=> $rank[ $b ];
+		}
+	);
+	return $slots;
+}
+
+/**
+ * Whether a banner slot is a main banner slide.
+ *
+ * @param string $slot Slot key.
+ * @return bool
+ */
+function bloomstyle_is_hero_slot( $slot ) {
+	return 0 === strpos( $slot, 'hero' );
 }
 
 /**
@@ -170,6 +209,10 @@ function bloomstyle_sanitize_settings( $input ) {
 		}
 		$clean[ $slot . '_url' ]   = esc_url_raw( isset( $input[ $slot . '_url' ] ) ? $input[ $slot . '_url' ] : '' );
 		$clean[ $slot . '_image' ] = absint( isset( $input[ $slot . '_image' ] ) ? $input[ $slot . '_image' ] : 0 );
+		if ( bloomstyle_is_hero_slot( $slot ) ) {
+			$order                     = isset( $input[ $slot . '_order' ] ) ? absint( $input[ $slot . '_order' ] ) : 0;
+			$clean[ $slot . '_order' ] = $order ? min( $order, count( array_filter( array_keys( bloomstyle_banner_slots() ), 'bloomstyle_is_hero_slot' ) ) ) : '';
+		}
 	}
 
 	// A form that shows only some settings, such as the reCAPTCHA page, must
@@ -304,6 +347,28 @@ function bloomstyle_image_field( $slot ) {
 }
 
 /**
+ * Print the "Place in the slider" row for a main banner slide.
+ *
+ * @param string $slot Banner slot key.
+ */
+function bloomstyle_slide_place_field( $slot ) {
+	$key     = $slot . '_order';
+	$id      = 'bloomstyle-' . $key;
+	$current = absint( bloomstyle_setting( $key ) );
+	$count   = count( array_filter( array_keys( bloomstyle_banner_slots() ), 'bloomstyle_is_hero_slot' ) );
+	echo '<tr><th scope="row"><label for="' . esc_attr( $id ) . '">' . esc_html__( 'Place in the slider', 'bloomstyle-store' ) . '</label></th><td>';
+	echo '<select id="' . esc_attr( $id ) . '" name="' . esc_attr( 'bloomstyle_store_settings[' . $key . ']' ) . '">';
+	echo '<option value="">' . esc_html__( 'Usual place', 'bloomstyle-store' ) . '</option>';
+	for ( $place = 1; $place <= $count; $place++ ) {
+		$label = 1 === $place ? __( '1 (shows first)', 'bloomstyle-store' ) : (string) $place;
+		echo '<option value="' . esc_attr( $place ) . '"' . selected( $current, $place, false ) . '>' . esc_html( $label ) . '</option>';
+	}
+	echo '</select>';
+	echo '<p class="description">' . esc_html__( 'Choose 1 to show this slide first. A slide given a place goes before one that is only there by its usual place.', 'bloomstyle-store' ) . '</p>';
+	echo '</td></tr>';
+}
+
+/**
  * Render the Google reCAPTCHA screen. It saves into the same settings as the
  * main screen; fields not on this form keep their values.
  */
@@ -362,6 +427,9 @@ function bloomstyle_render_settings() {
 		bloomstyle_field( $slot . '_text', __( 'Text', 'bloomstyle-store' ) );
 		bloomstyle_field( $slot . '_button', __( 'Button text', 'bloomstyle-store' ) );
 		bloomstyle_field( $slot . '_url', __( 'Button link', 'bloomstyle-store' ), '', 'url' );
+		if ( bloomstyle_is_hero_slot( $slot ) ) {
+			bloomstyle_slide_place_field( $slot );
+		}
 		echo '</table>';
 	}
 

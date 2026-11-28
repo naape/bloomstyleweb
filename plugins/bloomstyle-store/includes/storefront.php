@@ -158,7 +158,7 @@ function bloomstyle_banner( $slot, $class, $heading, $eager = false ) {
 	if ( '' !== $settings[ $slot . '_button' ] && '' !== $settings[ $slot . '_url' ] ) {
 		$html .= '<a class="bs-button" href="' . esc_url( $settings[ $slot . '_url' ] ) . '">' . esc_html( $settings[ $slot . '_button' ] ) . '</a>';
 	}
-	if ( 'hero' === $slot ) {
+	if ( bloomstyle_is_hero_slot( $slot ) && $eager ) {
 		$html .= '<a class="bs-hero__link" href="#categories">' . esc_html__( 'Browse categories', 'bloomstyle-store' ) . '</a>';
 	}
 	$html .= '</div>';
@@ -185,13 +185,15 @@ function bloomstyle_banner( $slot, $class, $heading, $eager = false ) {
 add_shortcode(
 	'bloomstyle_hero',
 	function () {
-		$slides = array_filter(
-			array(
-				bloomstyle_banner( 'hero', 'bs-hero', 'h1', true ),
-				bloomstyle_banner( 'hero2', 'bs-hero', 'h2' ),
-				bloomstyle_banner( 'hero3', 'bs-hero', 'h2' ),
-			)
-		);
+		// The first slide shown carries the page heading and loads straight away.
+		$slides = array();
+		foreach ( bloomstyle_hero_slots() as $slot ) {
+			$first = ! $slides;
+			$html  = bloomstyle_banner( $slot, 'bs-hero', $first ? 'h1' : 'h2', $first );
+			if ( '' !== $html ) {
+				$slides[] = $html;
+			}
+		}
 		if ( count( $slides ) < 2 ) {
 			return implode( '', $slides );
 		}
