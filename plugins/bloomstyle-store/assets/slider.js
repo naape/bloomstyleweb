@@ -41,12 +41,26 @@
 	} ) );
 	root.appendChild( dots );
 
+	// Each slide keeps its own height, so a short picture slide has no empty bands.
+	function fit() {
+		track.style.height = slides[ index ].offsetHeight + 'px';
+	}
+
 	function mark() {
 		dotButtons.forEach( function ( dot, i ) {
 			dot.setAttribute( 'aria-current', i === index ? 'true' : 'false' );
 		} );
+		fit();
 	}
 	mark();
+	window.addEventListener( 'resize', fit );
+	slides.forEach( function ( slide ) {
+		Array.prototype.forEach.call( slide.querySelectorAll( 'img' ), function ( img ) {
+			if ( ! img.complete ) {
+				img.addEventListener( 'load', fit );
+			}
+		} );
+	} );
 
 	var settle = null;
 	track.addEventListener( 'scroll', function () {

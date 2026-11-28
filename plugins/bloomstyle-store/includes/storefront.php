@@ -139,7 +139,9 @@ function bloomstyle_picture_slide( $slot, $image, $eager ) {
 	if ( $phone && wp_attachment_is_image( $phone ) ) {
 		$srcset = wp_get_attachment_image_srcset( $phone, 'full' );
 		$srcset = $srcset ? $srcset : wp_get_attachment_image_url( $phone, 'full' );
-		$img    = '<picture><source media="(max-width: 600px)" srcset="' . esc_attr( $srcset ) . '" sizes="100vw">' . $img . '</picture>';
+		$meta   = wp_get_attachment_metadata( $phone );
+		$size   = ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ? ' width="' . (int) $meta['width'] . '" height="' . (int) $meta['height'] . '"' : '';
+		$img    = '<picture><source media="(max-width: 600px)" srcset="' . esc_attr( $srcset ) . '" sizes="100vw"' . $size . '>' . $img . '</picture>';
 	}
 	if ( '' !== $settings[ $slot . '_url' ] ) {
 		$label = '' !== $settings[ $slot . '_button' ] ? $settings[ $slot . '_button' ] : __( 'Shop now', 'bloomstyle-store' );
@@ -180,7 +182,7 @@ function bloomstyle_banner( $slot, $class, $heading, $eager = false ) {
 	$meta = $image && 0 === strpos( $slot, 'hero' ) ? wp_get_attachment_metadata( $image ) : array();
 	$side = ! empty( $meta['width'] ) && ! empty( $meta['height'] ) && $meta['width'] / $meta['height'] < 1.6;
 
-	$html = '<div class="' . esc_attr( $class . ( $image && ! $side ? ' has-image' : '' ) ) . '">';
+	$html = '<div class="' . esc_attr( $class . ( $image && ! $side ? ' has-image' : '' ) . ( ! empty( $settings[ $slot . '_plain' ] ) ? ' is-plain' : '' ) ) . '">';
 	if ( $image && ! $side ) {
 		$attributes = array(
 			'class' => 'bs-banner__image',

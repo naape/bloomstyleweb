@@ -2731,3 +2731,22 @@ html .woocommerce ul.products li.product .button {
 	max-height: 640px;
 	object-fit: contain;
 }
+
+/* A banner set to a plain background: no flower pattern. */
+.bs-hero.is-plain::before,
+.bs-tile.is-plain::before {
+	display: none;
+}
+
+/* Slides keep their own height; the slider follows the one on show. */
+.bs-slider__track {
+	align-items: flex-start;
+	overflow-y: hidden;
+	transition: height .35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bs-slider__track {
+		transition: none;
+	}
+}

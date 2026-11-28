@@ -41,6 +41,7 @@ function bloomstyle_settings() {
 			$defaults[ $slot . '_' . $field ] = '';
 		}
 		$defaults[ $slot . '_image' ] = 0;
+		$defaults[ $slot . '_plain' ] = 0;
 		$defaults[ $slot . '_order' ]       = '';
 		$defaults[ $slot . '_phone_image' ] = 0;
 	}
@@ -210,6 +211,7 @@ function bloomstyle_sanitize_settings( $input ) {
 		}
 		$clean[ $slot . '_url' ]   = esc_url_raw( isset( $input[ $slot . '_url' ] ) ? $input[ $slot . '_url' ] : '' );
 		$clean[ $slot . '_image' ] = absint( isset( $input[ $slot . '_image' ] ) ? $input[ $slot . '_image' ] : 0 );
+		$clean[ $slot . '_plain' ] = empty( $input[ $slot . '_plain' ] ) ? 0 : 1;
 		if ( bloomstyle_is_hero_slot( $slot ) ) {
 			$order                     = isset( $input[ $slot . '_order' ] ) ? absint( $input[ $slot . '_order' ] ) : 0;
 			$clean[ $slot . '_phone_image' ] = absint( isset( $input[ $slot . '_phone_image' ] ) ? $input[ $slot . '_phone_image' ] : 0 );
@@ -351,6 +353,22 @@ function bloomstyle_image_field( $slot, $key = '', $label = '', $help = '' ) {
 }
 
 /**
+ * Print the "Flower pattern" row for a banner.
+ *
+ * @param string $slot Banner slot key.
+ */
+function bloomstyle_plain_field( $slot ) {
+	$key = $slot . '_plain';
+	$id  = 'bloomstyle-' . $key;
+	echo '<tr><th scope="row">' . esc_html__( 'Flower pattern', 'bloomstyle-store' ) . '</th><td>';
+	// An unticked box sends nothing, so the hidden 0 makes sure the change is saved.
+	echo '<input type="hidden" name="' . esc_attr( 'bloomstyle_store_settings[' . $key . ']' ) . '" value="0">';
+	echo '<label for="' . esc_attr( $id ) . '"><input type="checkbox" id="' . esc_attr( $id ) . '" name="' . esc_attr( 'bloomstyle_store_settings[' . $key . ']' ) . '" value="1"' . checked( (int) bloomstyle_setting( $key ), 1, false ) . '> ' . esc_html__( 'Hide the flower pattern on this banner\'s background', 'bloomstyle-store' ) . '</label>';
+	echo '<p class="description">' . esc_html__( 'The pattern shows only on banners without a full-width photo.', 'bloomstyle-store' ) . '</p>';
+	echo '</td></tr>';
+}
+
+/**
  * Print the "Place in the slider" row for a main banner slide.
  *
  * @param string $slot Banner slot key.
@@ -431,6 +449,7 @@ function bloomstyle_render_settings() {
 		bloomstyle_field( $slot . '_text', __( 'Text', 'bloomstyle-store' ) );
 		bloomstyle_field( $slot . '_button', __( 'Button text', 'bloomstyle-store' ) );
 		bloomstyle_field( $slot . '_url', __( 'Button link', 'bloomstyle-store' ), '', 'url' );
+		bloomstyle_plain_field( $slot );
 		if ( bloomstyle_is_hero_slot( $slot ) ) {
 			bloomstyle_image_field( $slot, $slot . '_phone_image', __( 'Phone image', 'bloomstyle-store' ), __( 'Optional, for a slide that is only a picture (heading and text left empty), such as an offer poster. A taller version for phones, about 1080 x 1350 pixels. Without it, phones show the main image, smaller.', 'bloomstyle-store' ) );
 			bloomstyle_slide_place_field( $slot );
