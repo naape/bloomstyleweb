@@ -2691,3 +2691,43 @@ html .woocommerce ul.products li.product .button {
 		text-align: center;
 	}
 }
+
+/* ---------- Picture-only slides ---------- */
+
+/* A finished design, such as an offer poster: all of it, untinted. */
+.bs-hero.bs-hero--picture {
+	align-items: center;
+	justify-content: center;
+	background: var(--bs-cream, #fdf2f6);
+}
+
+.bs-slider .bs-hero.bs-hero--picture {
+	min-height: 0;
+}
+
+.bs-hero.bs-hero--picture::before {
+	content: "";
+	position: absolute;
+	inset: -40px;
+	opacity: .55;
+	background: var(--bs-picture, none) center / cover no-repeat;
+	filter: blur(28px);
+}
+
+.bs-hero--picture > * {
+	position: relative;
+}
+
+.bs-hero--picture picture,
+.bs-hero__picture-link {
+	display: block;
+	width: 100%;
+}
+
+.bs-hero__picture {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 640px;
+	object-fit: contain;
+}

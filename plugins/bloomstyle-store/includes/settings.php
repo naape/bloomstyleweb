@@ -41,7 +41,8 @@ function bloomstyle_settings() {
 			$defaults[ $slot . '_' . $field ] = '';
 		}
 		$defaults[ $slot . '_image' ] = 0;
-		$defaults[ $slot . '_order' ] = '';
+		$defaults[ $slot . '_order' ]       = '';
+		$defaults[ $slot . '_phone_image' ] = 0;
 	}
 	return array_merge( $defaults, (array) get_option( 'bloomstyle_store_settings', array() ) );
 }
@@ -211,7 +212,8 @@ function bloomstyle_sanitize_settings( $input ) {
 		$clean[ $slot . '_image' ] = absint( isset( $input[ $slot . '_image' ] ) ? $input[ $slot . '_image' ] : 0 );
 		if ( bloomstyle_is_hero_slot( $slot ) ) {
 			$order                     = isset( $input[ $slot . '_order' ] ) ? absint( $input[ $slot . '_order' ] ) : 0;
-			$clean[ $slot . '_order' ] = $order ? min( $order, count( array_filter( array_keys( bloomstyle_banner_slots() ), 'bloomstyle_is_hero_slot' ) ) ) : '';
+			$clean[ $slot . '_phone_image' ] = absint( isset( $input[ $slot . '_phone_image' ] ) ? $input[ $slot . '_phone_image' ] : 0 );
+			$clean[ $slot . '_order' ]       = $order ? min( $order, count( array_filter( array_keys( bloomstyle_banner_slots() ), 'bloomstyle_is_hero_slot' ) ) ) : '';
 		}
 	}
 
@@ -334,15 +336,17 @@ function bloomstyle_field( $key, $label, $help = '', $type = 'text' ) {
  *
  * @param string $slot Banner slot key.
  */
-function bloomstyle_image_field( $slot ) {
-	$key   = $slot . '_image';
+function bloomstyle_image_field( $slot, $key = '', $label = '', $help = '' ) {
+	$key   = '' !== $key ? $key : $slot . '_image';
+	$label = '' !== $label ? $label : __( 'Image', 'bloomstyle-store' );
+	$help  = '' !== $help ? $help : __( 'Wide images, about 1600 x 700 pixels, fill the main banner. Tall or square images sit beside the text instead.', 'bloomstyle-store' );
 	$image = (int) bloomstyle_setting( $key );
-	echo '<tr><th scope="row">' . esc_html__( 'Image', 'bloomstyle-store' ) . '</th><td class="bloomstyle-image">';
+	echo '<tr><th scope="row">' . esc_html( $label ) . '</th><td class="bloomstyle-image">';
 	echo '<div class="bloomstyle-image__preview">' . ( $image ? wp_get_attachment_image( $image, 'medium' ) : '' ) . '</div>';
 	echo '<input type="hidden" name="' . esc_attr( 'bloomstyle_store_settings[' . $key . ']' ) . '" value="' . esc_attr( $image ) . '">';
 	echo '<button type="button" class="button bloomstyle-image__choose">' . esc_html__( 'Choose image', 'bloomstyle-store' ) . '</button> ';
 	echo '<button type="button" class="button-link bloomstyle-image__remove">' . esc_html__( 'Remove', 'bloomstyle-store' ) . '</button>';
-	echo '<p class="description">' . esc_html__( 'Wide images, about 1600 x 700 pixels, fill the main banner. Tall or square images sit beside the text instead.', 'bloomstyle-store' ) . '</p>';
+	echo '<p class="description">' . esc_html( $help ) . '</p>';
 	echo '</td></tr>';
 }
 
@@ -423,11 +427,12 @@ function bloomstyle_render_settings() {
 	foreach ( bloomstyle_banner_slots() as $slot => $label ) {
 		echo '<h2>' . esc_html( $label ) . '</h2><table class="form-table" role="presentation">';
 		bloomstyle_image_field( $slot );
-		bloomstyle_field( $slot . '_heading', __( 'Heading', 'bloomstyle-store' ), __( 'Leave heading and image empty to hide this banner.', 'bloomstyle-store' ) );
+		bloomstyle_field( $slot . '_heading', __( 'Heading', 'bloomstyle-store' ), bloomstyle_is_hero_slot( $slot ) ? __( 'Leave heading and image empty to hide this slide. Leave heading and text empty to show the image on its own, whole and untinted, for a picture that has its own words; the button link then makes the whole picture clickable.', 'bloomstyle-store' ) : __( 'Leave heading and image empty to hide this banner.', 'bloomstyle-store' ) );
 		bloomstyle_field( $slot . '_text', __( 'Text', 'bloomstyle-store' ) );
 		bloomstyle_field( $slot . '_button', __( 'Button text', 'bloomstyle-store' ) );
 		bloomstyle_field( $slot . '_url', __( 'Button link', 'bloomstyle-store' ), '', 'url' );
 		if ( bloomstyle_is_hero_slot( $slot ) ) {
+			bloomstyle_image_field( $slot, $slot . '_phone_image', __( 'Phone image', 'bloomstyle-store' ), __( 'Optional, for a slide that is only a picture (heading and text left empty), such as an offer poster. A taller version for phones, about 1080 x 1350 pixels. Without it, phones show the main image, smaller.', 'bloomstyle-store' ) );
 			bloomstyle_slide_place_field( $slot );
 		}
 		echo '</table>';

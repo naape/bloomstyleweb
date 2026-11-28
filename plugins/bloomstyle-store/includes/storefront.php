@@ -115,6 +115,44 @@ add_shortcode(
 );
 
 /**
+ * A main banner slide that is only a picture, with an optional phone version.
+ *
+ * @param string $slot  Slot key.
+ * @param int    $image Attachment ID.
+ * @param bool   $eager Load the image straight away.
+ * @return string
+ */
+function bloomstyle_picture_slide( $slot, $image, $eager ) {
+	$settings = bloomstyle_settings();
+	$img      = wp_get_attachment_image(
+		$image,
+		'full',
+		false,
+		array(
+			'class'         => 'bs-hero__picture',
+			'sizes'         => '100vw',
+			'loading'       => $eager ? 'eager' : 'lazy',
+			'fetchpriority' => $eager ? 'high' : 'auto',
+		)
+	);
+	$phone = (int) $settings[ $slot . '_phone_image' ];
+	if ( $phone && wp_attachment_is_image( $phone ) ) {
+		$srcset = wp_get_attachment_image_srcset( $phone, 'full' );
+		$srcset = $srcset ? $srcset : wp_get_attachment_image_url( $phone, 'full' );
+		$img    = '<picture><source media="(max-width: 600px)" srcset="' . esc_attr( $srcset ) . '" sizes="100vw">' . $img . '</picture>';
+	}
+	if ( '' !== $settings[ $slot . '_url' ] ) {
+		$label = '' !== $settings[ $slot . '_button' ] ? $settings[ $slot . '_button' ] : __( 'Shop now', 'bloomstyle-store' );
+		$alt   = trim( (string) get_post_meta( $image, '_wp_attachment_image_alt', true ) );
+		$img   = '<a class="bs-hero__picture-link" href="' . esc_url( $settings[ $slot . '_url' ] ) . '"' . ( '' === $alt ? ' aria-label="' . esc_attr( $label ) . '"' : '' ) . '>' . $img . '</a>';
+	}
+	// A blurred copy fills any space around the picture, such as on phones.
+	$fill = wp_get_attachment_image_url( $image, 'medium' );
+	$fill = $fill ? ' style="' . esc_attr( '--bs-picture: url("' . esc_url_raw( $fill ) . '")' ) . '"' : '';
+	return '<div class="bs-hero bs-hero--picture"' . $fill . '>' . $img . '</div>';
+}
+
+/**
  * Banner markup, or an empty string when the slot is unused.
  *
  * @param string $slot    Slot key.
@@ -130,6 +168,12 @@ function bloomstyle_banner( $slot, $class, $heading, $eager = false ) {
 	$image    = wp_attachment_is_image( $image ) ? $image : 0; // The picture may have been deleted.
 	if ( '' === $title && ! $image ) {
 		return '';
+	}
+
+	// A slide with a picture but no heading or text is a finished design, such
+	// as an offer poster: show all of it, untinted, linked to the button link.
+	if ( $image && '' === $title && '' === $settings[ $slot . '_text' ] && bloomstyle_is_hero_slot( $slot ) ) {
+		return bloomstyle_picture_slide( $slot, $image, $eager );
 	}
 
 	// A tall or square picture sits beside the text; only a wide one can fill the banner.
@@ -158,7 +202,7 @@ function bloomstyle_banner( $slot, $class, $heading, $eager = false ) {
 	if ( '' !== $settings[ $slot . '_button' ] && '' !== $settings[ $slot . '_url' ] ) {
 		$html .= '<a class="bs-button" href="' . esc_url( $settings[ $slot . '_url' ] ) . '">' . esc_html( $settings[ $slot . '_button' ] ) . '</a>';
 	}
-	if ( bloomstyle_is_hero_slot( $slot ) && $eager ) {
+	if ( 'hero' === $slot ) {
 		$html .= '<a class="bs-hero__link" href="#categories">' . esc_html__( 'Browse categories', 'bloomstyle-store' ) . '</a>';
 	}
 	$html .= '</div>';
@@ -185,13 +229,15 @@ function bloomstyle_banner( $slot, $class, $heading, $eager = false ) {
 add_shortcode(
 	'bloomstyle_hero',
 	function () {
-		// The first slide shown carries the page heading and loads straight away.
+		// The first slide shown loads straight away; the first heading shown is the page heading.
 		$slides = array();
+		$h1     = false;
 		foreach ( bloomstyle_hero_slots() as $slot ) {
-			$first = ! $slides;
-			$html  = bloomstyle_banner( $slot, 'bs-hero', $first ? 'h1' : 'h2', $first );
+			$main = ! $h1 && '' !== bloomstyle_setting( $slot . '_heading' );
+			$html = bloomstyle_banner( $slot, 'bs-hero', $main ? 'h1' : 'h2', ! $slides );
 			if ( '' !== $html ) {
 				$slides[] = $html;
+				$h1       = $h1 || $main;
 			}
 		}
 		if ( count( $slides ) < 2 ) {
