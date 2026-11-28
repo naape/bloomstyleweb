@@ -1449,14 +1449,15 @@
 		justify-content: flex-start;
 	}
 
+	/* The arrows follow the dots, however many slides there are. */
 	.bs-slider__arrow--prev {
 		right: auto;
-		left: calc(var(--bs-slider-left) + 104px);
+		left: calc(var(--bs-slider-left) + var(--bs-slide-count, 3) * 32px + 8px);
 	}
 
 	.bs-slider__arrow--next {
 		right: auto;
-		left: calc(var(--bs-slider-left) + 156px);
+		left: calc(var(--bs-slider-left) + var(--bs-slide-count, 3) * 32px + 60px);
 	}
 }
 

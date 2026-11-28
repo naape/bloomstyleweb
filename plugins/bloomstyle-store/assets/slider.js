@@ -5,6 +5,7 @@
 	}
 	var track = root.querySelector( '.bs-slider__track' );
 	var slides = Array.prototype.slice.call( track.children );
+	root.style.setProperty( '--bs-slide-count', slides.length );
 	var calm = window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 	var index = 0;
 	var timer = null;
